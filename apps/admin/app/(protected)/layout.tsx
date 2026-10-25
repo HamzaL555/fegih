@@ -1,0 +1,7 @@
+import type { ReactNode } from "react";
+import { AuthGuard } from "@/components/admin/auth-guard";
+import { AppShell } from "@/components/admin/app-shell";
+
+export default function ProtectedLayout({ children }: { children: ReactNode }) {
+  return <AuthGuard><AppShell>{children}</AppShell></AuthGuard>;
+}

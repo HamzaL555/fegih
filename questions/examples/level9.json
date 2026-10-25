@@ -1,0 +1,380 @@
+[
+  {
+    "id": 1,
+    "question": "Harun peyğəmbərin qardaşı kim idi?",
+    "correct_answer": "Musa",
+    "wrong_answers": ["İsa", "Davud", "Süleyman"]
+  },
+  {
+    "id": 2,
+    "question": "Bu xəlifələrdən hansı xəstələnərək vəfat edib?",
+    "correct_answer": "Əbu Bəkr",
+    "wrong_answers": ["Ömər", "Osman", "Əli"]
+  },
+  {
+    "id": 3,
+    "question": "Uca Allah əl-Əraf surəsində kafiri nəyə bənzədir?",
+    "correct_answer": "İtə",
+    "wrong_answers": ["İlana", "Uzunqulağa", "Donuza"]
+  },
+  {
+    "id": 4,
+    "question": "Xədicənin atasının adı nədir?",
+    "correct_answer": "Xuveylid",
+    "wrong_answers": ["Abdur-Rahman", "Varaqa", "İbrahim"]
+  },
+  {
+    "id": 5,
+    "question": "Məkkənin fəthi günü xəstələnən səhabə hansıdır?",
+    "correct_answer": "Səd ibn Əbu Vaqqas",
+    "wrong_answers": ["Əli ibn Əbu Talib", "Osman ibn Affan", "Abdullah ibn Məsud"]
+  },
+  {
+    "id": 6,
+    "question": "Peyğəmbər hansı tabiini ən xeyirli tabiin adlandırmışdır?",
+    "correct_answer": "Uveys əl-Qarni",
+    "wrong_answers": ["Həsən əl-Basri", "Urva ibn Zubeyr", "Əlqamə"]
+  },
+  {
+    "id": 7,
+    "question": "Ömər Əbu Osman ən-Nəhdiyə ipəyin haram olması haqqında məktub yazarkən Əbu Osman harada idi?",
+    "correct_answer": "Azərbaycanda",
+    "wrong_answers": ["Kufədə", "Məkkədə", "Çində"]
+  },
+  {
+    "id": 8,
+    "question": "Navvas ibn Səman kim olmuşdur?",
+    "correct_answer": "Səhabə",
+    "wrong_answers": ["Tabiin", "Muxadram", "Alim"]
+  },
+  {
+    "id": 9,
+    "question": "Peyğəmbər Cəbraili neçə dəfə olduğu kimi görmüşdür?",
+    "correct_answer": "2",
+    "wrong_answers": ["1", "3", "6"]
+  },
+  {
+    "id": 10,
+    "question": "Özü, atası, babası və onun da atası peyğəmbər olan insan kimdir?",
+    "correct_answer": "Yusuf",
+    "wrong_answers": ["İsmail", "Əyyub", "İshaq"]
+  },
+  {
+    "id": 11,
+    "question": "Bədr döyüşü hansı ayda baş vermişdir?",
+    "correct_answer": "Ramazan",
+    "wrong_answers": ["Məhərrəm", "Səfər", "Rəcəb"]
+  },
+  {
+    "id": 12,
+    "question": "Peyğəmbərin sirdaşı adlanan səhabə kim idi?",
+    "correct_answer": "Huzeyfə ibn Yəmən",
+    "wrong_answers": ["Əbu Bakr əs-Siddiq", "Muaz ibn Cəbəl", "Ummu Sələmə"]
+  },
+  {
+    "id": 13,
+    "question": "Yusuf peyğəmbərin doğma qardaşının adı nə idi?",
+    "correct_answer": "Binyəmin",
+    "wrong_answers": ["İshaq", "Yuşə", "Yaqub"]
+  },
+  {
+    "id": 14,
+    "question": "İslamda ilk yaranan firqə hansıdır?",
+    "correct_answer": "Xəvariclər",
+    "wrong_answers": ["Sufilər", "Qədərilər", "Murciyələr"]
+  },
+  {
+    "id": 15,
+    "question": "Quranda adı çəkilən yeganə səhabə kimdir?",
+    "correct_answer": "Zeyd",
+    "wrong_answers": ["Əbu Bakr", "Aişə", "Əli"]
+  },
+  {
+    "id": 16,
+    "question": "Quranda neçə surə hərflərlə başlayır?",
+    "correct_answer": "29",
+    "wrong_answers": ["33", "39", "26"]
+  },
+  {
+    "id": 17,
+    "question": "Allahı zikr etməyi inkar edən şəxs Qiyamət günü necə həşr olunacaqdır?",
+    "correct_answer": "Kor",
+    "wrong_answers": ["Lal", "Kar", "Zəlil"]
+  },
+  {
+    "id": 18,
+    "question": "Ramazan orucu nə vaxt vacib buyrulmuşdur?",
+    "correct_answer": "Hicrətin 2-ci ili",
+    "wrong_answers": ["Hicrətin 1-ci ili", "Hicrətin 4-cü ili", "Hicrətdən 2 il öncə"]
+  },
+  {
+    "id": 19,
+    "question": "Peyğəmbər neçə dəfə ümrə etmişdir?",
+    "correct_answer": "3",
+    "wrong_answers": ["1", "6", "5"]
+  },
+  {
+    "id": 20,
+    "question": "Barbarların kralı necə adlanırdı?",
+    "correct_answer": "Calut",
+    "wrong_answers": ["Talut", "Qeysar", "Kisra"]
+  },
+  {
+    "id": 21,
+    "question": "Rumların kralı necə adlanırdı?",
+    "correct_answer": "Qeysar",
+    "wrong_answers": ["Talut", "Nəcaşi", "Kisra"]
+  },
+  {
+    "id": 22,
+    "question": "Allah Adəmi yaratdıqda boyu nə qədər idi?",
+    "correct_answer": "60 dirsək",
+    "wrong_answers": ["33 dirsək", "9 metr", "33 metr"]
+  },
+  {
+    "id": 23,
+    "question": "Alimlər niyyət hədisini İslamın neçə hissəsi adlandırmışlar?",
+    "correct_answer": "Üçdə biri",
+    "wrong_answers": ["Dördə biri", "İkidə biri", "Beşdə biri"]
+  },
+  {
+    "id": 24,
+    "question": "Muta döyüşündə müsəlman qoşunun başçısı kim idi?",
+    "correct_answer": "Zeyd ibn Həris",
+    "wrong_answers": ["Zeyd ibn Səbit", "Cəfər ibn Əbu Talib", "Xalid ibn Valid"]
+  },
+  {
+    "id": 25,
+    "question": "Ukəşə ibn Mihsan hansı döyüşdə şəhid olmuşdur?",
+    "correct_answer": "Yəməmə",
+    "wrong_answers": ["Yarmuk", "Huneyn", "Tabuk"]
+  },
+  {
+    "id": 26,
+    "question": "Yərmuk döyüşü nə zaman baş vermişdir?",
+    "correct_answer": "Hicrətin 15-ci ili",
+    "wrong_answers": ["Hicrətin 13-cü ili", "Hicrətin 14-cü ili", "Hicrətin 17-ci ili"]
+  },
+  {
+    "id": 27,
+    "question": "\"Fəthul Qadir\" kitabının müəllifi kimdir?",
+    "correct_answer": "Şövkəni",
+    "wrong_answers": ["İbn Qeyyim", "Əhməd ibn Hənbəl", "Muhəmməd ibn Nuh"]
+  },
+  {
+    "id": 28,
+    "question": "Muslim nə zaman vəfat etmişdir?",
+    "correct_answer": "Hicrətin 261-ci ilində",
+    "wrong_answers": ["Hicrətin 260-cı ilində", "Hicrətin 253-cü ilində", "Hicrətin 257-ci ilində"]
+  },
+  {
+    "id": 29,
+    "question": "Qadiyaniyyə firqəsi harada yaradılmışdır?",
+    "correct_answer": "Hindistanda",
+    "wrong_answers": ["Ərəbistanda", "Türkiyədə", "İranda"]
+  },
+  {
+    "id": 30,
+    "question": "Əbu Davud nə zaman vəfat etmişdir?",
+    "correct_answer": "Hicrətin 275-ci ilində",
+    "wrong_answers": ["Hicrətin 277-ci ilində", "Hicrətin 257-ci ilində", "Hicrətin 288-ci ilində"]
+  },
+  {
+    "id": 31,
+    "question": "Yaqub peyğəmbər nəyə görə dəvə ətini və südünü özünə haram etmişdir?",
+    "correct_answer": "Siniri ağrıdığına görə",
+    "wrong_answers": ["Xoşlamadığına görə", "Varlılar yediyinə görə", "Haram olduğuna görə"]
+  },
+  {
+    "id": 32,
+    "question": "Qiyamət günü alimlərin önündə gələn insan kim olacaqdır?",
+    "correct_answer": "Muaz ibn Cəbəl",
+    "wrong_answers": ["İbn Teymiyyə", "Həsən əl-Basri", "Əbu Bəkr"]
+  },
+  {
+    "id": 33,
+    "question": "Allah ilk olaraq nəyi xəlq etmişdir?",
+    "correct_answer": "Ərşi",
+    "wrong_answers": ["Qələmi", "Lovhu Məhfuzu", "Kainatı"]
+  },
+  {
+    "id": 34,
+    "question": "\"Minhǝcus-Sünnə\" kitabının müəllifi kimdir?",
+    "correct_answer": "İbn Teymiyyə",
+    "wrong_answers": ["İbn Qeyyim", "İbn Salah", "İbn Həcər"]
+  },
+  {
+    "id": 35,
+    "question": "Hansı ibadəti iki şəxs eyni zamanda edə bilmir?",
+    "correct_answer": "Qara daşı öpmək",
+    "wrong_answers": ["Sədəqə vermək", "Elm almaq", "Zikr etmək"]
+  },
+  {
+    "id": 36,
+    "question": "Bəni Qureyzə qəbiləsinə hökm çıxaran səhabə kim idi?",
+    "correct_answer": "Səd ibn Muaz",
+    "wrong_answers": ["Abdur-Rahman ibn Auf", "Huzeyfə ibn Yəmən", "Xalid ibn Valid"]
+  },
+  {
+    "id": 37,
+    "question": "\"əl-Kamilu fit-Tarix\" kitabinin müəllifi kimdir?",
+    "correct_answer": "İbn Əsir",
+    "wrong_answers": ["İbn Kəsir", "İbn Həcər", "İbn Rəcəb"]
+  },
+  {
+    "id": 38,
+    "question": "Qureyşlilər ən-Nəvda evinə nə məqsədlə yığışmışdılar?",
+    "correct_answer": "Peyğəmbəri öldürmək üçün",
+    "wrong_answers": ["Kəbəni təmir etmək üçün", "Rəhbər seçmək üçün", "Peyğəmbəri qovmaq üçün"]
+  },
+  {
+    "id": 39,
+    "question": "İkinci dəfə beyət edən ənsarların sayı nə qədər idi?",
+    "correct_answer": "73 kişi, 2 qadın",
+    "wrong_answers": ["71 kişi, 4 qadın", "73 kişi, 4 qadın", "71 kişi, 3 qadın"]
+  },
+  {
+    "id": 40,
+    "question": "Əshabul-Kəhfin sayı neçə nəfər idi?",
+    "correct_answer": "7 nəfər, 1 it",
+    "wrong_answers": ["6 nəfər, 1 it", "5 nəfər, 1 it", "8 nəfər, 1 it"]
+  },
+  {
+    "id": 41,
+    "question": "İslamda ilk oxu kim atmışdır?",
+    "correct_answer": "Səd ibn Əbu Vaqqas",
+    "wrong_answers": ["Zubeyr ibn Avvam", "Talha ibn Ubeydullah", "Ömər ibn əl-Xəttab"]
+  },
+  {
+    "id": 42,
+    "question": "\"Şəmailul-Muhəmmədiyyə\" kitabının müəllifi kimdir?",
+    "correct_answer": "Tirmizi",
+    "wrong_answers": ["Buxari", "Əsqalani", "əl-Cəvzi"]
+  },
+  {
+    "id": 43,
+    "question": "Misirə təyin olunun ilk müsəlman əmir kimdir?",
+    "correct_answer": "Amr ibn əl As",
+    "wrong_answers": ["Abdur-Rahman ibn Əbu Bakr", "Muaz ibn Cəbəl", "Utbə ibn Ğazvan"]
+  },
+  {
+    "id": 44,
+    "question": "Yərmuk döyüşündə müsəlmanların sayı neçə idi?",
+    "correct_answer": "40 min",
+    "wrong_answers": ["45 min", "50 min", "55 min"]
+  },
+  {
+    "id": 45,
+    "question": "Yərmuk döyüşündə kafirlərin sayı neçə idi?",
+    "correct_answer": "200 min",
+    "wrong_answers": ["150 min", "100 min", "250 min"]
+  },
+  {
+    "id": 46,
+    "question": "Hansı səhabə əlində olan xurmaları ataraq döyüşə girdi və şəhid oldu?",
+    "correct_answer": "Umeyr ibn Həmməm",
+    "wrong_answers": ["Əsəd ibn Zurarah", "Cəbr ibn Ətik", "Xalid ibn Səid"]
+  },
+  {
+    "id": 47,
+    "question": "\"İhyau əl-Ulumud-Din\" kitabının müəllifi kimdir?",
+    "correct_answer": "Əbu Həmid əl-Ğazali",
+    "wrong_answers": ["İmam Şafi", "İbn Salah", "İbn Qeyyim əl-Covzi"]
+  },
+  {
+    "id": 48,
+    "question": "3 gün oruc tutmaq hansı günahın kəffarələrindən biridir?",
+    "correct_answer": "Andı pozmağın",
+    "wrong_answers": ["Zəkat verməməyin", "Döyüşdən qaçmağın", "İhram geyməməyin"]
+  },
+  {
+    "id": 49,
+    "question": "Səhih Buxarini ən gözəl kim şərh etmişdir?",
+    "correct_answer": "İbn Həcər",
+    "wrong_answers": ["İbn Rəcəb", "əl-Ayni", "Qıstilləni"]
+  },
+  {
+    "id": 50,
+    "question": "Mürtədlərlə ən böyük döyüş hansı olmuşdur?",
+    "correct_answer": "Yəməmə",
+    "wrong_answers": ["Cuvəsə", "Mərcus-Sufər", "Fihl"]
+  },
+  {
+    "id": 51,
+    "question": "Quranda neçə ayə vardır?",
+    "correct_answer": "6616",
+    "wrong_answers": ["6666", "6676", "6646"]
+  },
+  {
+    "id": 52,
+    "question": "Mələklər hansı səhabəni öldükdə qüsl etmişlər?",
+    "correct_answer": "Hanzalə ibn Əbu Amir",
+    "wrong_answers": ["Musab ibn Umeyr", "Ubeydəh ibn əl-Həris", "Səd ibn Xəsiməh"]
+  },
+  {
+    "id": 53,
+    "question": "Məhşur alim əz-Zəhəbinin adı nədir?",
+    "correct_answer": "Muhəmməd ibn Əhməd",
+    "wrong_answers": ["Yusuf ibn Xalid", "Marzuq ibn İshaq", "Yunus ibn İbrahim"]
+  },
+  {
+    "id": 54,
+    "question": "Səlsəbil Cənnətdə nəyin adıdır?",
+    "correct_answer": "Bulağın",
+    "wrong_answers": ["Çayın", "Gölün", "Ağacın"]
+  },
+  {
+    "id": 55,
+    "question": "Təsnim Cənnətdə nəyin adıdır?",
+    "correct_answer": "Çeşmənin",
+    "wrong_answers": ["Yerin", "Sarayın", "Yeməyin"]
+  },
+  {
+    "id": 56,
+    "question": "Talutla döyüşən Calutu kim öldürmüşdür?",
+    "correct_answer": "Davud",
+    "wrong_answers": ["Süleyman", "Zul-Qarneyn", "İbrahim"]
+  },
+  {
+    "id": 57,
+    "question": "Hansı peyğəmbərin atası cəhənnəmə kaftar simasinda atılacaqdır?",
+    "correct_answer": "İbrahimin",
+    "wrong_answers": ["Suleymanın", "Nuhun", "Şueybin"]
+  },
+  {
+    "id": 58,
+    "question": "Ömər ibn əl-Xəttab İslamı qəbul edərkən neçə yaşı vardı?",
+    "correct_answer": "27",
+    "wrong_answers": ["36", "33", "29"]
+  },
+  {
+    "id": 59,
+    "question": "Bu hökümdarlardan hansı müsəlman olaraq vəfat etmişdir?",
+    "correct_answer": "Nəcaşi",
+    "wrong_answers": ["Qeysar", "Kisra", "Firon"]
+  },
+  {
+    "id": 60,
+    "question": "Müsəlmanlar Beytul-Məqdisi hicrətin neçənci ilində fəth etmişlər?",
+    "correct_answer": "10-cu",
+    "wrong_answers": ["8-ci", "9-cu", "11-ci"]
+  },
+  {
+    "id": 61,
+    "question": "Təvaf etmək həccin nələrindəndir?",
+    "correct_answer": "Rükunlarından",
+    "wrong_answers": ["Sünnələrindən", "Vaciblərindən", "Şərtlərindən"]
+  },
+  {
+    "id": 62,
+    "question": "Əməli imandan saymayan və imanin artıb azalmadığını deyən firqə hansıdır?",
+    "correct_answer": "Murciyə",
+    "wrong_answers": ["Motəzilə", "Xavaric", "Maturidiyyə"]
+  },
+  {
+    "id": 63,
+    "question": "\"Saqi əl-Haram\" ləqəbi bunlardan kimə aiddir?",
+    "correct_answer": "Abbas ibn Əbdul Muttalib",
+    "wrong_answers": ["Həmzə ibn Əbdul Muttalib", "Əbu Talib", "Əbu Cəhl"]
+  }
+]

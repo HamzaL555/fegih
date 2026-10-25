@@ -1,0 +1,230 @@
+[
+  {
+    "id": 1,
+    "question": "Həsən ibn Əli nə vaxt anadan olmuşdur?",
+    "correct_answer": "Hicrətin 6-cı ili",
+    "wrong_answers": ["Hicrətin 2-ci ili", "Hicrətin 4-cü ili", "Hicrətin 5-ci ili"]
+  },
+  {
+    "id": 2,
+    "question": "Həsən ibn Əlinin kunyəsi nə idi?",
+    "correct_answer": "Əbu Muhəmməd",
+    "wrong_answers": ["Əbu Əli", "Əbu Cəfər", "Əbu Miqdəd"]
+  },
+  {
+    "id": 3,
+    "question": "Qiyamət günü günahları ilə savabları bərabər olanlar necə adlanırlar?",
+    "correct_answer": "əl-Əraf",
+    "wrong_answers": ["əl-Ənfal", "əl-Əhzab", "əl-Ənam"]
+  },
+  {
+    "id": 4,
+    "question": "Abəsə surəsində haqqında danışılan kor səhabə kimdir?",
+    "correct_answer": "Abdullah ibn Ummu Məktum",
+    "wrong_answers": ["Ubeyy ibn Kəb", "Utbə ibn Ğazvan", "Musab ibn Umeyr"]
+  },
+  {
+    "id": 5,
+    "question": "Ömər onun barəsində demişdir: \"O, Peyğəmbərdən bir şey danışsa başqasından soruşmadan qəbul edin\"",
+    "correct_answer": "Səd ibn Əbu Vaqqas",
+    "wrong_answers": ["Əbu Hüreyrə", "Huzeyfə ibn Yəmən", "Muaz ibn Cəbəl"]
+  },
+  {
+    "id": 6,
+    "question": "Burrah kimin əsil adı idi?",
+    "correct_answer": "Zeynəbin",
+    "wrong_answers": ["Ummu Sələmənin", "Ruqiyyənin", "Ummu Gülsümün"]
+  },
+  {
+    "id": 7,
+    "question": "Hər bir ümmətin əmini vardır, İslam ümmətinin əmini kimdir?",
+    "correct_answer": "Əbu Ubədə ibn Cərrah",
+    "wrong_answers": ["Muaz ibn Cəbəl", "Huzeyfə ibn Yəmən", "Əbu Hüreyrə"]
+  },
+  {
+    "id": 8,
+    "question": "Uhud döyüşündə hansı səhabənin atasını səhvən kafir bilib öldürmüşlər?",
+    "correct_answer": "Huzeyfə ibn Yəmən",
+    "wrong_answers": ["Miqdəd ibn Əsvəd", "Əbu Ubeyd ibn əl Cərrah", "Ammar ibn Yəsir"]
+  },
+  {
+    "id": 9,
+    "question": "Osman ibn Affan Hudeybiyyə sülhündə kimin himayəsində Məkkəyə daxil olmuşdur?",
+    "correct_answer": "Əbən ibn Said",
+    "wrong_answers": ["Əbu Sufyan", "Abbas", "Səd ibn Rabi"]
+  },
+  {
+    "id": 10,
+    "question": "İbn Kəsir bu sözləri kimin barəsində demişdir \"O bir dəfə kitaba baxdıqda onu əzbərləyərdi \"",
+    "correct_answer": "Buxari",
+    "wrong_answers": ["Muslim", "Əbu Davud", "Əhməd ibn Hənbəl"]
+  },
+  {
+    "id": 11,
+    "question": "Muhəmməd ibn Saleh əl-Useymin neçənci ildə anadan olmuşdur?",
+    "correct_answer": "Hicri 1347",
+    "wrong_answers": ["Hicri 1345", "Hicri 1344", "Hicri 1346"]
+  },
+  {
+    "id": 12,
+    "question": "Muhəmməd ibn Saleh əl-Useymin neçə yaşında vəfat etmişdir?",
+    "correct_answer": "74",
+    "wrong_answers": ["76", "82", "83"]
+  },
+  {
+    "id": 13,
+    "question": "Həbəşistan kralının adı nə idi?",
+    "correct_answer": "Əshəmə",
+    "wrong_answers": ["Şurahbil", "Bəşşar", "Vəhvəş"]
+  },
+  {
+    "id": 14,
+    "question": "Təyəmmüm ayəsi harada nazil olmuşdur?",
+    "correct_answer": "Beydada",
+    "wrong_answers": ["Tabukda", "Taifdə", "Məkkədə"]
+  },
+  {
+    "id": 15,
+    "question": "Peyğəmbər Mədinəyə gəldikdə məscid tikmək üçün dəvəsi iki yetim uşağın sahəsində oturdu, onlar kim idi?",
+    "correct_answer": "Suhel və Səd",
+    "wrong_answers": ["Şueyb və Novfəl", "Amr və Ömər", "İbrahim və İsmail"]
+  },
+  {
+    "id": 16,
+    "question": "Qiblə nə zaman Kəbəyə tərəf çevrilmişdir?",
+    "correct_answer": "Hicrətin 2-ci ili Şəvval ayı",
+    "wrong_answers": ["Hicrətin 2-ci ili Ramazan ayı", "Hicrətin 2-ci ili Şaban ayı", "Hicrətin 4-cü ili Səfər ayı"]
+  },
+  {
+    "id": 17,
+    "question": "Hansı surədə \"mim\" hərifi yoxdur?",
+    "correct_answer": "al-Kovsər",
+    "wrong_answers": ["əl-Asr", "əl-Məun", "əl-Kafirun"]
+  },
+  {
+    "id": 18,
+    "question": "Ərəblərin nəsli hansı nəsildəndir?",
+    "correct_answer": "Adnan",
+    "wrong_answers": ["Yavus", "İlyas", "Qarun"]
+  },
+  {
+    "id": 19,
+    "question": "İkinci dəfə Həbəşistana neçə səhabə hicrət etmişdir?",
+    "correct_answer": "83 kişi, 18 qadın",
+    "wrong_answers": ["86 kişi, 14 qadın", "81 kişi, 16 qadın", "88 kişi, 11 qadın"]
+  },
+  {
+    "id": 20,
+    "question": "İlk dəfə hədislərin yığılıb kitab halına salınmasını kim təklif etmişdir?",
+    "correct_answer": "Ömər ibn Abdul-Əziz",
+    "wrong_answers": ["Abdullah ibn Mubarak", "Sufyan əs-Sövri", "Həsən əl-Basri"]
+  },
+  {
+    "id": 21,
+    "question": "Əsvəd əl-Ənisini peyğəmbərlik iddia etdiyinə görə kimlər öldürmüşdür?",
+    "correct_answer": "Oğulları",
+    "wrong_answers": ["Qardaşları", "Atası", "Əmisi uşaqları"]
+  },
+  {
+    "id": 22,
+    "question": "Ummu Sələmə Peyğəmbərlə evləndikdə kim ona vəli durmuşdur?",
+    "correct_answer": "Oğlu",
+    "wrong_answers": ["Atası", "Əmisi", "Qardaşı"]
+  },
+  {
+    "id": 23,
+    "question": "Rabitə xidməti hansı xəlifənin vaxtında yaradılmışdı?",
+    "correct_answer": "Ömərin",
+    "wrong_answers": ["Əlinin", "Osmanın", "Muaviyənin"]
+  },
+  {
+    "id": 24,
+    "question": "Ərəb dilində ismin neçə halı vardır?",
+    "correct_answer": "3",
+    "wrong_answers": ["6", "5", "4"]
+  },
+  {
+    "id": 25,
+    "question": "Xaricə ibn Zeyd hansı döyüşdə şəhid olmuşdur?",
+    "correct_answer": "Uhud",
+    "wrong_answers": ["Bədr", "Tabuk", "Əhzab"]
+  },
+  {
+    "id": 26,
+    "question": "Möminlərin əməlləri yazılan kitab necə adlanır?",
+    "correct_answer": "İlliyyun",
+    "wrong_answers": ["Mərqum", "Siccin", "Suhuf"]
+  },
+  {
+    "id": 27,
+    "question": "Kafirlərin əməlləri yazılan kitab necə adlanır?",
+    "correct_answer": "Siccin",
+    "wrong_answers": ["İlliyyun", "Mərqum", "Suhuf"]
+  },
+  {
+    "id": 28,
+    "question": "Əbu Bəkri himayəsinə alan kafir kim idi?",
+    "correct_answer": "İbn əd-Dəğinə",
+    "wrong_answers": ["Qeys ibn əl-Ad", "ən-Nadr ibn əl-Həris", "Umeyr ibn Osman"]
+  },
+  {
+    "id": 29,
+    "question": "Peyğəmbər Məkkəni həftənin hansı günü fəth etmişdir?",
+    "correct_answer": "Bazar ertəsi",
+    "wrong_answers": ["Şənbə", "Cümə", "Cümə axşamı"]
+  },
+  {
+    "id": 30,
+    "question": "Yərmuk döyüşündə müsəlmanların əmiri kim olmuşdur?",
+    "correct_answer": "Əbu Ubeyd ibn al-Cərrah",
+    "wrong_answers": ["Xalid ibn Valid", "Ukkəşə ibn Mihsən", "Bəra ibn əl-Azib"]
+  },
+  {
+    "id": 31,
+    "question": "Azərbaycan fəth edildikdə qoşunun başçısı kim olmuşdur?",
+    "correct_answer": "Muğira ibn Şöbəh",
+    "wrong_answers": ["Xalid ibn Valid", "Əbu Musə əl-Əşari", "Əbu Ubeyd ibn əl Cərrah"]
+  },
+  {
+    "id": 32,
+    "question": "Əbu Hənifə hicrətin neçənci ilində anadan olmuşdur?",
+    "correct_answer": "80-ci",
+    "wrong_answers": ["81-ci", "82-ci", "83-cü"]
+  },
+  {
+    "id": 33,
+    "question": "İmam Malik nəçə il yaşamışdır?",
+    "correct_answer": "86",
+    "wrong_answers": ["76", "66", "56"]
+  },
+  {
+    "id": 34,
+    "question": "İki tərəfdən pul qoymaqla bu yarışlardan hansını keçirmək haramdır?",
+    "correct_answer": "Üzmək",
+    "wrong_answers": ["At çapmaq", "Dəvə ötüşdürmək", "Ox atmaq"]
+  },
+  {
+    "id": 35,
+    "question": "Allahın feli sifətlərini inkar edən, Qurana məxluq deyən firqə hansıdır?",
+    "correct_answer": "Kulləbiyyə",
+    "wrong_answers": ["Xavaric", "Sufiyyə", "Əşariyyə"]
+  },
+  {
+    "id": 36,
+    "question": "Qədəriyyə firqəsi harada yaranmışdır?",
+    "correct_answer": "Bəsrədə",
+    "wrong_answers": ["Məkkədə", "Mədinədə", "Qahirədə"]
+  },
+  {
+    "id": 37,
+    "question": "Peyğəmbərin Əhzab döyüşündə bir yəhudini öldürən bibisi hansıdır?",
+    "correct_answer": "Safiyya",
+    "wrong_answers": ["Ummu Həni", "Arva", "əl-Beyda"]
+  },
+  {
+    "id": 38,
+    "question": "Möminlərin anası Zeynəb vəfat etdikdə ona cənazə namazını kim qıldırmışdır?",
+    "correct_answer": "Ömər ibn əl-Xattab",
+    "wrong_answers": ["Əli ibn Əbu Talib", "Abdur-Rahman ibn Auf", "Abdullah ibn Məsud"]
+  }
+]

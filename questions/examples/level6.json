@@ -1,0 +1,642 @@
+[
+  {
+    "id": 1,
+    "question": "Həcc hansı ayda edilir?",
+    "correct_answer": "Zilhicce",
+    "wrong_answers": [
+      "Zilqadə",
+      "Məhərrəm",
+      "Ramazan"
+    ]
+  },
+  {
+    "id": 2,
+    "question": "Yusuf peyğəmbərin atası kim idi?",
+    "correct_answer": "Yaqub",
+    "wrong_answers": [
+      "Əyyub",
+      "İbrahim",
+      "İshaq"
+    ]
+  },
+  {
+    "id": 3,
+    "question": "Səfa dağı haradadır?",
+    "correct_answer": "Məkkədə",
+    "wrong_answers": [
+      "Mədinədə",
+      "Kərbəlada",
+      "Qüdsdə"
+    ]
+  },
+  {
+    "id": 4,
+    "question": "Quranda ən əzəmətli ayə hansıdır?",
+    "correct_answer": "əl-Bəqərə, 255",
+    "wrong_answers": [
+      "əl-İxlas, 1",
+      "əl-Fatihə, 3",
+      "əl-Bəqərə, 286"
+    ]
+  },
+  {
+    "id": 5,
+    "question": "Allahdan qeyrisinə qurban kəsən üçün nə vardır?",
+    "correct_answer": "Allahın lənəti",
+    "wrong_answers": [
+      "Savab",
+      "Heç nə",
+      "Məğfirət"
+    ]
+  },
+  {
+    "id": 6,
+    "question": "Qiyamət günü torpağa çevriləcək məxluq hansıdır?",
+    "correct_answer": "Heyvanlar",
+    "wrong_answers": [
+      "Mələklər",
+      "Müşriklər",
+      "Kafirlər"
+    ]
+  },
+  {
+    "id": 7,
+    "question": "Ən qədim İslam universiteti hansıdır?",
+    "correct_answer": "əl-Əzhar",
+    "wrong_answers": [
+      "Ummul Qura",
+      "Mədinə unversiteti",
+      "Məlik Fəhd universiteti"
+    ]
+  },
+  {
+    "id": 8,
+    "question": "Həbəşistana birinci hicrətdən sonra müsəlmanlar hara hicrət etmişlər?",
+    "correct_answer": "Həbəşistana",
+    "wrong_answers": [
+      "Bəsrəyə",
+      "Mədinəyə",
+      "Yəsribə"
+    ]
+  },
+  {
+    "id": 9,
+    "question": "Əbu Talib və Xədicənin vəfat etdikləri il necə adlanır?",
+    "correct_answer": "Hüzn ili",
+    "wrong_answers": [
+      "Matəm ili",
+      "Yas ili",
+      "Hicrət ili"
+    ]
+  },
+  {
+    "id": 10,
+    "question": "Peyğəmbər məsciddən evlərə olan qapıların hamısını bağlatdırdıqda kimin qapısını açıq qoydu?",
+    "correct_answer": "Əbu Bəkrin",
+    "wrong_answers": [
+      "Əlinin",
+      "Zeyd ibn Harisin",
+      "Əbu Hüreyrənin"
+    ]
+  },
+  {
+    "id": 11,
+    "question": "Peyğəmbərin neçə zövcəsi Bəqi qəbirsanlığında dəfn olunub?",
+    "correct_answer": "9",
+    "wrong_answers": [
+      "7",
+      "10",
+      "8"
+    ]
+  },
+  {
+    "id": 12,
+    "question": "\"Ədəbul-Mufrad\" kitabının müəllifi kimdir?",
+    "correct_answer": "Buxari",
+    "wrong_answers": [
+      "İbn Həcər",
+      "İbn Qeyyim",
+      "İbn Teymiyyə"
+    ]
+  },
+  {
+    "id": 13,
+    "question": "Peyğəmbərin Aişədən sonra ən çox hədis rəvayət edən zövcəsi kimdir?",
+    "correct_answer": "Ummu Sələmə",
+    "wrong_answers": [
+      "Zeynəb",
+      "Hafsa",
+      "Safiya"
+    ]
+  },
+  {
+    "id": 14,
+    "question": "Hudeybiyyə sülhü nə zaman baş vermişdi?",
+    "correct_answer": "Hicrətin 6-cı ilində",
+    "wrong_answers": [
+      "Hicrətin 8-ci ilində",
+      "Hicrətin 10-cu ilində",
+      "Hicrətin 9-cu ilində"
+    ]
+  },
+  {
+    "id": 15,
+    "question": "Əbu Turab kimin ləqəbidir?",
+    "correct_answer": "Əli ibn Əbu Talibin",
+    "wrong_answers": [
+      "Salman Farisinin",
+      "Bəra ibn Azibin",
+      "Abdullah ibn Məsudun"
+    ]
+  },
+  {
+    "id": 16,
+    "question": "Yəhudilərə görə Üzeyir kimdir?",
+    "correct_answer": "Allahın oğlu",
+    "wrong_answers": [
+      "Allahın peyğəmbəri",
+      "Allahın vəlisi",
+      "Saleh insan"
+    ]
+  },
+  {
+    "id": 17,
+    "question": "Quran əlyazmaları hansı xəlifənin dövründə cəm olunmuşdur?",
+    "correct_answer": "Əbu Bəkrin",
+    "wrong_answers": [
+      "Ömərin",
+      "Osmanın",
+      "Əlinin"
+    ]
+  },
+  {
+    "id": 18,
+    "question": "Quran hansı xəlifənin dövründə kitab şəklinə salınmışdır?",
+    "correct_answer": "Osmanın",
+    "wrong_answers": [
+      "Əbu Bakrin",
+      "Əlinin",
+      "Ömərin"
+    ]
+  },
+  {
+    "id": 19,
+    "question": "Xəlifə qızı və xəlifə arvadı olan Peyğəmbər nəvəsi kimdir?",
+    "correct_answer": "Ummu Gülsüm bintu Əli",
+    "wrong_answers": [
+      "Ramlə bintu Əli",
+      "Zeynəb bintu Həsən",
+      "Səkinə bintu Huseyn"
+    ]
+  },
+  {
+    "id": 20,
+    "question": "Peyğəmbərin döyüşdə götürdüyü bayraq nə rəngdə idi?",
+    "correct_answer": "Qara",
+    "wrong_answers": [
+      "Yaşıl",
+      "Qırmızı",
+      "Mavi"
+    ]
+  },
+  {
+    "id": 21,
+    "question": "Fatimənin Əlidən neçə övladı olub?",
+    "correct_answer": "3 oğlan 2 qız",
+    "wrong_answers": [
+      "2 oğlan 3 qız",
+      "2 oğlan 2 qız",
+      "3 oğlan 3 qız"
+    ]
+  },
+  {
+    "id": 22,
+    "question": "Cənnətin neçə mərtəbəsi vardır?",
+    "correct_answer": "100",
+    "wrong_answers": [
+      "99",
+      "4",
+      "70"
+    ]
+  },
+  {
+    "id": 23,
+    "question": "Peyğəmbərə Quran oxuyan səhabə kim idi?",
+    "correct_answer": "Abdullah bin Məsud",
+    "wrong_answers": [
+      "Muaz ibn Cəbəl",
+      "Kəb ibn Malik",
+      "Useyd"
+    ]
+  },
+  {
+    "id": 24,
+    "question": "Başı kəsilmədən yeyilən halal heyvan hansıdır?",
+    "correct_answer": "Balıq",
+    "wrong_answers": [
+      "1 yaşlı dəvə",
+      "Çöl eşşəyi",
+      "Dovşan"
+    ]
+  },
+  {
+    "id": 25,
+    "question": "Bunlardan biri namazın rükunlarından deyil.",
+    "correct_answer": "Dəstəmaz",
+    "wrong_answers": [
+      "Səcdə",
+      "Salam",
+      "Fatihə"
+    ]
+  },
+  {
+    "id": 26,
+    "question": "Ömər özündən sonra xəlifə seçmələri üçün neçə nəfəri təyin etmişdir?",
+    "correct_answer": "6",
+    "wrong_answers": [
+      "7",
+      "8",
+      "9"
+    ]
+  },
+  {
+    "id": 27,
+    "question": "İmranın qızı Məryəmi kim himayəsinə götürmüşdür?",
+    "correct_answer": "Zəkəriyyə",
+    "wrong_answers": [
+      "Yəqub",
+      "Yəhyə",
+      "Musa"
+    ]
+  },
+  {
+    "id": 28,
+    "question": "Həmzənin qatili kimdir?",
+    "correct_answer": "Vahş ibn Hərb",
+    "wrong_answers": [
+      "Xalid ibn Valid",
+      "Əbu Cəhl",
+      "Əbu Sufyan"
+    ]
+  },
+  {
+    "id": 29,
+    "question": "Ulul-Əzm adlanan peyğəmbərlər neçədir?",
+    "correct_answer": "5",
+    "wrong_answers": [
+      "25",
+      "15",
+      "27"
+    ]
+  },
+  {
+    "id": 30,
+    "question": "Həcc mərasimində səyy etməyin hökmü nədir?",
+    "correct_answer": "Rukn",
+    "wrong_answers": [
+      "Vacib",
+      "Sunnə",
+      "Mubah"
+    ]
+  },
+  {
+    "id": 31,
+    "question": "O hansı səhabədir ki süfrəsində həmişə bir miskin olardı?",
+    "correct_answer": "Abdullah ibn Ömər",
+    "wrong_answers": [
+      "Abdullah ibn Abbas",
+      "Abdullah ibn Məsud",
+      "Əbu Əyyub əl-Ənsari"
+    ]
+  },
+  {
+    "id": 32,
+    "question": "Peyğəmbər siğəni hansı döyüşdə birdəfəlik qadağan etmişdir?",
+    "correct_answer": "Xeybər",
+    "wrong_answers": [
+      "Məkkənin fəthində",
+      "Təbukda",
+      "Əhzabda"
+    ]
+  },
+  {
+    "id": 33,
+    "question": "Əhzab döyüşündə düşməndən xəbəri hansı səhabə gətirmişdir?",
+    "correct_answer": "Zubeyr ibn Avvam",
+    "wrong_answers": [
+      "Utbəh ibn Məsud",
+      "Əbu Rafii",
+      "Safvan ibn Beyda"
+    ]
+  },
+  {
+    "id": 34,
+    "question": "Bu səhabələrdən hansı Azərbaycanda olmuşdur?",
+    "correct_answer": "Əbu Musa əl-Əşari",
+    "wrong_answers": [
+      "Əli ibn Əbu Talib",
+      "Xubeyb ibn Ədiyy",
+      "Bilal ibn Rəbah"
+    ]
+  },
+  {
+    "id": 35,
+    "question": "Peyğəmbər Mədinəyə hicrət etdikdən sonra ilk nazil olan surə hansıdır?",
+    "correct_answer": "əl-Bəqərə",
+    "wrong_answers": [
+      "Ali İmran",
+      "ən-Nİsə",
+      "əl-Əhzab"
+    ]
+  },
+  {
+    "id": 36,
+    "question": "Qədəriyyə firqəsi hansı şəhərdə yaranmışdır?",
+    "correct_answer": "Bəsrədə",
+    "wrong_answers": [
+      "Kufədə",
+      "Mədinədə",
+      "Məkkədə"
+    ]
+  },
+  {
+    "id": 37,
+    "question": "Ən gözəl səhabə kim olmuşdur?",
+    "correct_answer": "Dəhiyyə əl-Kəlbi",
+    "wrong_answers": [
+      "Əşəs ibn Qeys",
+      "Əbu Burdə ibn Niyar",
+      "Əbu Rafii"
+    ]
+  },
+  {
+    "id": 38,
+    "question": "Qiyamət günü ərşi neçə mələk gətirəcəkdir?",
+    "correct_answer": "8",
+    "wrong_answers": [
+      "17",
+      "19",
+      "26"
+    ]
+  },
+  {
+    "id": 39,
+    "question": "Əbu Bəkrin əsl adı nə idi?",
+    "correct_answer": "Abdullah ibn Osman",
+    "wrong_answers": [
+      "Nömən ibn Sabit",
+      "Muhəmməd ibn İdris",
+      "Abduş-Şəms ibn Dirhəm"
+    ]
+  },
+  {
+    "id": 40,
+    "question": "Qəniməti bölərkən Peyğəmbərə etiraz edən şəxs kimdir?",
+    "correct_answer": "Abdullah ibn Zul-Xuweysirah",
+    "wrong_answers": [
+      "Xəraşə ibn Luzən",
+      "Əbu Cəndəl",
+      "İyyas ibn əl-Həkəm"
+    ]
+  },
+  {
+    "id": 41,
+    "question": "Allahın ərşi nəyin üzərindədir?",
+    "correct_answer": "Suyun",
+    "wrong_answers": [
+      "Səmanın",
+      "Buludun",
+      "Torpağın"
+    ]
+  },
+  {
+    "id": 42,
+    "question": "\"Risalə\" kitabının müəllifi kimdir?",
+    "correct_answer": "Şafii",
+    "wrong_answers": [
+      "Əbu Hənifə",
+      "Malik",
+      "Əhməd"
+    ]
+  },
+  {
+    "id": 43,
+    "question": "Xəzrəc qəbiləsinin başçısı kim idi?",
+    "correct_answer": "Səd ibn Ubədə",
+    "wrong_answers": [
+      "Utbəh ibn Abdullah",
+      "Əbu Musa əl-Əşari",
+      "Kəb ibn Məlik"
+    ]
+  },
+  {
+    "id": 44,
+    "question": "Xeybər neçənci ildə fəth edilmişdir?",
+    "correct_answer": "7",
+    "wrong_answers": [
+      "8",
+      "6",
+      "9"
+    ]
+  },
+  {
+    "id": 45,
+    "question": "Osman ibn Affanın malı ilə hazırlanan qoşun necə adlanırdı?",
+    "correct_answer": "Usra",
+    "wrong_answers": [
+      "Yusra",
+      "Dusra",
+      "Sutra"
+    ]
+  },
+  {
+    "id": 46,
+    "question": "Təbuk döyüşündə müsəlmanların sayı neçə idi?",
+    "correct_answer": "40 min",
+    "wrong_answers": [
+      "60 min",
+      "80 min",
+      "25 min"
+    ]
+  },
+  {
+    "id": 47,
+    "question": "Abbasilər dövlətinin paytaxtı hara idi?",
+    "correct_answer": "Bağdad",
+    "wrong_answers": [
+      "Kufə",
+      "Mədinə",
+      "Təbriz"
+    ]
+  },
+  {
+    "id": 48,
+    "question": "Uca Allah Ad qövmünə necə əzab göndərmişdir?",
+    "correct_answer": "Soyuq külək",
+    "wrong_answers": [
+      "Yağış",
+      "Dolu",
+      "İsti hava"
+    ]
+  },
+  {
+    "id": 49,
+    "question": "Yəməmə döyüşündən sonra Ömər Əbu Bəkrə nəyi təklif etmişdir?",
+    "correct_answer": "Quranı cəm etməyi",
+    "wrong_answers": [
+      "Hücuma keçməyi",
+      "Əsirləri azad buraxmağı",
+      "Əsirləri öldürməyi"
+    ]
+  },
+  {
+    "id": 50,
+    "question": "Bunlardan hansı səhabə deyil?",
+    "correct_answer": "Ovra ibn Zubeyr",
+    "wrong_answers": [
+      "Amir ibn Əbul Bukeyr",
+      "Xubeyb ibn Adi",
+      "Suheyl ibn Beyda"
+    ]
+  },
+  {
+    "id": 51,
+    "question": "Bunlardan hansı Cəhənnəmin adlarındandır?",
+    "correct_answer": "Saqar",
+    "wrong_answers": [
+      "Sələk",
+      "Əraf",
+      "Raqim"
+    ]
+  },
+  {
+    "id": 52,
+    "question": "Musa peyğəmbər əsasını daşa vurduqda oradan neçə çeşmə açılmışdır?",
+    "correct_answer": "12",
+    "wrong_answers": [
+      "8",
+      "10",
+      "14"
+    ]
+  },
+  {
+    "id": 53,
+    "question": "60 qoyuna nə qədər zəkat düşür?",
+    "correct_answer": "1",
+    "wrong_answers": [
+      "2",
+      "3",
+      "4"
+    ]
+  },
+  {
+    "id": 54,
+    "question": "Yəməmə döyüşündə müsəlman qoşunun əmiri kim idi?",
+    "correct_answer": "Xalid ibn Valid",
+    "wrong_answers": [
+      "Ömər ibn əl-Xəttab",
+      "Əli ibn Əbu Talib",
+      "Bara ibn Azib"
+    ]
+  },
+  {
+    "id": 55,
+    "question": "Ömər ibn əl-Xəttabın həyat yoldaşı Ummu Gülsümün anası kim idi?",
+    "correct_answer": "Fatimə bintu Muhəmməd",
+    "wrong_answers": [
+      "Əsmə bintu Əbu Bakr",
+      "Əsmə bintu Yezid",
+      "Nəsidə bintu Kəb"
+    ]
+  },
+  {
+    "id": 56,
+    "question": "Ibn Useymin adı ilə tanınan alimin əsl adı nədir?",
+    "correct_answer": "Muhəmməd ibn Saleh",
+    "wrong_answers": [
+      "İbrahim ibn Baz",
+      "Abdul-Əziz ibn Xalid",
+      "Saleh ibn Fovzan"
+    ]
+  },
+  {
+    "id": 57,
+    "question": "İnəklərin sayı neçəyə çatdıqda zəkat düşür?",
+    "correct_answer": "30",
+    "wrong_answers": [
+      "20",
+      "25",
+      "35"
+    ]
+  },
+  {
+    "id": 58,
+    "question": "Bunlardan hansı qiyamətin adlarından deyil?",
+    "correct_answer": "Nur",
+    "wrong_answers": [
+      "Saat",
+      "Din",
+      "Hisab"
+    ]
+  },
+  {
+    "id": 59,
+    "question": "Namazda hansı heyvanı öldürməyə icazə verilir?",
+    "correct_answer": "İlanı",
+    "wrong_answers": [
+      "Qarışqanı",
+      "Arını",
+      "Hörümçəyi"
+    ]
+  },
+  {
+    "id": 60,
+    "question": "Quranda bu ibadətlərdən hansının adı ilə surə vardır?",
+    "correct_answer": "Həcc",
+    "wrong_answers": [
+      "Namaz",
+      "Oruc",
+      "Zəkat"
+    ]
+  },
+  {
+    "id": 61,
+    "question": "Həccin sonuncu əməli hansıdır?",
+    "correct_answer": "Vida tavafı",
+    "wrong_answers": [
+      "Səy",
+      "Saçı qırxdırmaq",
+      "Qurban kəsmək"
+    ]
+  },
+  {
+    "id": 62,
+    "question": "Quranda belə bir surə var.",
+    "correct_answer": "Furqan",
+    "wrong_answers": [
+      "Quran",
+      "Burhan",
+      "Zikr"
+    ]
+  },
+  {
+    "id": 63,
+    "question": "Muhəmməd peyğəmbər Quranda daha hansı adla zikr olunur?",
+    "correct_answer": "Əhməd",
+    "wrong_answers": [
+      "Mahmud",
+      "Mustafa",
+      "Əmin"
+    ]
+  },
+  {
+    "id": 64,
+    "question": "Cənnətdə gənclərin seyyidi olan insan kimdir?",
+    "correct_answer": "Hüseyn ibn Əli",
+    "wrong_answers": [
+      "Həmzə",
+      "Abdullah ibn Abbas",
+      "Ənəs ibn Malik"
+    ]
+  }
+]

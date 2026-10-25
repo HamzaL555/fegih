@@ -1,0 +1,134 @@
+[
+  {
+    "id": 1,
+    "question": "Əbu Səid əl-Xudri Peyğəmbərlə birlikdə neçə döyüşdə iştirak etmişdir?",
+    "correct_answer": "12",
+    "wrong_answers": ["7", "27", "17"]
+  },
+  {
+    "id": 2,
+    "question": "Bara ibn əl-Azib Peyğəmbərlə birlikdə neçə döyüşdə iştirak etmişdir?",
+    "correct_answer": "15",
+    "wrong_answers": ["12", "27", "17"]
+  },
+  {
+    "id": 3,
+    "question": "Bureydə Peyğəmbərlə birlikdə neçə döyüşdə iştirak etmişdir?",
+    "correct_answer": "16",
+    "wrong_answers": ["12", "9", "5"]
+  },
+  {
+    "id": 4,
+    "question": "Uhud döyüşündə bir əlini itirən səhabə kimdir?",
+    "correct_answer": "Talha",
+    "wrong_answers": ["Cəfər", "Zubeyr", "Abdur-Rahman ibn Auf"]
+  },
+  {
+    "id": 5,
+    "question": "O hansı səhabədir ki, bir gözünü Huneyn o biri gözünü isə Yarmuk döyüşndə itirmişdir?",
+    "correct_answer": "Saxr ibn Hərb",
+    "wrong_answers": ["Uveym ibn Səid", "Xubeyb ibn Yasar", "Xalid ibn Səid"]
+  },
+  {
+    "id": 6,
+    "question": "Allah günəşı hansı insan üçün saxlamışdır?",
+    "correct_answer": "Yuşa ibn Nun",
+    "wrong_answers": ["Davud", "İbrahim", "Zul-Qarneyn"]
+  },
+  {
+    "id": 7,
+    "question": "Cəhənnəmin neçə tutacağı var?",
+    "correct_answer": "70 min",
+    "wrong_answers": ["60 min", "80 min", "85 min"]
+  },
+  {
+    "id": 8,
+    "question": "Quranda neçə yerdə səbir şükürlə yanaşı qeyd olunur?",
+    "correct_answer": "4",
+    "wrong_answers": ["12", "8", "2"]
+  },
+  {
+    "id": 9,
+    "question": "Bunlardan üçü Bədr döyüşündə şəhid, biri isə müşrik olaraq ölmüşdür. O kimdir?",
+    "correct_answer": "Hanzala ibn Əbu Sufyan",
+    "wrong_answers": ["Səd ibn Xasimə", "Aqil ibn Bukeyr", "Umeyr ibn Həmmam"]
+  },
+  {
+    "id": 10,
+    "question": "Ummu İmarah kunyası ilə tanınan səhabə qadın kimdir?",
+    "correct_answer": "Nəsibə bintu Kəb",
+    "wrong_answers": ["Uməmə bintu Əbul As", "Xovlə bintu Hukeym", "Rabiə bintu əl-Həris"]
+  },
+  {
+    "id": 11,
+    "question": "Neçə Abbasi xəlifəsi olmuşdur?",
+    "correct_answer": "37",
+    "wrong_answers": ["31", "17", "24"]
+  },
+  {
+    "id": 12,
+    "question": "Hədis alimi olan İbn Əbu Şeybə nə zaman vəfat etmişdir?",
+    "correct_answer": "Hicrətin 235-ci ili",
+    "wrong_answers": ["Hicrətin 297-ci ili", "Hicrətin 311-ci ili", "Hicrətin 264-cü ili"]
+  },
+  {
+    "id": 13,
+    "question": "İmam əd-Dərimi nə zaman vəfat etmişdir?",
+    "correct_answer": "Hicrətin 255-ci ili",
+    "wrong_answers": ["Hicrətin 231-ci ili", "Hicrətin 269-cu ili", "Hicrətin 287-ci ili"]
+  },
+  {
+    "id": 14,
+    "question": "Qədəri inkar edən Məbəd əl-Cuhani nə zaman vəfat etmişdir?",
+    "correct_answer": "Hicrətin 80-ci ili",
+    "wrong_answers": ["Hicrətin 82-ci ili", "Hicrətin 81-ci ili", "Hicrətin 79-cu ili"]
+  },
+  {
+    "id": 15,
+    "question": "İlk dəfə Allahın ad və sifətlərini kim inkar etmişdir?",
+    "correct_answer": "Cəhm ibn Səffan",
+    "wrong_answers": ["Cəd ibn Dirhəm", "əl-Mərisi", "Bişr ibn Həris"]
+  },
+  {
+    "id": 16,
+    "question": "Xalid ibn Validin Muta döyüşündə neçə qılıncı qırılıb?",
+    "correct_answer": "7",
+    "wrong_answers": ["10", "12", "4"]
+  },
+  {
+    "id": 17,
+    "question": "Dəməşq, Hıms, Bələbək hicrətin hansı ilində fəth edilmişdir?",
+    "correct_answer": "14-cü",
+    "wrong_answers": ["13-cü", "15-ci", "16-cı"]
+  },
+  {
+    "id": 18,
+    "question": "Bu alimlərdən hansı imam Malikin tələbəsi olmuşdur?",
+    "correct_answer": "Muhəmməd ibn Dinar",
+    "wrong_answers": ["Əhməd ibn Hənbəl", "Əsəd ibn Amr", "Yəqub ibn İbrahim"]
+  },
+  {
+    "id": 19,
+    "question": "Özünün peyğəmbər olduğunu iddia edən əl-Həris hansı xəlifənin dövründə öldürülmüşdür?",
+    "correct_answer": "Abdul-Məlik ibn Mərvan",
+    "wrong_answers": ["Abdullah ibn Zubeyr", "Mərvan ibn Həkəm", "Süleyman ibn Abdul Məlik"]
+  },
+  {
+    "id": 20,
+    "question": "Maturidiyyə firqəsinin banisi Əbu Mənsur əl-Maturidi hicrətin neçənci ilində vəfat etmişdir?",
+    "correct_answer": "333-cü ildə",
+    "wrong_answers": ["335-ci ildə", "331-ci ildə", "337-ci ildə"]
+  },
+  {
+    "id": 21,
+    "question": "İlk dəfə övliyaların sonuncusu olduğunu iddia edən bidət əhli kimdir?",
+    "correct_answer": "İbn Arabi",
+    "wrong_answers": ["Hənbəl ibn İshaq", "Əmr ibn Xalid", "Bişr ibn Həris"]
+  },
+  {
+    "id": 22,
+    "question": "Quranın 28-ci cüzündə cəmi bir dəfə ayənin başında gələn hərf hansıdır?",
+    "correct_answer": "Dad",
+    "wrong_answers": ["Ləm", "Ra", "Mim"]
+  }
+]

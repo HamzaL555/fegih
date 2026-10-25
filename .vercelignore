@@ -1,0 +1,30 @@
+# Build artefacts and local state never belong in an upload. Without this the
+# API deployment ships the admin's .next folder and the mobile's web export,
+# which roughly triples the upload size for no benefit.
+
+node_modules
+.vercel
+**/.next
+**/dist
+**/build
+**/.expo
+**/.web-preview
+
+apps/api/dist
+apps/mobile/dist
+
+*.log
+dev.log
+webexport.log
+websrv.log
+
+.env
+.env.local
+.env.*.local
+deploy/vercel-env.mjs
+
+# Root-anchored: a bare `docs` also matched `apps/api/src/docs`, which holds the
+# OpenAPI document the server imports at startup.
+/docs
+*.md
+!README.md

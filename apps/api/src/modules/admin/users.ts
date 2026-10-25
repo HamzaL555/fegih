@@ -1,0 +1,27 @@
+import { Router } from 'express';
+import { z } from 'zod';
+import { prisma } from '../../config/prisma.js';
+import { ApiError } from '../../lib/api-error.js';
+import { getPagination, paginationMeta } from '../../lib/pagination.js';
+import { parse } from '../../lib/zod.js';
+import { requireAuth } from '../../middleware/auth.js';
+import { requireAdmin } from '../../middleware/require-permission.js';
+import { writeLimiter } from '../../middleware/rate-limit.js';
+
+const listSchema = z.object({ search: z.string().trim().max(100).optional(), status: z.enum(['active', 'blocked', 'deleted']).default('active') });
+/** Never leak `passwordHash` (or any other credential) to the admin panel. */
+const safeUserSelect = {
+  id: true, username: true, email: true, phone: true, displayName: true, avatarUrl: true, preferredLocale: true,
+  timezone: true, points: true, level: true, xp: true, streak: true, longestStreak: true, totalGames: true,
+  correctAnswers: true, wrongAnswers: true, status: true, emailVerifiedAt: true, phoneVerifiedAt: true,
+  lastLoginAt: true, createdAt: true, updatedAt: true, deletedAt: true,
+} as const;
+function serializeUser(user: any) { const { passwordHash: _passwordHash, ...rest } = user; const role = user.roles?.[0]?.role ?? null; return { ...rest, fullName: user.displayName, firstName: null, lastName: null, name: user.displayName, role, roles: user.roles?.map((item: any) => item.role) ?? [], profileImage: user.avatarUrl, isBlocked: user.status === 'SUSPENDED', points: user.points }; }
+
+export const adminUsersRouter = Router();
+adminUsersRouter.use(requireAuth, requireAdmin('SUPER_ADMIN', 'ADMIN'));
+adminUsersRouter.get('/', async (request, response) => { const query = parse(listSchema, request.query); const { page, limit, skip } = getPagination(request); const where = { ...(query.status === 'deleted' ? { deletedAt: { not: null } } : query.status === 'blocked' ? { status: 'SUSPENDED' as const } : { status: 'ACTIVE' as const }), ...(query.search ? { OR: [{ username: { contains: query.search, mode: 'insensitive' as const } }, { email: { contains: query.search, mode: 'insensitive' as const } }, { phone: { contains: query.search } }] } : {}) }; const [data, total] = await prisma.$transaction([prisma.user.findMany({ where, orderBy: { createdAt: 'desc' }, skip, take: limit, select: { ...safeUserSelect, roles: { include: { role: true } }, _count: { select: { quizSessions: true, orders: true, bookReviews: true, pointEntries: true } } } }), prisma.user.count({ where })]); response.json({ data: data.map(serializeUser), meta: paginationMeta(page, limit, total) }); });
+adminUsersRouter.get('/:userId', async (request, response) => { const id = z.string().cuid().parse(request.params.userId); const user = await prisma.user.findUnique({ where: { id }, select: { ...safeUserSelect, roles: { include: { role: true } }, orders: { orderBy: { placedAt: 'desc' }, take: 20, select: { id: true, orderNumber: true, status: true, totalAmount: true, placedAt: true, payments: { select: { status: true } } } }, userAchievements: { include: { achievement: true } }, _count: { select: { quizSessions: true, orders: true, bookReviews: true, pointEntries: true } } } }); if (!user) throw ApiError.notFound('User not found'); response.json({ data: serializeUser(user) }); });
+adminUsersRouter.patch('/:userId', writeLimiter, async (request, response) => { const id = z.string().cuid().parse(request.params.userId); const input = parse(z.object({ isBlocked: z.boolean().optional(), status: z.enum(['ACTIVE', 'INACTIVE', 'SUSPENDED', 'DELETED']).optional(), roleId: z.string().cuid().optional() }), request.body); if (id === request.user!.id && (input.isBlocked || input.status === 'SUSPENDED')) throw ApiError.badRequest('You cannot block your own account'); let roleId = input.roleId; if (roleId) { const role = await prisma.role.findUnique({ where: { id: roleId } }); if (!role) throw ApiError.badRequest('Role not found'); } const user = await prisma.$transaction(async (tx) => { if (roleId) { await tx.userRole.deleteMany({ where: { userId: id } }); await tx.userRole.create({ data: { userId: id, roleId } }); } return tx.user.update({ where: { id }, data: { ...(input.status ? { status: input.status } : input.isBlocked !== undefined ? { status: input.isBlocked ? 'SUSPENDED' : 'ACTIVE' } : {}) }, select: { ...safeUserSelect, roles: { include: { role: true } } } }); }); response.json({ data: serializeUser(user) }); });
+adminUsersRouter.delete('/:userId', writeLimiter, async (request, response) => { const id = z.string().cuid().parse(request.params.userId); if (id === request.user!.id) throw ApiError.badRequest('You cannot delete your own account'); await prisma.$transaction([prisma.user.update({ where: { id }, data: { status: 'DELETED', deletedAt: new Date(), email: null, phone: null, username: `deleted_${id.slice(0, 20)}` } }), prisma.refreshToken.updateMany({ where: { userId: id, revokedAt: null }, data: { revokedAt: new Date() } })]); response.status(204).send(); });
+adminUsersRouter.get('/:userId/points', async (request, response) => { const id = z.string().cuid().parse(request.params.userId); const { page, limit, skip } = getPagination(request); const [data, total] = await prisma.$transaction([prisma.pointLedgerEntry.findMany({ where: { userId: id }, orderBy: { createdAt: 'desc' }, skip, take: limit }), prisma.pointLedgerEntry.count({ where: { userId: id } })]); response.json({ data, meta: paginationMeta(page, limit, total) }); });

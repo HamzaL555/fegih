@@ -1,0 +1,65 @@
+{
+  "name": "fegih-az",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Islamic quiz, rewards and book store full-stack monorepo",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:mobile": "npm run dev --workspace @fegih/mobile",
+    "dev:api": "npm run dev --workspace @fegih/api",
+    "dev:admin": "npm run dev --workspace @fegih/admin",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "db:reset": "docker compose down -v && docker compose up -d postgres",
+    "db:studio": "prisma studio",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:generate": "prisma generate",
+    "db:seed": "prisma db seed",
+    "import:questions": "tsx prisma/import-questions.ts",
+    "icons": "node scripts/generate-icons.mjs",
+    "deploy:vercel": "node scripts/deploy-vercel.mjs",
+    "clean:test-data": "node --import tsx scripts/clean-test-data.ts",
+    "clean:test-data:apply": "node --import tsx scripts/clean-test-data.ts --apply",
+    "build:api": "prisma generate && npm run build --workspace @fegih/api",
+    "postinstall": "node scripts/prisma-postinstall.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "@vercel/node": "^24.0.3",
+    "concurrently": "^9.2.0",
+    "dotenv": "^17.2.1",
+    "expo-router": "57.0.26",
+    "prisma": "6.19.0",
+    "qrcode-terminal": "^0.11.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "zod": "^4.1.5"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "prisma": {
+    "seed": "node --import tsx prisma/seed/index.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.0"
+  },
+  "overrides": {
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native-reanimated": "4.5.1",
+    "react-native-screens": "4.26.2",
+    "react-native-worklets": "0.10.1"
+  }
+}

@@ -1,0 +1,380 @@
+[
+  {
+    "id": 1,
+    "question": "Cinlər nədən yaradılıblar?",
+    "correct_answer": "Oddan",
+    "wrong_answers": ["Torpaqdan"]
+  },
+  {
+    "id": 2,
+    "question": "Hansı Peyğəmbəri balıq udmuşdur?",
+    "correct_answer": "Yunusu",
+    "wrong_answers": ["Yusufu"]
+  },
+  {
+    "id": 3,
+    "question": "Cənnətə ilk daxil olacaq şəxs kimdir?",
+    "correct_answer": "Muhəmməd",
+    "wrong_answers": ["Adəm"]
+  },
+  {
+    "id": 4,
+    "question": "Peyğəmbərlə həcc etməyə bərabər olan ibadət hansıdır?",
+    "correct_answer": "Ramazanda ümrə etmək",
+    "wrong_answers": ["7 dəfə həcc etmək"]
+  },
+  {
+    "id": 5,
+    "question": "Zul Qarneyn barədə Quranın hansı surəsində danışılır?",
+    "correct_answer": "Kəhf",
+    "wrong_answers": ["Yunus"]
+  },
+  {
+    "id": 6,
+    "question": "Peyğəmbər neçə dəfə həcc etmişdir?",
+    "correct_answer": "1",
+    "wrong_answers": ["2"]
+  },
+  {
+    "id": 7,
+    "question": "Tabuk döyüşündə iştirak etməyən səhabə hansıdır?",
+    "correct_answer": "Kəb ibn Malik",
+    "wrong_answers": ["Osman ibn Əffan"]
+  },
+  {
+    "id": 8,
+    "question": "Məryəm hansı peyğəmbərin qızıdır?",
+    "correct_answer": "İmran",
+    "wrong_answers": ["Zəkəriyyə"]
+  },
+  {
+    "id": 9,
+    "question": "Ömürdə bir dəfə vacib olan ibadət hansıdır?",
+    "correct_answer": "Həcc",
+    "wrong_answers": ["Cihad"]
+  },
+  {
+    "id": 10,
+    "question": "100 ayədən çox olmasına baxmayraq Cənnət və Cəhənnəm barədə bəhs etməyən surə hansıdır?",
+    "correct_answer": "Yusuf",
+    "wrong_answers": ["Yunus"]
+  },
+  {
+    "id": 11,
+    "question": "Ən-Nisa surəsi harada nazil olmuşdur?",
+    "correct_answer": "Mədinədə",
+    "wrong_answers": ["Məkkədə"]
+  },
+  {
+    "id": 12,
+    "question": "Hira mağarası hansı dağdadır?",
+    "correct_answer": "Nur",
+    "wrong_answers": ["Uhud"]
+  },
+  {
+    "id": 13,
+    "question": "İsmail peyğəmbərin anası kimdir?",
+    "correct_answer": "Həcər",
+    "wrong_answers": ["Sara"]
+  },
+  {
+    "id": 14,
+    "question": "Peyğəmbərlə Əbu Bəkr hicrət edərkən neçə gün mağarada qaldılar?",
+    "correct_answer": "3",
+    "wrong_answers": ["1"]
+  },
+  {
+    "id": 15,
+    "question": "Quranda belə surə yoxdur?",
+    "correct_answer": "Çəyirtgə",
+    "wrong_answers": ["Qarışqa"]
+  },
+  {
+    "id": 16,
+    "question": "Adəmlə Nuh peyğəmbərin arasında neçə əsr var idi?",
+    "correct_answer": "10 əsr",
+    "wrong_answers": ["15 əsr"]
+  },
+  {
+    "id": 17,
+    "question": "Peyğəmbər bu surələrdən hansını yatmazdan əvvəl oxuyardı?",
+    "correct_answer": "əl-Mulk",
+    "wrong_answers": ["əl-Qələm"]
+  },
+  {
+    "id": 18,
+    "question": "Bu adlardan hansı fatihə surəsinin adlarından deyil?",
+    "correct_answer": "Burhan",
+    "wrong_answers": ["Şafiə"]
+  },
+  {
+    "id": 19,
+    "question": "Peyğəmbər kimi oğulluğa götürmüşdür?",
+    "correct_answer": "Zeyd ibn Hərisi",
+    "wrong_answers": ["Zeyd ibn Səbiti"]
+  },
+  {
+    "id": 20,
+    "question": "Cihad nə zaman vacib buyrulmuşdur?",
+    "correct_answer": "Hicrətin 2-ci ili",
+    "wrong_answers": ["Hicrətin 1-ci ili"]
+  },
+  {
+    "id": 21,
+    "question": "Ənəs Peyğəmbərə neçə il xidmət göstərmişdir?",
+    "correct_answer": "10 il",
+    "wrong_answers": ["12 il"]
+  },
+  {
+    "id": 22,
+    "question": "Peyğəmbər Mədinəyə hicrət etdikdə kimin evində qalmışdır?",
+    "correct_answer": "Əbu Əyyub əl-Ənsari",
+    "wrong_answers": ["Səd ibn Muaz"]
+  },
+  {
+    "id": 23,
+    "question": "Peyğəmbərə bir salavat deyənə Allah neçə salavat deyər?",
+    "correct_answer": "10",
+    "wrong_answers": ["7"]
+  },
+  {
+    "id": 24,
+    "question": "Buxari öz səhih əsərini hansı mövzü ilə başlamışdır?",
+    "correct_answer": "Vəhyin başlanması",
+    "wrong_answers": ["Namaz"]
+  },
+  {
+    "id": 25,
+    "question": "Peyğəmbərin zövcəsi Zeynəb kimin qızı idi?",
+    "correct_answer": "Cəhş",
+    "wrong_answers": ["Ubədə"]
+  },
+  {
+    "id": 26,
+    "question": "Bu peyğəmbərlərdən hansı Musadan sonra gəlmişdir?",
+    "correct_answer": "Davud",
+    "wrong_answers": ["Yaqub"]
+  },
+  {
+    "id": 27,
+    "question": "Buxari nə zaman vəfat etmişdir?",
+    "correct_answer": "1 Şəvval, 256-cı ildə",
+    "wrong_answers": ["23 Şəban, 235-ci ildə"]
+  },
+  {
+    "id": 28,
+    "question": "Quranda and içdiyi on gün hansı gündür?",
+    "correct_answer": "Zilhiccənin ilk on günü",
+    "wrong_answers": ["Muhərrəmin ilk on günü"]
+  },
+  {
+    "id": 29,
+    "question": "Görüşərkən qucaqlaşmağı ilk edənlər kimlərdir?",
+    "correct_answer": "Yəmənlilər",
+    "wrong_answers": ["Məkkəlilər"]
+  },
+  {
+    "id": 30,
+    "question": "İslamda beşinci xəlifə kimi tanınan şəxsiyyət kimdir?",
+    "correct_answer": "Ömər ibn Abdul-Əziz",
+    "wrong_answers": ["Marvan ibn Həkəm"]
+  },
+  {
+    "id": 31,
+    "question": "\"Tədribur-Ravi\" kitabının müəllifi kimdir?",
+    "correct_answer": "Suyuti",
+    "wrong_answers": ["Zəhəbi"]
+  },
+  {
+    "id": 32,
+    "question": "Peyğəmbərdən ən çox hədis rəvayət edən səhabə hansıdır?",
+    "correct_answer": "Əbu Hüreyrə",
+    "wrong_answers": ["Aişə"]
+  },
+  {
+    "id": 33,
+    "question": "Səd ibn Rabi hansı döyüşdə şəhid olmuşdur?",
+    "correct_answer": "Uhud",
+    "wrong_answers": ["Bədr"]
+  },
+  {
+    "id": 34,
+    "question": "Hansı ayə yəhudilərə nazil olsaydı o günü bayram edərdilər?",
+    "correct_answer": "əl-Məidə, 3",
+    "wrong_answers": ["əl-Fatihə, 1"]
+  },
+  {
+    "id": 35,
+    "question": "Ənfal surəsi hansı döyüşdə nazil olmuşdur?",
+    "correct_answer": "Bədr",
+    "wrong_answers": ["Uhud"]
+  },
+  {
+    "id": 36,
+    "question": "Səhabə olan Saxr ibn Hərbin kunyası nə idi?",
+    "correct_answer": "Əbu Sufyan",
+    "wrong_answers": ["Əbu İbrahim"]
+  },
+  {
+    "id": 37,
+    "question": "İmanın ən yüksək mərtəbəsi hansıdır?",
+    "correct_answer": "Şəhadət kəlməsi",
+    "wrong_answers": ["Namaz"]
+  },
+  {
+    "id": 38,
+    "question": "Ən son vəfat edən səhabə kimdir?",
+    "correct_answer": "Əbu Tufeyl",
+    "wrong_answers": ["Tufeyl ibn Amr"]
+  },
+  {
+    "id": 39,
+    "question": "İslamda ilk şəhid qadın kimdir?",
+    "correct_answer": "Sumeyyə",
+    "wrong_answers": ["Durrah"]
+  },
+  {
+    "id": 40,
+    "question": "Musa peyğəmbər qövmünün yanında olmadıqda bütü kim düzəltmişdir?",
+    "correct_answer": "əs-Səmiri",
+    "wrong_answers": ["əd-Dovsari"]
+  },
+  {
+    "id": 41,
+    "question": "Düşməndən döyüşsüz yolla əldə edilən mal necə adlanır?",
+    "correct_answer": "Fey",
+    "wrong_answers": ["Qənimət"]
+  },
+  {
+    "id": 42,
+    "question": "Əbu Hənifənin adı nədir?",
+    "correct_answer": "ən-Noman ibn Sabit",
+    "wrong_answers": ["Bəşir ibn Əbdur-Rahman"]
+  },
+  {
+    "id": 43,
+    "question": "Şafiinin adı nədir?",
+    "correct_answer": "Muhəmməd ibn İdris",
+    "wrong_answers": ["Əhməd ibn İdris"]
+  },
+  {
+    "id": 44,
+    "question": "Peyğəmbər həccin hansı növünü etmişdir?",
+    "correct_answer": "Qiran",
+    "wrong_answers": ["Təməttu"]
+  },
+  {
+    "id": 45,
+    "question": "70 peyğəmbərin namaz qıldığı məscid hansıdır?",
+    "correct_answer": "Xeyf",
+    "wrong_answers": ["Quba"]
+  },
+  {
+    "id": 46,
+    "question": "Axırıncı nazil olan surə hansıdır?",
+    "correct_answer": "Nəsr",
+    "wrong_answers": ["Məidə"]
+  },
+  {
+    "id": 47,
+    "question": "Xeybər döyüşündə Peyğəmbər bayrağı hansı səhabəyə verir?",
+    "correct_answer": "Əli ibn Əbu Talib",
+    "wrong_answers": ["Salman Farisi"]
+  },
+  {
+    "id": 48,
+    "question": "Peyğəmbər hansı halda hökm verməyi qadağan etmişdir?",
+    "correct_answer": "Hirsli halda",
+    "wrong_answers": ["Yuxulu halda"]
+  },
+  {
+    "id": 49,
+    "question": "Ənəs ibn Məlik harada anadan olmuşdur?",
+    "correct_answer": "Mədinədə",
+    "wrong_answers": ["Məkkədə"]
+  },
+  {
+    "id": 50,
+    "question": "Peyğəmbərlərin ən əfzəli kimdir?",
+    "correct_answer": "Muhəmməd",
+    "wrong_answers": ["Nuh"]
+  },
+  {
+    "id": 51,
+    "question": "Peyğəmbərin hansı zövcəsi günlərini Aişəyə vermişdir?",
+    "correct_answer": "Sovdə",
+    "wrong_answers": ["Safiiya"]
+  },
+  {
+    "id": 52,
+    "question": "İsa peyğəmbərlə Muhəmməd peyğəmbər arasında neçə il vardı?",
+    "correct_answer": "600 il",
+    "wrong_answers": ["700 il"]
+  },
+  {
+    "id": 53,
+    "question": "Əli ibn Əbu Talibin qızı Ummu Gülsüm hansı səhabəyə ərə getmişdir?",
+    "correct_answer": "Ömər ibn əl-Xattab",
+    "wrong_answers": ["Səd ibn Əbu Vaqqas"]
+  },
+  {
+    "id": 54,
+    "question": "Quranda neçə söz var?",
+    "correct_answer": "77439",
+    "wrong_answers": ["77539"]
+  },
+  {
+    "id": 55,
+    "question": "Zəkat hicrətin neçənci ilində vacib buyurulmuşdur?",
+    "correct_answer": "2",
+    "wrong_answers": ["3"]
+  },
+  {
+    "id": 56,
+    "question": "Peyğəmbər Məkkənin fəthi günü Kəbənin açarlarını kimə vermişdir?",
+    "correct_answer": "Osman ibn Talha",
+    "wrong_answers": ["Cərir ibn Abdullah"]
+  },
+  {
+    "id": 57,
+    "question": "Möminin yuxusu Peyğəmbərin yuxusunun neçə hissəsindən biridir",
+    "correct_answer": "45",
+    "wrong_answers": ["35"]
+  },
+  {
+    "id": 58,
+    "question": "Peyğəmbərin Bədr döyüşündə şəhid olmuş əmisi oğlu kimdir?",
+    "correct_answer": "Ubeydə ibn əl-Həris",
+    "wrong_answers": ["Cəfər ibn Əbu Talib"]
+  },
+  {
+    "id": 59,
+    "question": "Peyğəmbərin əmisi və süd qardaşı kimdir?",
+    "correct_answer": "Həmzə",
+    "wrong_answers": ["Abbas"]
+  },
+  {
+    "id": 60,
+    "question": "Həbəşistana ilk hicrət edənlərin əmiri kim olmuşdur?",
+    "correct_answer": "Cəfər ibn Əbu Talib",
+    "wrong_answers": ["Osman ibn Əffan"]
+  },
+  {
+    "id": 61,
+    "question": "Əbu Sufyanın müsəlman kimi vuruşduğu ilk döyüş hansıdır?",
+    "correct_answer": "Huneyn",
+    "wrong_answers": ["Xeybər"]
+  },
+  {
+    "id": 62,
+    "question": "Bədr şəhidlərinin arasında ən azyaşlısı kim idi?",
+    "correct_answer": "Umeyr ibn Əbu Vaqqas",
+    "wrong_answers": ["Umeyr ibn Abdu Amr"]
+  },
+  {
+    "id": 63,
+    "question": "Peyğəmbərin sağlığında neçə zövcəsi vəfat etmişdir?",
+    "correct_answer": "2",
+    "wrong_answers": ["3"]
+  }
+]

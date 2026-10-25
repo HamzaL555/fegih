@@ -1,0 +1,252 @@
+[
+  {
+    "id": 1,
+    "question": "Cəhənnəmdə neçə əzab verici mələk var?",
+    "correct_answer": "19",
+    "wrong_answers": [
+      "24",
+      "99",
+      "70"
+    ]
+  },
+  {
+    "id": 2,
+    "question": "Birinci Aqabə beyətində neçə ənsar var idi?",
+    "correct_answer": "12",
+    "wrong_answers": [
+      "9",
+      "15",
+      "19"
+    ]
+  },
+  {
+    "id": 3,
+    "question": "Hudeybiyyə nəyin adıdır?",
+    "correct_answer": "Su quyusunun",
+    "wrong_answers": [
+      "Dağın",
+      "Vadinin",
+      "Tayfanın"
+    ]
+  },
+  {
+    "id": 4,
+    "question": "Hansı bidət əhlinin banisinin Qurban bayramında boynu vurulmuşdur?",
+    "correct_answer": "Cad ibn Dirhəm",
+    "wrong_answers": [
+      "Cəhm ibn Saffan",
+      "Əbu Mansur əl Məturidi",
+      "Bişr ibn Həris"
+    ]
+  },
+  {
+    "id": 5,
+    "question": "Bu döyüşlərdən hansı sonuncu olmuşdur?",
+    "correct_answer": "Muta",
+    "wrong_answers": [
+      "Huneyn",
+      "Tabuk",
+      "Xəndək"
+    ]
+  },
+  {
+    "id": 6,
+    "question": "Peyğəmbərin məktubunu Qeysərə hansı səhabə aparmışdır?",
+    "correct_answer": "Dəhiyyə əl-Kəlbi",
+    "wrong_answers": [
+      "Bəra ibn əl-Azib",
+      "Cəfər ibn Əbu Talib",
+      "Abdullah ibn Huzəfə"
+    ]
+  },
+  {
+    "id": 7,
+    "question": "Hicrətdən sonra doğulan ilk uşaq kim olmuşdur?",
+    "correct_answer": "Abdullah ibn Zubeyr",
+    "wrong_answers": [
+      "Abdullah ibn Məsud",
+      "Həsən ibn Əbu Talib",
+      "Fatimə"
+    ]
+  },
+  {
+    "id": 8,
+    "question": "Hüseyn ibn Əlini kim öldürmüşdür?",
+    "correct_answer": "Ubeydullah ibn Ziyad",
+    "wrong_answers": [
+      "Muaviyə ibn Əbu Sufyan",
+      "Sufyan ibn Xalid",
+      "Yezid ibn Muaviyə"
+    ]
+  },
+  {
+    "id": 9,
+    "question": "Peyğəmbər Xədicədən sonra kiminlə evlənmişdir?",
+    "correct_answer": "Sovdə",
+    "wrong_answers": [
+      "Aişə",
+      "Ummu Sələmə",
+      "Hafsa"
+    ]
+  },
+  {
+    "id": 10,
+    "question": "əl-Fatihə surəsində neçə söz var?",
+    "correct_answer": "25",
+    "wrong_answers": [
+      "26",
+      "27",
+      "28"
+    ]
+  },
+  {
+    "id": 11,
+    "question": "Məkkədə son nazil olan ayə hansıdır?",
+    "correct_answer": "əl-Maidə, 3",
+    "wrong_answers": [
+      "əl-Qiyamə, 23",
+      "ən-Nasr, 3",
+      "əl-Mutaffifin, 18"
+    ]
+  },
+  {
+    "id": 12,
+    "question": "Kafir olaraq ölən Qeys ibn Ad hansı döyüşdə öldürülmüşdür?",
+    "correct_answer": "Bədr",
+    "wrong_answers": [
+      "Uhud",
+      "Xəndək",
+      "Fəth günü"
+    ]
+  },
+  {
+    "id": 13,
+    "question": "Əməvi dövlətinin neçə xəlifəsi olmuşdur?",
+    "correct_answer": "14",
+    "wrong_answers": [
+      "12",
+      "16",
+      "10"
+    ]
+  },
+  {
+    "id": 14,
+    "question": "Əli ibn Əbu Talibin Fatimədən neçə övladı olmuşdur?",
+    "correct_answer": "5",
+    "wrong_answers": [
+      "2",
+      "3",
+      "4"
+    ]
+  },
+  {
+    "id": 15,
+    "question": "Peyğəmbərə cənazə namazını birinci kim qılmışdır?",
+    "correct_answer": "Əmisi Abbas",
+    "wrong_answers": [
+      "Əli ibn Əbu Talib",
+      "Əbu Bəkr",
+      "Abdullah ibn Məsud"
+    ]
+  },
+  {
+    "id": 16,
+    "question": "Sidratul Muntəhə səmanın neçənci qatında yerləşir?",
+    "correct_answer": "7",
+    "wrong_answers": [
+      "5",
+      "6",
+      "4"
+    ]
+  },
+  {
+    "id": 17,
+    "question": "Peyğəmbərə kim sehr etmişdir?",
+    "correct_answer": "Labid ibn Asam",
+    "wrong_answers": [
+      "Xaraşah ibn Amr",
+      "Məcdəh ibn Mustafa",
+      "Hədir ibn Xadram"
+    ]
+  },
+  {
+    "id": 18,
+    "question": "Peyğəmbərin zövcələrindən neçəsi Qureyş qəbiləsindən idi?",
+    "correct_answer": "5",
+    "wrong_answers": [
+      "3",
+      "4",
+      "6"
+    ]
+  },
+  {
+    "id": 19,
+    "question": "İlk dəfə kim Öməri möminlərin əmiri adlandırmışdır?",
+    "correct_answer": "Muğira ibn Şöbəh",
+    "wrong_answers": [
+      "Zubeyr ibn Avvam",
+      "Abdullah ibn Məsud",
+      "Abdur-Rahman ibn Auf"
+    ]
+  },
+  {
+    "id": 20,
+    "question": "Peyğəmbərin həyat yoldaşı Hafsanın anasının adı nədir?",
+    "correct_answer": "Zeynəb bintu Məzun",
+    "wrong_answers": [
+      "Həntəmə bintu Xalid",
+      "Mərva bintu İsmail",
+      "Sara bintu Hişəm"
+    ]
+  },
+  {
+    "id": 21,
+    "question": "Ömər ibn əl-Xəttab vəfat etdikdə ona cənazə namazını kim qıldırmışdır?",
+    "correct_answer": "Suheyb",
+    "wrong_answers": [
+      "Osman",
+      "Əli",
+      "İbn Məsud"
+    ]
+  },
+  {
+    "id": 22,
+    "question": "Müsəlman tarixi nə vaxtdan yazılmağa başlamışıdır?",
+    "correct_answer": "Hicri 16-cı il Rabiul-Əvvəl ayı",
+    "wrong_answers": [
+      "Hicri 16-cı il Səfər ayı",
+      "Hicri 16-cı il Məhərrəm ayı",
+      "Hicri 16-cı il Zilhiccə ayı"
+    ]
+  },
+  {
+    "id": 23,
+    "question": "Azərbaycan neçənci ildə fəth edilmişdir?",
+    "correct_answer": "Hicrətin 22-ci ili",
+    "wrong_answers": [
+      "Hicrətin 20-ci ili",
+      "Hicrətin 21-ci ili",
+      "Hicrətin 23-cü ili"
+    ]
+  },
+  {
+    "id": 24,
+    "question": "Əli ibn Əbu Talibə cənazə namazını kim qılmışdır?",
+    "correct_answer": "Həsən",
+    "wrong_answers": [
+      "Hüseyn",
+      "Abdullah ibn Ömər",
+      "Abdullah ibn Abbas"
+    ]
+  },
+  {
+    "id": 25,
+    "question": "İmam Şafi nə zaman vəfat etmişdir?",
+    "correct_answer": "Hicrətin 204-cü ili",
+    "wrong_answers": [
+      "Hicrətin 201-ci ili",
+      "Hicrətin 202-ci ili",
+      "Hicrətin 203-cü ili"
+    ]
+  }
+]

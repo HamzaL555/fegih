@@ -1,0 +1,470 @@
+[
+  {
+    "id": 1,
+    "question": "Tövhidin neçə növü vardır?",
+    "correct_answer": "3",
+    "wrong_answers": ["2", "4", "5"]
+  },
+  {
+    "id": 2,
+    "question": "Quran neçə ilə nazil olmuşdur?",
+    "correct_answer": "23",
+    "wrong_answers": ["40", "10", "13"]
+  },
+  {
+    "id": 3,
+    "question": "Qədr gecəsi hansı aydadır?",
+    "correct_answer": "Ramazan",
+    "wrong_answers": ["Məhərrəm", "Zilhiccə", "Səfər"]
+  },
+  {
+    "id": 4,
+    "question": "Quranın anası adlanan surə hansıdır?",
+    "correct_answer": "əl-Fatihə",
+    "wrong_answers": ["əl-İxlas", "əl-Bəqərə", "əl-Kafirun"]
+  },
+  {
+    "id": 5,
+    "question": "Quranın üçdə birinə bərabər olan surə hansıdır?",
+    "correct_answer": "əl-İxlas",
+    "wrong_answers": ["əl-Fatihə", "ən-Nas", "ən-Nisa"]
+  },
+  {
+    "id": 6,
+    "question": "Kişi üçün qızıl əşya taxmağın hökmü nədir?",
+    "correct_answer": "Haram",
+    "wrong_answers": ["Məkruh", "Müstəhəb", "Mübah"]
+  },
+  {
+    "id": 7,
+    "question": "Kəbə neçə dəfə tavaf olunur?",
+    "correct_answer": "7",
+    "wrong_answers": ["5", "3", "1"]
+  },
+  {
+    "id": 8,
+    "question": "İslamdan çıxan şəxs necə adlanır?",
+    "correct_answer": "Mürtəd",
+    "wrong_answers": ["Müşrik", "Fasiq", "Asi"]
+  },
+  {
+    "id": 9,
+    "question": "Dəvə əti yedikdən sonra nə etmək lazımdır?",
+    "correct_answer": "Dəstəmaz almaq",
+    "wrong_answers": ["Oruc tutmaq", "Qüsl almaq", "Su içmək"]
+  },
+  {
+    "id": 10,
+    "question": "Şirkin neçə növü vardır?",
+    "correct_answer": "2",
+    "wrong_answers": ["1", "3", "4"]
+  },
+  {
+    "id": 11,
+    "question": "Əməllərin qəbul olunması üçün neçə şərt vardır?",
+    "correct_answer": "2",
+    "wrong_answers": ["1", "7", "9"]
+  },
+  {
+    "id": 12,
+    "question": "Bu adam adlarından hansı Allaha daha əzizdir?",
+    "correct_answer": "Abdur-Rahman",
+    "wrong_answers": ["Osman", "Usəmə", "Xalid"]
+  },
+  {
+    "id": 13,
+    "question": "Bu dünya müsəlman üçün zindan kafir üçün isə ...",
+    "correct_answer": "Cənnətdir",
+    "wrong_answers": ["Qazamatdır", "Səhradır", "Azadlıqdır"]
+  },
+  {
+    "id": 14,
+    "question": "Peyğəmbərin süd anasının adı nə idi?",
+    "correct_answer": "Həlimə",
+    "wrong_answers": ["Əminə", "Xədicə", "Zeynəb"]
+  },
+  {
+    "id": 15,
+    "question": "Bunlardan hansı Quranın adlarından deyil?",
+    "correct_answer": "Musnad",
+    "wrong_answers": ["Furqan", "Burhan", "Zikr"]
+  },
+  {
+    "id": 16,
+    "question": "Məkkə şəhərində İslama dəvət neçə il gizli aparılmışdır?",
+    "correct_answer": "3",
+    "wrong_answers": ["2", "5", "6"]
+  },
+  {
+    "id": 17,
+    "question": "Hansı peyğəmbər Allahdan ona görünməsini istəmişdir?",
+    "correct_answer": "Musa",
+    "wrong_answers": ["İsa", "Harun", "Muhəmməd"]
+  },
+  {
+    "id": 18,
+    "question": "Düşməndən döyüş yolu ilə alınan mal necə adlanır?",
+    "correct_answer": "Qənimət",
+    "wrong_answers": ["Fidyə", "Qarət", "Xərac"]
+  },
+  {
+    "id": 19,
+    "question": "Nuh peyğəmbər neçə il təkallahlığa dəvət etmişdir?",
+    "correct_answer": "950",
+    "wrong_answers": ["1000", "95", "40"]
+  },
+  {
+    "id": 20,
+    "question": "Hafiz kimə deyilir?",
+    "correct_answer": "Quranı əzbərləyən",
+    "wrong_answers": ["Hədisləri əzbərləyən", "Təfsiri bilən", "Fiqhi bilən"]
+  },
+  {
+    "id": 21,
+    "question": "Peyğəmbər hansı zövcəsinin evində vəfat etmişdir?",
+    "correct_answer": "Aişənin",
+    "wrong_answers": ["Xədicənin", "Ummu Sələmənin", "Hafsanın"]
+  },
+  {
+    "id": 22,
+    "question": "Peyğəmbərin minbəri neçə pilləkandan ibarət idi?",
+    "correct_answer": "3",
+    "wrong_answers": ["2", "4", "7"]
+  },
+  {
+    "id": 23,
+    "question": "Ərəb əlifbasının 12-ci hərfi hansıdır?",
+    "correct_answer": "Sin",
+    "wrong_answers": ["Şin", "Ra", "Mim"]
+  },
+  {
+    "id": 24,
+    "question": "Zəbur hansı peyğəmbərə verilən kitabdır?",
+    "correct_answer": "Davud",
+    "wrong_answers": ["Harun", "İshaq", "Süleyman"]
+  },
+  {
+    "id": 25,
+    "question": "Sünnə sözü ərəbcədən tərcümədə nə deməkdir?",
+    "correct_answer": "Yol",
+    "wrong_answers": ["Əməl", "Söz", "Hədis"]
+  },
+  {
+    "id": 26,
+    "question": "İnsan öldükdə qoyub getdiyi mal necə adlanır?",
+    "correct_answer": "Miras",
+    "wrong_answers": ["Mülk", "İrs", "Pay"]
+  },
+  {
+    "id": 27,
+    "question": "Tabiinləri görən müsəlmanlar necə adlanırlar?",
+    "correct_answer": "Tabiut-Tabiin",
+    "wrong_answers": ["Sələf", "Səhabə", "Muxadram"]
+  },
+  {
+    "id": 28,
+    "question": "Məkkədə Peyğəmbərə əziyyət verən müşriklər hansı döyüşdə məhv oldular?",
+    "correct_answer": "Bədr",
+    "wrong_answers": ["Uhud", "Xəndək", "Huneyn"]
+  },
+  {
+    "id": 29,
+    "question": "Peyğəmbərlərin arasında neçə şey yalnız Muhəmməd peyğəmbərə verilmişdir?",
+    "correct_answer": "5",
+    "wrong_answers": ["16", "15", "18"]
+  },
+  {
+    "id": 30,
+    "question": "İnsanların qafil olduqları iki nemət hansıdır?",
+    "correct_answer": "Sağlamlıq və asudə vaxt",
+    "wrong_answers": ["Pul və vəzifə", "Gəzmək və yemək", "Ağlamaq və gülmək"]
+  },
+  {
+    "id": 31,
+    "question": "Allahın qılıncı adlanan səhabə kimdir?",
+    "correct_answer": "Xalid ibn Valid",
+    "wrong_answers": ["Həmzə", "Əli", "Bəra ibn Azib"]
+  },
+  {
+    "id": 32,
+    "question": "Peyğəmbərin iki qızı ilə evlənən səhabə kimdir?",
+    "correct_answer": "Osman",
+    "wrong_answers": ["Əli", "Zeyd ibn Haris", "Zubeyr ibn Avvam"]
+  },
+  {
+    "id": 33,
+    "question": "Peyğəmbər düşmən torpağına gedərkən nəyi götürməyi qadağan edib?",
+    "correct_answer": "Quranı",
+    "wrong_answers": ["Silahı", "Ailəni", "Mal dövləti"]
+  },
+  {
+    "id": 34,
+    "question": "Qadının cihadı nədir?",
+    "correct_answer": "Həcc",
+    "wrong_answers": ["Oruc", "Zəkat", "Səbir"]
+  },
+  {
+    "id": 35,
+    "question": "Bayram namazına başlayarkən neçə dəfə təkbir edilir?",
+    "correct_answer": "7",
+    "wrong_answers": ["6", "1", "5"]
+  },
+  {
+    "id": 36,
+    "question": "Peyğəmbər səfərə gedərkən Mədinəyə ən çox kimi əmir təyin edirdi?",
+    "correct_answer": "İbn Ummu Məktumu",
+    "wrong_answers": ["Osmanı", "Əlini", "Əbu Bəkri"]
+  },
+  {
+    "id": 37,
+    "question": "Ramazan ayında işa namazından sonra qılınan namaz hansıdır?",
+    "correct_answer": "Təravih",
+    "wrong_answers": ["Vitr", "Duha", "İstixarə"]
+  },
+  {
+    "id": 38,
+    "question": "Məhərrəm ayı hicri təqvimində neçənci aydır?",
+    "correct_answer": "1-ci",
+    "wrong_answers": ["8-ci", "9-cu", "12-ci"]
+  },
+  {
+    "id": 39,
+    "question": "Allah rəhmətinin neçə hissəsini Qiyamət gününə saxlamışdır?",
+    "correct_answer": "99",
+    "wrong_answers": ["100", "101", "1001"]
+  },
+  {
+    "id": 40,
+    "question": "Quranda ən uzun ayə hansı surədədir?",
+    "correct_answer": "əl-Bəqərə",
+    "wrong_answers": ["ən-Nisa", "əl-Maidə", "Ali İmran"]
+  },
+  {
+    "id": 41,
+    "question": "Allahdan yağış diləmək üçün qılınan namaz necə adlanır?",
+    "correct_answer": "İstisqa",
+    "wrong_answers": ["Xusuf", "Kusuf", "İstixarə"]
+  },
+  {
+    "id": 42,
+    "question": "Ömər ibn əl-Xəttab altında beyət olunan ağacı nəyə görə kəsdirdi?",
+    "correct_answer": "Namaz qılındığına görə",
+    "wrong_answers": ["Qurban kəsildiyinə görə", "Quruduğuna görə", "Bar vermədiyinə görə"]
+  },
+  {
+    "id": 43,
+    "question": "Osman kimin əli ilə İslama gəlmişdir?",
+    "correct_answer": "Əbu Bəkrin",
+    "wrong_answers": ["Peyğəmbərin", "Cəfərin", "Xədicənin"]
+  },
+  {
+    "id": 44,
+    "question": "Əbu Zərr kimin əli ilə İslama gəlmişdir?",
+    "correct_answer": "Əli ibn Əbu Talibin",
+    "wrong_answers": ["Əbu Bəkrin", "Peyğəmbərin", "Osmanın"]
+  },
+  {
+    "id": 45,
+    "question": "Hicri tarixi hansı xəlifənin dövründə tətbiq olunmuşdur?",
+    "correct_answer": "Ömərin",
+    "wrong_answers": ["Əbu Bəkrin", "Osmanın", "Əlinin"]
+  },
+  {
+    "id": 46,
+    "question": "Bütün bədən üzvlərini islah edən ət parçası hansıdır?",
+    "correct_answer": "Qəlb",
+    "wrong_answers": ["Qulaq", "Dil", "Ayaq"]
+  },
+  {
+    "id": 47,
+    "question": "Bədr döyüşündə Allah tərəfindən müsəlmanlara neçə mələk köməyə göndərilmişdir?",
+    "correct_answer": "3000",
+    "wrong_answers": ["1000", "2000", "5000"]
+  },
+  {
+    "id": 48,
+    "question": "Quranda bu adda surə yoxdur.",
+    "correct_answer": "Adəm",
+    "wrong_answers": ["Muhəmməd", "İbrahim", "Məryəm"]
+  },
+  {
+    "id": 49,
+    "question": "Buxarinin səhih hədis barəsində neçə şərti vardır?",
+    "correct_answer": "8",
+    "wrong_answers": ["5", "6", "8"]
+  },
+  {
+    "id": 50,
+    "question": "Ömər hansı namazda qətlə yetirilmişdir?",
+    "correct_answer": "Fəcr",
+    "wrong_answers": ["Zöhr", "Əsr", "İşa"]
+  },
+  {
+    "id": 51,
+    "question": "Cənazə namazında neçə ruku vardır?",
+    "correct_answer": "0",
+    "wrong_answers": ["1", "2", "3"]
+  },
+  {
+    "id": 52,
+    "question": "Mömin müsəlmanın nəyidir?",
+    "correct_answer": "Güzgüsü",
+    "wrong_answers": ["Kölgəsi", "Sirdaşı", "Arxası"]
+  },
+  {
+    "id": 53,
+    "question": "Ömər neçə il xəlifə olmuşdur?",
+    "correct_answer": "10 il 6 ay",
+    "wrong_answers": ["11 il", "10 il", "11 il 6 ay"]
+  },
+  {
+    "id": 54,
+    "question": "İmam Buxarinin adı nədir?",
+    "correct_answer": "Muhəmməd ibn İsmail",
+    "wrong_answers": ["Muhəmməd ibn İshaq", "İsmail ibn Muhəmməd", "Həsən ibn İsmail"]
+  },
+  {
+    "id": 55,
+    "question": "Məkkə hicrətin neçənci ilində fəth olunmuşdur?",
+    "correct_answer": "8",
+    "wrong_answers": ["10", "9", "6"]
+  },
+  {
+    "id": 56,
+    "question": "İsa peyğəmbərə verilən səmavi kitab hansıdır?",
+    "correct_answer": "İncil",
+    "wrong_answers": ["Tövrat", "Zəbur", "Suhuf"]
+  },
+  {
+    "id": 57,
+    "question": "Musa peyğəmbərə verilən səmavi kitab hansıdır?",
+    "correct_answer": "Tövrat",
+    "wrong_answers": ["İncil", "Zəbur", "Suhuf"]
+  },
+  {
+    "id": 58,
+    "question": "Allahı söyənin hökmü nədir?",
+    "correct_answer": "Kafir",
+    "wrong_answers": ["Fasiq", "Asi", "Zalım"]
+  },
+  {
+    "id": 59,
+    "question": "Kəbədən öncə müsəlmanların qibləsi hara idi?",
+    "correct_answer": "Məscidul-Əqsa",
+    "wrong_answers": ["Uhud dağı", "Hira mağarası", "Bədr"]
+  },
+  {
+    "id": 60,
+    "question": "İsrail oğullarını Fironun əlindən hansı peyğəmbər xilas etmişdir?",
+    "correct_answer": "Musa",
+    "wrong_answers": ["İsa", "Süleyman", "Davud"]
+  },
+  {
+    "id": 61,
+    "question": "Cənazəni gördükdə nə etmək lazımdır?",
+    "correct_answer": "Ayağa qalxmaq",
+    "wrong_answers": ["Ordan uzaqlaşmaq", "Ağlamaq", "Salam vermək"]
+  },
+  {
+    "id": 62,
+    "question": "Təbuk döyüşündən yayınan üç nəfərin tövbəsi neçə gündən sonra qəbul olundu?",
+    "correct_answer": "50",
+    "wrong_answers": ["40", "3", "60"]
+  },
+  {
+    "id": 63,
+    "question": "Peyğəmbər vəfat etdikdə yeganə sağ qalan övladı kim idi?",
+    "correct_answer": "Fatimə",
+    "wrong_answers": ["Ummu Gülsüm", "Ruqiyyə", "Zeynəb"]
+  },
+  {
+    "id": 64,
+    "question": "Yəhudilərin düşmənlik etdikləri mələk hansıdır?",
+    "correct_answer": "Cəbrail",
+    "wrong_answers": ["Mikail", "İsrafil", "ər-Rad"]
+  },
+  {
+    "id": 65,
+    "question": "Kafir oğul vəfat etdikdə onun müsəlman atasına nə qədər miras düşür?",
+    "correct_answer": "Heç nə qədər",
+    "wrong_answers": ["Üçdə bir", "İkidə bir", "Dörddə bir"]
+  },
+  {
+    "id": 66,
+    "question": "Bu heyvanlardan hansını ehramda ikən öldürmək olar?",
+    "correct_answer": "Siçan",
+    "wrong_answers": ["Qarışqa", "Çəyirtkə", "Dovşan"]
+  },
+  {
+    "id": 67,
+    "question": "Bir rükətdə iki qiyamı və iki rukusu olan namaz hansıdır?",
+    "correct_answer": "Kusuf",
+    "wrong_answers": ["Bayram", "Vitr", "İstisqa"]
+  },
+  {
+    "id": 68,
+    "question": "Məkkə fəth edildikdə Kəbənin ətrafında neçə büt var idi?",
+    "correct_answer": "360",
+    "wrong_answers": ["420", "413", "386"]
+  },
+  {
+    "id": 69,
+    "question": "Zəkəriyyə peyğəmbərin sənəti nə idi?",
+    "correct_answer": "Dülgər",
+    "wrong_answers": ["Dərzi", "Balıqçı", "Çoban"]
+  },
+  {
+    "id": 70,
+    "question": "İbrahim peyğəmbəri oda atdıqda hansı heyvan üfürüb odu alovlandırırdı?",
+    "correct_answer": "Kərtənkələ",
+    "wrong_answers": ["İlan", "İt", "Qarğa"]
+  },
+  {
+    "id": 71,
+    "question": "Sehri insanlara imtahan üçün öyrədən mələk hansıdır?",
+    "correct_answer": "Harut və Marut",
+    "wrong_answers": ["Cəbrail", "İsrafil", "Mikail"]
+  },
+  {
+    "id": 72,
+    "question": "Allahın ad və sifətlərindən bəhs edən elm necə adlanır?",
+    "correct_answer": "Əqidə",
+    "wrong_answers": ["Hədis", "Fiqh", "Təcvid"]
+  },
+  {
+    "id": 73,
+    "question": "Allahdan qövmü üçün süfrə nazil etməsini istəyən peyğəmbər hansıdır?",
+    "correct_answer": "İsa",
+    "wrong_answers": ["Musa", "Saleh", "Nuh"]
+  },
+  {
+    "id": 74,
+    "question": "Bütün məxluqatın əcəli harada yazılmışdır?",
+    "correct_answer": "Lövhi Məhfuzda",
+    "wrong_answers": ["Suhufda", "İlliyyunda", "Siccində"]
+  },
+  {
+    "id": 75,
+    "question": "Qiyamət günü mələyin üfürəcəyi alət necə adlanır?",
+    "correct_answer": "Sur",
+    "wrong_answers": ["Qaib", "Nəfəq", "Məad"]
+  },
+  {
+    "id": 76,
+    "question": "Peyğəmbərin üzüyünün üzərində nə yazılmışdır?",
+    "correct_answer": "Muhəmmədən Rəsulullah",
+    "wrong_answers": ["Allahu Əkbər", "Lə iləhə illəllah", "Əlhəmdu Lilləh"]
+  },
+  {
+    "id": 77,
+    "question": "Bu günlərdən hansında sünnə orucu tutmaq qadağan olunmuşdur?",
+    "correct_answer": "Şənbə",
+    "wrong_answers": ["Çərbənbə", "Çərbənbə axşamı", "Cümə axşamı"]
+  },
+  {
+    "id": 78,
+    "question": "Ziyarət niyyəti ilə səfərə çıxmağın caiz olduğu neçə məscid var?",
+    "correct_answer": "3",
+    "wrong_answers": ["4", "5", "6"]
+  }
+]

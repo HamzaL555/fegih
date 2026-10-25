@@ -1,0 +1,69 @@
+{
+  "expo": {
+    "name": "Fegih",
+    "slug": "fegih",
+    "version": "1.0.0",
+    "scheme": "fegih",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "icon": "./assets/icon.png",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "az.fegih.mobile",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Fegih namaz və qibla vaxtlarını hesablamaq üçün məkanınızı istifadə edir.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Fegih namaz vaxtı bildirişlərini göndərmək üçün məkanınızı istifadə edir.",
+        "NSMotionUsageDescription": "Fegih qibla istiqamətini göstərmək üçün kompas məlumatından istifadə edir.",
+        "NSPhotoLibraryUsageDescription": "Profil şəklini seçmək üçün qaleriyanıza giriş verir.",
+        "NSCameraUsageDescription": "Profil şəkli çəkmək üçün kameradan istifadə edir.",
+        "NSUserTrackingUsageDescription": "Fegih reklam izləməsi üçün məlumat toplamır."
+      }
+    },
+    "android": {
+      "package": "az.fegih.mobile",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundColor": "#0F766E"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png",
+      "name": "Fegih",
+      "shortName": "Fegih",
+      "lang": "az",
+      "dir": "ltr",
+      "description": "İslami viktorina, məlumat və kitab mağazası",
+      "themeColor": "#0F766E",
+      "backgroundColor": "#F5F8F7",
+      "display": "standalone",
+      "startUrl": "/",
+      "scope": "/",
+      "orientation": "portrait",
+      "barStyle": "default"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-localization",
+      "expo-secure-store",
+      "expo-image-picker",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Fegih namaz vaxtı bildirişləri üçün məkanınızı istifadə edir."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification.png",
+          "color": "#0F766E",
+          "defaultChannel": "prayer-reminders"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

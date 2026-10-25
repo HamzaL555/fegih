@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 33% 98%;
+    --foreground: 163 35% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 163 35% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 163 35% 12%;
+    --primary: 160 72% 25%;
+    --primary-foreground: 40 40% 98%;
+    --secondary: 40 30% 94%;
+    --secondary-foreground: 163 35% 15%;
+    --muted: 40 25% 94%;
+    --muted-foreground: 160 10% 42%;
+    --accent: 43 65% 90%;
+    --accent-foreground: 35 55% 22%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 155 18% 85%;
+    --input: 155 18% 82%;
+    --ring: 158 62% 34%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 165 30% 7%;
+    --foreground: 42 30% 94%;
+    --card: 165 27% 10%;
+    --card-foreground: 42 30% 94%;
+    --popover: 165 27% 10%;
+    --popover-foreground: 42 30% 94%;
+    --primary: 157 55% 45%;
+    --primary-foreground: 165 40% 7%;
+    --secondary: 164 20% 15%;
+    --secondary-foreground: 42 30% 94%;
+    --muted: 164 20% 14%;
+    --muted-foreground: 155 12% 65%;
+    --accent: 155 22% 17%;
+    --accent-foreground: 43 70% 85%;
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 160 18% 20%;
+    --input: 160 18% 23%;
+    --ring: 157 55% 45%;
+  }
+
+  * { @apply border-border; }
+  html { scroll-behavior: smooth; }
+  body {
+    background-image:
+      radial-gradient(circle at 8% 4%, hsl(var(--primary) / 0.07) 0, transparent 24rem),
+      radial-gradient(circle at 92% 16%, hsl(43 80% 55% / 0.07) 0, transparent 22rem);
+    background-attachment: fixed;
+  }
+  ::selection { background: hsl(var(--primary) / 0.2); }
+}
+
+@layer components {
+  .islamic-grid {
+    background-image:
+      linear-gradient(30deg, hsl(var(--primary) / 0.035) 12%, transparent 12.5%, transparent 87%, hsl(var(--primary) / 0.035) 87.5%, hsl(var(--primary) / 0.035)),
+      linear-gradient(150deg, hsl(var(--primary) / 0.035) 12%, transparent 12.5%, transparent 87%, hsl(var(--primary) / 0.035) 87.5%, hsl(var(--primary) / 0.035)),
+      linear-gradient(30deg, hsl(var(--primary) / 0.035) 12%, transparent 12.5%, transparent 87%, hsl(var(--primary) / 0.035) 87.5%, hsl(var(--primary) / 0.035)),
+      linear-gradient(150deg, hsl(var(--primary) / 0.035) 12%, transparent 12.5%, transparent 87%, hsl(var(--primary) / 0.035) 87.5%, hsl(var(--primary) / 0.035));
+    background-size: 42px 73px;
+  }
+}

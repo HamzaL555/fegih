@@ -1,0 +1,38 @@
+{
+  "name": "Fegih — İslami viktorina və kitab mağazası",
+  "short_name": "Fegih",
+  "description": "İslami viktorina, Quran məlumatları, namaz vaxtları, qıbla və kitab mağazası.",
+  "lang": "az",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F5F8F7",
+  "theme_color": "#0F766E",
+  "categories": [
+    "education",
+    "books",
+    "lifestyle"
+  ],
+  "icons": [
+    {
+      "src": "/pwa-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

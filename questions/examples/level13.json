@@ -1,0 +1,222 @@
+[
+  {
+    "id": 1,
+    "question": "Qadisiyyə döyüşündə müsəlman qoşununun başçısı kim idi?",
+    "correct_answer": "Səd ibn Əbu Vaqqas",
+    "wrong_answers": [
+      "Xalid ibn Valid",
+      "Əli ibn Əbu Talib",
+      "Usəmə ibn Zeyd"
+    ]
+  },
+  {
+    "id": 2,
+    "question": "Peyğəmbər kimə \"Atam anam sənə fəda olsun\" demişdir?",
+    "correct_answer": "Səd ibn Malik",
+    "wrong_answers": [
+      "Əbu Bəkr",
+      "Əli ibn Əbu Talib",
+      "Əmisi Abbasa"
+    ]
+  },
+  {
+    "id": 3,
+    "question": "Peyğəmbərin məktubunu Kisraya hansı səhabə aparmışdır?",
+    "correct_answer": "Abdullah ibn Huzəfə",
+    "wrong_answers": [
+      "Səd ibn Məlik",
+      "Dəhiyyə əl-Kəlbi",
+      "Cəfər ibn Əbu Talib"
+    ]
+  },
+  {
+    "id": 4,
+    "question": "Dubah bintu əz-Zubeyr hansı səhabənin zövcəsi idi?",
+    "correct_answer": "Miqdəd ibn əl-Əsvad",
+    "wrong_answers": [
+      "Kəb ibn Məlik",
+      "Səb ibn Ubədə",
+      "Hanzələ"
+    ]
+  },
+  {
+    "id": 5,
+    "question": "Quranda 1000 əmr və 1000 qadağa olan surə hansıdır?",
+    "correct_answer": "əl-Bəqərə",
+    "wrong_answers": [
+      "əl-Maidə",
+      "Ali İmran",
+      "ən-Nisa"
+    ]
+  },
+  {
+    "id": 6,
+    "question": "İslamda qədər barəsində ilk şübhələri kim yaymışdır?",
+    "correct_answer": "Susin",
+    "wrong_answers": [
+      "Markos",
+      "Cəd ibn Dirhəm",
+      "Cəhm ibn Saffan"
+    ]
+  },
+  {
+    "id": 7,
+    "question": "Bədr döyüşündə İblis kimin qiyafəsində müşriklərin yanına gəlir?",
+    "correct_answer": "Suraqa ibn Məlik",
+    "wrong_answers": [
+      "Məlik ibn Cəşim",
+      "Savad ibn Qarib",
+      "Əbu Ləhəb"
+    ]
+  },
+  {
+    "id": 8,
+    "question": "əl-Fatihə surəsində neçə hərf var?",
+    "correct_answer": "113",
+    "wrong_answers": [
+      "138",
+      "142",
+      "125"
+    ]
+  },
+  {
+    "id": 9,
+    "question": "Quranda atası və övladı olmayan insanı necə adlandırır?",
+    "correct_answer": "Kələlə",
+    "wrong_answers": [
+      "Yətim",
+      "Aqim",
+      "Ridah"
+    ]
+  },
+  {
+    "id": 10,
+    "question": "Şama təyin edilən ilk müsəlman əmir kimdir?",
+    "correct_answer": "Əbu Ubeyd ibn əl-Cərrah",
+    "wrong_answers": [
+      "Müaviyə ibn Əbu Sufyan",
+      "Səd ibn Əbu Vaqqas",
+      "Əbu Talha əl-Ənsari"
+    ]
+  },
+  {
+    "id": 11,
+    "question": "əl-Bəqərə surəsində ölümdən sonra dirilməyə neçə misal vardır?",
+    "correct_answer": "5",
+    "wrong_answers": [
+      "6",
+      "4",
+      "7"
+    ]
+  },
+  {
+    "id": 12,
+    "question": "Peyğəmbərin qızı Zeynəb hicrətin neçənci ilində vəfat etmişdir?",
+    "correct_answer": "8-ci",
+    "wrong_answers": [
+      "7-ci",
+      "6-cı",
+      "9-cu"
+    ]
+  },
+  {
+    "id": 13,
+    "question": "Mədinədə ilk cümə namazını kim qıldırmışdır?",
+    "correct_answer": "Musab ibn Umeyr",
+    "wrong_answers": [
+      "Muhəmməd peyğəmbər",
+      "Muaz ibn Cəbəl",
+      "Əbu Bəkr"
+    ]
+  },
+  {
+    "id": 14,
+    "question": "Mədinəyə ilk dəfə hicrət edən kim olmuşdur?",
+    "correct_answer": "Əbu Sələmə ibn Abdul-Əsəd",
+    "wrong_answers": [
+      "Musab ibn Umeyr",
+      "Muaz ibn Cəbəl",
+      "Abdullah ibn Məsud"
+    ]
+  },
+  {
+    "id": 15,
+    "question": "Peyğəmbər namaz qılarkən onu boğan kafir kim idi?",
+    "correct_answer": "Uqbə ibn Əbu Muit",
+    "wrong_answers": [
+      "Əsvəd ibn Əbu Yağus",
+      "əl-As ibn Vail",
+      "Əsvəd ibn əl-Muttalib"
+    ]
+  },
+  {
+    "id": 16,
+    "question": "Ömər ibn əl-Xəttabın anasının adı nə idi?",
+    "correct_answer": "Həntəmə bintu Hişam",
+    "wrong_answers": [
+      "Uməmə bintu əl-Həris",
+      "Xədicə bintu Mərvan",
+      "Sara bintu İdris"
+    ]
+  },
+  {
+    "id": 17,
+    "question": "Ənəs ibn Məlik neçənci ildə vəfat etmişdir?",
+    "correct_answer": "Hicrətin 79-cu ili",
+    "wrong_answers": [
+      "Hicrətin 69-cu ili",
+      "Hicrətin 59-cu ili",
+      "Hicrətin 51-ci ili"
+    ]
+  },
+  {
+    "id": 18,
+    "question": "İmam Əhməd nə zaman vəfat etmişdir?",
+    "correct_answer": "Hicrətin 241-ci ili",
+    "wrong_answers": [
+      "Hicrətin 240-cı ili",
+      "Hicrətin 242-ci ili",
+      "Hicrətin 243-cü ili"
+    ]
+  },
+  {
+    "id": 19,
+    "question": "Ən son vəfat edən möminlərin anası kimdir?",
+    "correct_answer": "Ummu Sələmə",
+    "wrong_answers": [
+      "Aişə",
+      "Hafsa",
+      "Safiyya"
+    ]
+  },
+  {
+    "id": 20,
+    "question": "İbn Qeyyim \"Miftahu Dərus-Səadə\" kitabında elmin fəzilətinə dair neçə səbəb gətirib?",
+    "correct_answer": "153",
+    "wrong_answers": [
+      "167",
+      "134",
+      "149"
+    ]
+  },
+  {
+    "id": 21,
+    "question": "Peyğəmbərin bibisi oğlu və eyni zamanda Xədicənin qardaşı oğlu kimdir?",
+    "correct_answer": "Zubeyr ibn Avvam",
+    "wrong_answers": [
+      "Talha ibn Ubeydullah",
+      "Muaviyə ibn Əbu Suyfan",
+      "Abdur-Rahman ibn Auf"
+    ]
+  },
+  {
+    "id": 22,
+    "question": "Bunlardan hansı Səhih Buxarini şərh etməmişdir?",
+    "correct_answer": "Nəvəvi",
+    "wrong_answers": [
+      "İbn Rəcəb",
+      "əl-Ayni",
+      "Qıstilləni"
+    ]
+  }
+]

@@ -1,0 +1,123 @@
+[
+  {
+    "id": 1,
+    "question": "Bunlardan hansı Peyğəmbərin bibisidir?",
+    "correct_answer": "Barrah",
+    "wrong_answers": ["Ummu Gülsüm", "Durrah", "Ummu Haram"]
+  },
+  {
+    "id": 2,
+    "question": "Bunlardan hansı Peyğəmbərin bibisi deyil?",
+    "correct_answer": "Dubah",
+    "wrong_answers": ["Ummu Həni", "Əvra", "əl-Beyda"]
+  },
+  {
+    "id": 3,
+    "question": "Peyğəmbərin yeddinci zövcəsi kim olmuşdur?",
+    "correct_answer": "Cuveyhira",
+    "wrong_answers": ["Zeynəb", "Ummu Həbibə", "Meymunə"]
+  },
+  {
+    "id": 4,
+    "question": "Əs-Səib, Abdul-Kəbə, əz-Zubeyr Peyğəmbərin hansı bibisinin uşaqları idi?",
+    "correct_answer": "Safiyya",
+    "wrong_answers": ["Atika", "Əmeymə", "Ummu Həni"]
+  },
+  {
+    "id": 5,
+    "question": "İlk dəfə Qurana hərəkələri kim qoymuşdur?",
+    "correct_answer": "Nasr ibn Asim",
+    "wrong_answers": ["Sibavey", "İbn Hişam", "İbn Məlik"]
+  },
+  {
+    "id": 6,
+    "question": "Abbasilərin hakimiyyəti neçə il sürmüşdür?",
+    "correct_answer": "524 il",
+    "wrong_answers": ["534 il", "514 il", "544 il"]
+  },
+  {
+    "id": 7,
+    "question": "Abbasilər dövlətinin sonuncu xəlifəsi kim olmuşdur?",
+    "correct_answer": "əl-Mustasamu Billəhi",
+    "wrong_answers": ["Mustafa əl-Hiləli", "Nasir əl-Bağdadi", "Abdul-Kərim əl-Hiləli"]
+  },
+  {
+    "id": 8,
+    "question": "Bədr döyüşündə öldürülən bu müşriklərdən hansının 140 yaşı vardı?",
+    "correct_answer": "Şeybə ibn Rabi",
+    "wrong_answers": ["Həris ibn Amir", "ən-Nadr ibn əl-Həris", "Umeyr ibn Osman"]
+  },
+  {
+    "id": 9,
+    "question": "Bağdad şəhərini kim tikdirmişdir?",
+    "correct_answer": "Əbu Cəfər əl-Mənsur",
+    "wrong_answers": ["İbrahim ibn əl-Əştər", "Marvan ibn əl-Həkəm", "Ömər ibn Abdul-Əziz"]
+  },
+  {
+    "id": 10,
+    "question": "O hansı xəlifədir ki özündən sonra dörd oğlu xəlifə olmuşdur?",
+    "correct_answer": "Abdul-Məlik ibn Marvan",
+    "wrong_answers": ["Muaviyə ibn Əbu Sufyan", "Motəsim", "Əbu Cəfər əl-Mənsur"]
+  },
+  {
+    "id": 11,
+    "question": "Ömər xəlifə olduqda Əbu Osmana məktubu kim ilə göndərmişdir?",
+    "correct_answer": "Utbəh ibn Fərvad",
+    "wrong_answers": ["Müavviz ibn Amr", "İkrimə ibn Əbu Cəhl", "İbrahim ibn Yezid"]
+  },
+  {
+    "id": 12,
+    "question": "Peyğəmbərin xəbər verdiyi Hicazda çaxacaq od nə zaman baş vermişdir?",
+    "correct_answer": "Hicrətin 654-cü ili",
+    "wrong_answers": ["Hicrətin 632-ci ili", "Hicrətin 673-cü ili", "Hicrətin 683-cü ili"]
+  },
+  {
+    "id": 13,
+    "question": "Əbu Talha Peyğəmbərə yemək üçün hansı heyvanı hədiyyə göndərmişdir?",
+    "correct_answer": "Dovşan",
+    "wrong_answers": ["Dəvə", "Varan", "Keçi"]
+  },
+  {
+    "id": 14,
+    "question": "Xəndək döyüşündə Sədi vuran Qureyşli kim olmuşdur?",
+    "correct_answer": "Həbbəh ibn al-Araqah",
+    "wrong_answers": ["Bəkkər ibn Sovdə", "Səd ibn Məsədəh", "Əbu Nuh ibn Asim"]
+  },
+  {
+    "id": 15,
+    "question": "İranda yaranan Babiliyyə firqəsinin banisi kim olmuşdur?",
+    "correct_answer": "Muhəmməd əş-Şirazi",
+    "wrong_answers": ["İbrahim əl-Qumi", "Mirzaxan ət-Tabrizi", "Nimətullah əl İsfahani"]
+  },
+  {
+    "id": 16,
+    "question": "İlk dəfə övliyaların peyğəmbərlərdən üstün olduğunu iddia edən kim olmuşdur?",
+    "correct_answer": "Əhməd ibn Əbu əl-Həvari",
+    "wrong_answers": ["İbrahim əş-Şirazi", "İbrahim əl-Əştəri", "Mənsur ibn Cəfər"]
+  },
+  {
+    "id": 17,
+    "question": "Nuhun gəmisi hansı dağın üstündə qərar tutmuşdur?",
+    "correct_answer": "Cudi",
+    "wrong_answers": ["Tur", "Gəmi Qaya", "Sina"]
+  },
+  {
+    "id": 18,
+    "question": "Əbu Hüreyrə neçə hədis rəvayət etmişdir?",
+    "correct_answer": "5374",
+    "wrong_answers": ["5336", "5356", "5382"]
+  },
+  {
+    "id": 19,
+    "question": "Bəra ibn əl-Azib hansı döyüşdə şəhid olmuşdur?",
+    "correct_answer": "Tustər",
+    "wrong_answers": ["Umvars", "Qadisiyyə", "Cisr"]
+  },
+  {
+    "id": 20,
+    "question": "Bu şeyxlərdən hansı Əbu Hənifənin şeyxi olmayıb?",
+    "correct_answer": "Muhəmməd ibn Şihəb",
+    "wrong_answers": ["İkrimə", "Ata ibn Əbu Rabah", "Nəfi"]
+  }
+ 
+]

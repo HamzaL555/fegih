@@ -1,0 +1,356 @@
+[
+  {
+    "id": 1,
+    "question": "Məkkənin fəthi günü Peyğəmbərin verdiyi xütbəni onun üçün yazmasını kim istəmişdi?",
+    "correct_answer": "Əbu Şəh",
+    "wrong_answers": ["Uveys əl-Qarni", "Zul-Xuveysra", "Abdullah ibn Salam"]
+  },
+  {
+    "id": 2,
+    "question": "Abdullah ibn Zubeyrin anasının adı nə idi?",
+    "correct_answer": "Əsma bintu Əbu Bakr",
+    "wrong_answers": ["Leyla bintu Osman", "Zeynəb bintu Abbas", "Ruqiyyə bintu Xalid"]
+  },
+  {
+    "id": 3,
+    "question": "Yuxu neçə cür olur?",
+    "correct_answer": "3",
+    "wrong_answers": ["2", "1", "4"]
+  },
+  {
+    "id": 4,
+    "question": "Firdovs Cənnətindən sonra nə gəlir?",
+    "correct_answer": "Ərş",
+    "wrong_answers": ["Kövsər", "Səma", "Bulud"]
+  },
+  {
+    "id": 5,
+    "question": "Əli xəlifə olduğu dövrdə paytaxtı Mədinədən hansı şəhərə köçürdü?",
+    "correct_answer": "Kufəyə",
+    "wrong_answers": ["Nəcəfə", "Bəsrəyə", "Dəməşqə"]
+  },
+  {
+    "id": 6,
+    "question": "Bəqi qəbirsanlığında ilk dəfn olunan möminlərin anası kimdir?",
+    "correct_answer": "Zeynəb",
+    "wrong_answers": ["Aişə", "Ummu Sələmə", "Mariya"]
+  },
+  {
+    "id": 7,
+    "question": "Dənizdə cihad hansı əmirin vaxtında başlanmışdır?",
+    "correct_answer": "Muaviyə",
+    "wrong_answers": ["Abdul Malik ibn Mərvan", "Mərvan ibn Həkəm", "Ömər ibn Abdul Əziz"]
+  },
+  {
+    "id": 8,
+    "question": "Peyğəmbər neçə dəfə Ramazan orucu tutmuşdur?",
+    "correct_answer": "9",
+    "wrong_answers": ["23", "10", "13"]
+  },
+  {
+    "id": 9,
+    "question": "Yusuf peyğəmbərin neçə qardaşı var idi?",
+    "correct_answer": "12",
+    "wrong_answers": ["11", "9", "10"]
+  },
+  {
+    "id": 10,
+    "question": "Yusuf peyğəmbərin neçə doğma qardaşı var idi?",
+    "correct_answer": "1",
+    "wrong_answers": ["12", "2", "9"]
+  },
+  {
+    "id": 11,
+    "question": "Cənnətə sorğu-sualsız girən səhabə kimdir?",
+    "correct_answer": "Ukaşə ibn Mihsən",
+    "wrong_answers": ["Salman Farisi", "Muaz ibn Cəbəl", "Həmzə"]
+  },
+  {
+    "id": 12,
+    "question": "Şam əhli üçün miqat hansıdır?",
+    "correct_answer": "əl-Cuhfə",
+    "wrong_answers": ["Yələmləm", "Zul-Huleyfə", "Qarn əl-Mənəzil"]
+  },
+  {
+    "id": 13,
+    "question": "Hudeybiyyə sülhündə Peyğəmbərdən sonra ilk olaraq saçını qırxan səhabə kimdir?",
+    "correct_answer": "Əbu Talha",
+    "wrong_answers": ["Əbu Ubeyd ibn al-Cərrah", "Əbu Bakr", "Əli ibn Əbu Talib"]
+  },
+  {
+    "id": 14,
+    "question": "Peyğəmbərin dövründə zina edib daş-qalaq olunan səhabə kimdir?",
+    "correct_answer": "Maaz ibn Məlik",
+    "wrong_answers": ["Səd ibn Məlik", "Bəra ibn əl-Azib", "Abdullah ibn Huzeyfə"]
+  },
+  {
+    "id": 15,
+    "question": "\"Həqiqətən biz sənə aydın bir qələbə verdik\" ayəsi harada nazil olmuşdur?",
+    "correct_answer": "Hudeybiyyədə",
+    "wrong_answers": ["Bədrdə", "Xəndəkdə", "Huneyndə"]
+  },
+  {
+    "id": 16,
+    "question": "Cənnət əhlinin ilk yeyəcəyi şey nə olacaqdır?",
+    "correct_answer": "Akulanın ciyəri",
+    "wrong_answers": ["Bildirçin əti", "Bal", "Qırmızı dəvənin əti"]
+  },
+  {
+    "id": 17,
+    "question": "Məscidul-Aqsa Kəbədən neçə il sonra tikilmişdir?",
+    "correct_answer": "40 il",
+    "wrong_answers": ["100 il", "150 il", "80 il"]
+  },
+  {
+    "id": 18,
+    "question": "Anasından sonra Peyğəmbəri ilk dəfə əmizdirən qadın kim olmuşdur?",
+    "correct_answer": "Suveybə",
+    "wrong_answers": ["Həlimə", "Bərirah", "Leyla"]
+  },
+  {
+    "id": 19,
+    "question": "Bu səhabələrdən hansı Yəməmə döyüşündə şəhid olmuşdur?",
+    "correct_answer": "Utbə ibn Ğazvan",
+    "wrong_answers": ["Xalid ibn Səid", "Əbən ibn Səid", "Cəfər ibn Əbu Talib"]
+  },
+  {
+    "id": 20,
+    "question": "Muslim hicrətin neçənci ilində anadan olmuşdur?",
+    "correct_answer": "204",
+    "wrong_answers": ["202", "201", "207"]
+  },
+  {
+    "id": 21,
+    "question": "Peyğəmbərə iman gətirib, lakin onunla qarşılaşmayan insan necə adlanır?",
+    "correct_answer": "Muxadram",
+    "wrong_answers": ["Səhabə", "Təbiin", "Sabiqin"]
+  },
+  {
+    "id": 22,
+    "question": "Buxari harada vəfat etmişdir?",
+    "correct_answer": "Səmərqənddə",
+    "wrong_answers": ["Buxarada", "Mədinədə", "Məkkədə"]
+  },
+  {
+    "id": 23,
+    "question": "Məhsul yağış suyu ilə bitərsə yığılmış məhslunun neçə hissəsi zəkat verilir?",
+    "correct_answer": "Onda bir",
+    "wrong_answers": ["Üçdə bir", "Yeddidə bir", "Beşdə bir"]
+  },
+  {
+    "id": 24,
+    "question": "Hansı səhabənin ölümü ilə Allahın ərşi titrəyir?",
+    "correct_answer": "Səd ibn Muaz",
+    "wrong_answers": ["Umeyr ibn Səd", "Saxr ibn Hərb", "Ubədə ibn Samit"]
+  },
+  {
+    "id": 25,
+    "question": "Peyğəmbər hansı səhabədən eşitdiyi hadisəni rəvayət etmişdir?",
+    "correct_answer": "Təmim əd-Dərimi",
+    "wrong_answers": ["Əbən ibn Sad", "Cəfər ibn Əbu Talib", "Əli ibn Əbu Talib"]
+  },
+  {
+    "id": 26,
+    "question": "İlk dəfə azanı yuxusunda görən səhabə kimdir?",
+    "correct_answer": "Abdullah ibn Zeyd",
+    "wrong_answers": ["Səbit ibn Zeyd", "Hətib ibn Əbu Bəltəh", "Suheyl ibn Amr"]
+  },
+  {
+    "id": 27,
+    "question": "Peyğəmbərə Muhəmməd adını kim qoymuşdur?",
+    "correct_answer": "Babası Abdul-Muttalib",
+    "wrong_answers": ["Anası Əminə", "Atası Abdullah", "Süd anası Həlimə"]
+  },
+  {
+    "id": 28,
+    "question": "Peyğəmbərin əmisi Əbu Ləhəbin adı nədir?",
+    "correct_answer": "Abdul-İzz",
+    "wrong_answers": ["Səfvan", "Əshəmə", "Suheyb"]
+  },
+  {
+    "id": 29,
+    "question": "\"Əs-Sarimul Məslul\" kitabının müəllifi kimdir?",
+    "correct_answer": "İbn Teymiyyə",
+    "wrong_answers": ["İbn Cərir", "İbn Kəsir", "Şövkani"]
+  },
+  {
+    "id": 30,
+    "question": "Peyğəmbərin məktubunu cıran padşah hansıdır?",
+    "correct_answer": "Kisra",
+    "wrong_answers": ["Qeysər", "Firon", "Nəcaşi"]
+  },
+  {
+    "id": 31,
+    "question": "Saleh peyğəmbərin möcüzəsi nə idi?",
+    "correct_answer": "Qayadan çıxan dəvə",
+    "wrong_answers": ["İlana dönən əsa", "Xəstəyə şəfa verməsi", "Daşdan çıxan bulaqlar"]
+  },
+  {
+    "id": 32,
+    "question": "Səmada mələklərin ibadət etdikləri yer necə adlanır?",
+    "correct_answer": "Beytul-Məmur",
+    "wrong_answers": ["Beytul-İbadə", "Beytul-Mələikə", "Beytul-Atiq"]
+  },
+  {
+    "id": 33,
+    "question": "Müşriklər Kəbə ətrafında ibadəti necə edirdilər?",
+    "correct_answer": "Fit və əl çalmaqla",
+    "wrong_answers": ["Od yandırmaqla", "Çalıb oynamaqla", "Qurban kəsməklə"]
+  },
+  {
+    "id": 34,
+    "question": "İmam Zəhəbi hicrətin neçənci ilində anadan olmuşdur?",
+    "correct_answer": "673",
+    "wrong_answers": ["674", "672", "671"]
+  },
+  {
+    "id": 35,
+    "question": "Birinci Aqabə beyətində neçə nəfər var idi?",
+    "correct_answer": "12",
+    "wrong_answers": ["26", "24", "18"]
+  },
+  {
+    "id": 36,
+    "question": "Tabari ilk dəfə təfsir kitabını yazdıqda neçə səhifədən ibarət idi?",
+    "correct_answer": "30 min",
+    "wrong_answers": ["25 min", "20 min", "10 min"]
+  },
+  {
+    "id": 37,
+    "question": "Meyvələri iblisin başına bənzəyən ağac hansıdır?",
+    "correct_answer": "Zəqqum",
+    "wrong_answers": ["Nar", "Xurma", "Alma"]
+  },
+  {
+    "id": 38,
+    "question": "Peyğəmbər bu zövcələrindən hansı birini boşamışdır?",
+    "correct_answer": "Fatimə bintu Dahhak",
+    "wrong_answers": ["Meymunə bintu əl-Həris", "Zeynəb bintu Cəhş", "Cuveyrah bintu əl-Həris"]
+  },
+  {
+    "id": 39,
+    "question": "Osman ibn Affan hansı namazdan sonra dəfn edilmişdir?",
+    "correct_answer": "Məğrib",
+    "wrong_answers": ["İşa", "Sübh", "Əsr"]
+  },
+  {
+    "id": 40,
+    "question": "Əbu Hənifə hicrətin neçənci ilində vəfat etmişdir?",
+    "correct_answer": "150-ci",
+    "wrong_answers": ["145", "140-cı", "155-ci"]
+  },
+  {
+    "id": 41,
+    "question": "Dörd məzhəb alimlərindən hansı daha az yaşamışdır?",
+    "correct_answer": "Şafi",
+    "wrong_answers": ["Əbu Hənifə", "Malik", "Əhməd"]
+  },
+  {
+    "id": 42,
+    "question": "\"əl-İqnə\" kitabı hansı fiqh məzhəbinin kitablarından sayılır?",
+    "correct_answer": "Hənbəli",
+    "wrong_answers": ["Maliki", "Hənəfi", "Şafi"]
+  },
+  {
+    "id": 43,
+    "question": "Kəb əl-Əhbər hansı xəlifənin dövründə vəfat etmişdir?",
+    "correct_answer": "Osman",
+    "wrong_answers": ["Əbu Bakr", "Ömər", "Əli"]
+  },
+  {
+    "id": 44,
+    "question": "Abdullah ibn Xəbbəb hicrətin 37-ci ilində kimlər tərəfindən öldürülmüşdür?",
+    "correct_answer": "Xavariclər",
+    "wrong_answers": ["Qədərilər", "Motəzillər", "Cəhmiyyələr"]
+  },
+  {
+    "id": 45,
+    "question": "Həccin neçə ruknu vardır?",
+    "correct_answer": "4",
+    "wrong_answers": ["3", "6", "5"]
+  },
+  {
+    "id": 46,
+    "question": "əl-Cuhfə hansı ərazinin miqatıdır?",
+    "correct_answer": "Şam",
+    "wrong_answers": ["Hicaz", "Mədinə", "Məkkə"]
+  },
+  {
+    "id": 47,
+    "question": "Vida tavafı həccin hansı hökmündəndir?",
+    "correct_answer": "Vaciblərindən",
+    "wrong_answers": ["Sünnələrindən", "Ruknlarından", "Şərtlərindən"]
+  },
+  {
+    "id": 48,
+    "question": "Əl-Əbadilə hansı firqənin qollarındandır?",
+    "correct_answer": "Xavaric",
+    "wrong_answers": ["Motəzilə", "Cəhmiyyə", "Murciyə"]
+  },
+  {
+    "id": 49,
+    "question": "Murciyə firqəsi harada yaranmışdır?",
+    "correct_answer": "Bəsrədə",
+    "wrong_answers": ["Dəməşqdə", "Məkkədə", "Mədinədə"]
+  },
+  {
+    "id": 50,
+    "question": "\"Böyük günah sahibi Axirətdə əbədi cəhənnəmlik, bu dünyada isə nə müsəlman nə də ki kafirdir\" deyən firqə hansıdır?",
+    "correct_answer": "Motəzilə",
+    "wrong_answers": ["Xavaric", "Murciyə", "Qədəriyyə"]
+  },
+  {
+    "id": 51,
+    "question": "10 dəvənin zəkatı nə qədərdir?",
+    "correct_answer": "2 qoç",
+    "wrong_answers": ["1 dəvə", "2 dəvə", "1 inək"]
+  },
+  {
+    "id": 52,
+    "question": "Bunlardan hansı Cənnətlə müjdələnən 10 səhabədən biri deyildir?",
+    "correct_answer": "Abbas ibn Abdul-Mutallib",
+    "wrong_answers": ["Əbu Ubeyd ibn Cərrah", "Talha ibn Ubeydullah", "Zeyd ibn Səbit"]
+  },
+  {
+    "id": 53,
+    "question": "Xədicədən sonra Peyğəmbərin ilk zövcəsi kim olmuşdur?",
+    "correct_answer": "Sovda",
+    "wrong_answers": ["Aişə", "Hafsa", "Ummu Gülsüm"]
+  },
+  {
+    "id": 54,
+    "question": "Əlinin neçə övladı olmuşdur?",
+    "correct_answer": "14 oğlan 19 qız",
+    "wrong_answers": ["12 oğlan 15 qız", "14 oğlan 12 qız", "16 oğlan 14 qızı"]
+  },
+  {
+    "id": 55,
+    "question": "Bu surələrdən hansı səcdə ayəsi ilə bitmir?",
+    "correct_answer": "ər-Rad",
+    "wrong_answers": ["əl-Ələq", "əl-Əraf", "ən-Nəcm"]
+  },
+  {
+    "id": 56,
+    "question": "Peyğəmbərə ilk beyət edən ənsar qadın kimdir?",
+    "correct_answer": "Nəsibə bintu Kəb",
+    "wrong_answers": ["Ummu Haran", "Ummu Atiyyə", "Uməmə bintu Əbul-As"]
+  },
+  {
+    "id": 57,
+    "question": "Peyğəmbərin öz əli ilə öldürdüyü müşrik kimdir?",
+    "correct_answer": "Ubey ibn Xələf",
+    "wrong_answers": ["Amr ibn Əbul Bukeyr", "Abdullah ibn Suheyl", "Əbu Cəhl"]
+  },
+  {
+    "id": 58,
+    "question": "Bunlardan hansı Uhud döyüşündə iştirak etmişdir?",
+    "correct_answer": "Huzeyfə ibn Yəmən",
+    "wrong_answers": ["Əbu Səid əl-Xudri", "Zeyd ibn Ərqam", "Zeyd ibn Səbit"]
+  },
+  {
+    "id": 59,
+    "question": "Xədicə vəfat etdikdən nə qədər sonra Peyğəmbər Sovdə ilə evlənir?",
+    "correct_answer": "1 ay",
+    "wrong_answers": ["3 ay", "6 ay", "9 ay"]
+  }
+]
