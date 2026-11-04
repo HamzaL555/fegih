@@ -1,7 +1,7 @@
 {
   "common": {
     "appName": "Fegih",
-    "loading": "Loading‚‚Ç¨¶",
+    "loading": "Loading‚Ä¶",
     "retry": "Try again",
     "error": "Something went wrong.",
     "empty": "There is nothing to show yet.",
@@ -103,7 +103,7 @@
     "answerSubmitted": "Answer submitted.",
     "correct": "Correct",
     "incorrect": "Incorrect",
-    "loadingGame": "Preparing your game‚‚Ç¨¶",
+    "loadingGame": "Preparing your game‚Ä¶",
     "noActiveGame": "No active game.",
     "selectCategory": "Category",
     "allCategories": "All categories",
@@ -127,7 +127,7 @@
     "sualCavab": "Question-Answer",
     "sualCavabSubtitle": "15 levels, 10 questions each. The points grow with the level.",
     "ruleLevels": "Each level has 10 questions; get 10/10 right to unlock the next level.",
-    "rulePoints": "A correct answer is worth 1 point at level 1, 2 at level 2 ‚‚Ç¨¶ 15 at level 15.",
+    "rulePoints": "A correct answer is worth 1 point at level 1, 2 at level 2 ‚Ä¶ 15 at level 15.",
     "ruleReset": "One wrong answer resets the points to zero and restarts at level 1.",
     "level": "Level",
     "levelName": "Level {{level}} ¬∑ {{name}}",
@@ -136,7 +136,7 @@
     "reachedLevel": "Level reached",
     "scoreReset": "Your score was {{lost}} and has been reset to zero.",
     "runOver": "Run over",
-    "runOverHint": "The wrong answer reset your points. Try again ‚‚Ç¨‚Äù the questions will be different.",
+    "runOverHint": "The wrong answer reset your points. Try again ‚Äî the questions will be different.",
     "completedRun": "Congratulations! You cleared every level",
     "completedRunHint": "All 15 levels were cleared 10/10. You collected the maximum score.",
     "points": "points",
@@ -177,7 +177,7 @@
     "pointsDiscount": "Points discount",
     "yourPoints": "Your points: {{points}}",
     "activeDiscount": "{{percent}}% discount active (from {{points}} points)",
-    "nextTier": "Next: {{points}} points ‚‚Ä†‚Äô {{percent}}% ({{missing}} to go)",
+    "nextTier": "Next: {{points}} points ‚Üí {{percent}}% ({{missing}} to go)",
     "noDiscountYet": "No discount",
     "bestTierReached": "You are at the highest tier"
   },
@@ -210,8 +210,7 @@
     "newPassword": "New password",
     "passwordChanged": "Password changed.",
     "userNotFound": "Profile information is unavailable.",
-    "days": "days",
-    "guest": "Guest"
+    "days": "days"
   },
   "auth": {
     "welcome": "Welcome to Fegih",
@@ -247,7 +246,7 @@
     "signInRequired": "Sign in to play the quiz.",
     "welcomeScreen": {
       "assalamuAleykum": "Assalamu Aleykum",
-      "arabic": "ÿßŸ‚Äûÿ≥Ÿ≈ΩŸ‚ÄòŸ‚ÄûŸ≈ΩÿßŸ‚Ä¶Ÿè ÿπŸ≈ΩŸ‚ÄûŸ≈ΩŸ≈†Ÿ‚ÄôŸ∆íŸèŸ‚Ä¶Ÿ‚Äô",
+      "arabic": "ÿßŸÑÿ≥ŸÑÿßŸÖ ÿπŸÑŸäŸÉŸÖ",
       "subtitle": "Welcome to the world of Islam!",
       "greeting": "Welcome, {{name}}!",
       "continue": "Continue"
@@ -294,8 +293,7 @@
     "previousMonth": "Previous month",
     "nextMonth": "Next month",
     "upcoming": "Upcoming holidays",
-    "days": "days",
-    "guest": "Guest"
+    "days": "days"
   },
   "prayer": {
     "title": "Prayer times",
@@ -310,7 +308,7 @@
     "maghrib": "Maghrib",
     "isha": "Isha",
     "calculate": "Calculate times",
-    "locationLoading": "Finding your location‚‚Ç¨¶",
+    "locationLoading": "Finding your location‚Ä¶",
     "timesFor": "Prayer times",
     "noTimes": "Prayer times are unavailable.",
     "enableLocation": "Enable location",
@@ -339,9 +337,9 @@
     "aligned": "You are facing the Qibla",
     "turnDevice": "Turn the device towards the Qibla",
     "remaining": "Remaining",
-    "compassStarting": "Starting compass‚‚Ç¨¶",
+    "compassStarting": "Starting compass‚Ä¶",
     "compassTrueNorth": "Compass active (true north)",
-    "compassMagneticOnly": "Magnetic heading only ‚‚Ç¨‚Äù hold the phone flat",
+    "compassMagneticOnly": "Magnetic heading only ‚Äî hold the phone flat",
     "compassUnavailable": "No compass data received",
     "retryCompass": "Try again",
     "calibrationStart": "Calibrate compass",
@@ -479,7 +477,7 @@
     "placedBody": "Order number: {{number}}. The status moves from \"Waiting\" to \"Confirmed\" once payment settles.",
     "viewOrders": "View orders",
     "mockNotice": "Test mode: the card payment was simulated, no real money was charged.",
-    "cashNotice": "Cash on delivery selected ‚‚Ç¨‚Äù the shop has been notified.",
+    "cashNotice": "Cash on delivery selected ‚Äî the shop has been notified.",
     "cardNumberInvalid": "That card number is not valid.",
     "cardExpiryInvalid": "The expiry date is invalid or has passed.",
     "cardCvcInvalid": "The CVC must be 3 or 4 digits.",
@@ -505,7 +503,7 @@
   "remote": {
     "errorTitle": "Unable to load",
     "emptyTitle": "Nothing here",
-    "loading": "Loading content‚‚Ç¨¶"
+    "loading": "Loading content‚Ä¶"
   },
   "messages": {
     "title": "Messages",
@@ -515,12 +513,12 @@
     "subjectPlaceholder": "e.g. Is question 12 correct?",
     "subjectRequired": "Subject must be longer than 3 characters",
     "message": "Message",
-    "bodyPlaceholder": "Write your question‚‚Ç¨¶",
+    "bodyPlaceholder": "Write your question‚Ä¶",
     "bodyRequired": "Message must be longer than 3 characters",
     "send": "Send",
     "sendReply": "Send reply",
     "reply": "Your reply",
-    "replyPlaceholder": "Write a reply to this message‚‚Ç¨¶",
+    "replyPlaceholder": "Write a reply to this message‚Ä¶",
     "replyHint": "You will get a notification when the admin replies.",
     "unread": "{{count}} unread repl{{count}}",
     "admin": "Admin",
@@ -543,4 +541,3 @@
     "appBody": "Islamic quiz, Quran, tasbih and the book store in one app."
   }
 }
-
