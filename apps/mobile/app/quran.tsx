@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
+import { useCallback } from 'react';
+import { useRouter, useLocalSearchParams, type Href } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { useRouter, type Href } from 'expo-router';
 
 import { AppScreen, ScreenSection } from '@/components/AppScreen';
 import { AppText } from '@/components/AppText';
@@ -17,21 +18,33 @@ export default function QuranScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const router = useRouter();
-  const [search, setSearch] = useState('');
-  const [query, setQuery] = useState('');
-  // Ayahs come back in the language chosen in Settings.
+  const searchParams = useLocalSearchParams();
+
   const locale = useAppLocale();
+  // The search term lives in the URL so refreshing keeps the same results.
+  const search = (searchParams as any)?.get('search') || '';
+
+  const setSearch = useCallback(
+    (value: string) => {
+      router.replace(`/quran?search=${encodeURIComponent(value)}`);
+    },
+    [router],
+  );
+
+  const submitSearch = useCallback(() => {
+    setSearch(search.trim());
+  }, [search, setSearch]);
+
+  // Ayahs come back in the language chosen in Settings.
   // The locale is part of the key, otherwise switching language would keep
   // showing the previously cached translation.
   // The daily verse rotates once a day, but an admin can still replace it, so
   // it is refetched every ten minutes rather than once an hour.
   const dailyQuery = useRemoteQuery({ queryKey: ['quran', 'daily', locale], queryFn: () => quranApi.daily(locale), staleTime: 10 * 60 * 1000 });
   // The surah list is immutable.
-  const surahsQuery = useRemoteQuery({ queryKey: ['quran', 'surahs', query], queryFn: () => quranApi.surahs(query || undefined), staleTime: 24 * 60 * 60 * 1000 });
+  const surahsQuery = useRemoteQuery({ queryKey: ['quran', 'surahs', search], queryFn: () => quranApi.surahs(search || undefined), staleTime: 24 * 60 * 60 * 1000 });
   const daily = dailyQuery.data;
   const surahs = useMemo(() => surahsQuery.data ?? [], [surahsQuery.data]);
-
-  const submitSearch = () => setQuery(search.trim());
 
   return <AppScreen title={t('quran.title')} subtitle={t('quran.subtitle')} refreshing={dailyQuery.isRefetching || surahsQuery.isRefetching} onRefresh={() => { void dailyQuery.refetch(); void surahsQuery.refetch(); }}>
     <Card style={styles.hero}>

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
@@ -16,7 +17,22 @@ import { useTheme } from '@/providers/ThemeProvider';
 export default function LeaderboardScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
-  const [page, setPage] = useState(1);
+  const router = useRouter();
+  const searchParams = useLocalSearchParams();
+
+  // Page lives in the URL so refreshing or sharing the link keeps the same
+  // position. Defaults to page 1 when the param is missing or invalid.
+  const urlPage = Number((searchParams as any)?.get('page'));
+  const page = Number.isFinite(urlPage) && urlPage >= 1 ? urlPage : 1;
+
+  const setPage = useCallback(
+    (next: number) => {
+      const clamped = Math.max(1, next);
+      router.replace(`/(tabs)/leaderboard?page=${clamped}`);
+    },
+    [router],
+  );
+
   const query = useRemoteQuery({
     queryKey: ['leaderboard', page],
     queryFn: () => leaderboardApi.list({ page, limit: 20 }),
@@ -58,8 +74,20 @@ export default function LeaderboardScreen() {
             </Card>
             <PageMetaText meta={query.data.meta} />
             <View style={styles.pagination}>
-              <Button label={t('common.previous')} onPress={() => setPage((current) => Math.max(1, current - 1))} disabled={page <= 1} variant="secondary" style={styles.pageButton} />
-              <Button label={t('common.next')} onPress={() => setPage((current) => current + 1)} disabled={page >= query.data.meta.totalPages} variant="secondary" style={styles.pageButton} />
+              <Button
+                label={t('common.previous')}
+                onPress={() => setPage(page - 1)}
+                disabled={page <= 1}
+                variant="secondary"
+                style={styles.pageButton}
+              />
+              <Button
+                label={t('common.next')}
+                onPress={() => setPage(page + 1)}
+                disabled={page >= query.data.meta.totalPages}
+                variant="secondary"
+                style={styles.pageButton}
+              />
             </View>
           </View>
         ) : null}

@@ -15,6 +15,7 @@ export interface CheckoutInput {
   paymentMethod?: 'CARD' | 'CASH_ON_DELIVERY' | 'BANK_TRANSFER';
   /** Card details. Validated, then reduced to a brand and the last four digits. */
   card?: { number?: string; expiry?: string; cvc?: string; name?: string };
+  source?: 'MOBILE' | 'WEB';
 }
 
 /** Only card payments go to an external provider. */
@@ -193,12 +194,13 @@ export async function createOrder(userId: string, input: CheckoutInput) {
   let offlineEmail = false;
 
   const provider = simulated && cardPayment(input.paymentMethod) ? 'MOCK' : 'STRIPE';
+  const orderSource = input.source ?? 'MOBILE';
   const order = await prisma.$transaction(async (tx) => {
     for (const item of cart.items) {
       const reserved = await tx.book.updateMany({ where: { id: item.bookId, isActive: true, deletedAt: null, stock: { gte: item.quantity } }, data: { stock: { decrement: item.quantity } } });
       if (!reserved.count) throw new ApiError(409, 'INSUFFICIENT_STOCK', `${item.book.title} is out of stock`);
     }
-    const created = await tx.order.create({ data: { orderNumber: orderNumber(), userId, cartId: cart.id, status: provider === 'MOCK' ? 'CONFIRMED' : 'PENDING', source: 'MOBILE', customerEmail, customerPhone, currency: cart.currency, subtotal, discountAmount: money(discount.add(pointsDiscount)), discountTierPoints: tierInfo.tierPoints, pointDiscountPercent: new Prisma.Decimal(tierInfo.discountPercent), shippingFee, totalAmount, ...(provider === 'MOCK' ? { confirmedAt: new Date() } : {}), promoCodeSnapshot: promo?.code, shippingAddress, items: { create: cart.items.map((item) => { const unit = sellingPrice(item.book.price, item.book.compareAtPrice); return { bookId: item.bookId, sku: item.book.sku, title: item.book.title, author: item.book.author, unitPrice: unit, quantity: item.quantity, totalPrice: unit.mul(item.quantity) }; }) }, payments: { create: { provider: provider === 'MOCK' ? 'MOCK' : 'STRIPE', method: input.paymentMethod ?? 'CARD', status: provider === 'MOCK' ? 'PAID' : 'PENDING', amount: totalAmount, currency: cart.currency, ...(provider === 'MOCK' ? { paidAt: new Date(), processedAt: new Date(), providerPaymentId: `mock_${randomBytes(8).toString('hex')}`, providerData: { simulated: true, ...(card ? { cardBrand: card.brand, last4: card.last4 } : {}) } } : {}) } } }, include: { items: true, payments: true } });
+    const created = await tx.order.create({ data: { orderNumber: orderNumber(), userId, cartId: cart.id, status: provider === 'MOCK' ? 'CONFIRMED' : 'PENDING', source: orderSource, customerEmail, customerPhone, currency: cart.currency, subtotal, discountAmount: money(discount.add(pointsDiscount)), discountTierPoints: tierInfo.tierPoints, pointDiscountPercent: new Prisma.Decimal(tierInfo.discountPercent), shippingFee, totalAmount, ...(provider === 'MOCK' ? { confirmedAt: new Date() } : {}), promoCodeSnapshot: promo?.code, shippingAddress, items: { create: cart.items.map((item) => { const unit = sellingPrice(item.book.price, item.book.compareAtPrice); return { bookId: item.bookId, sku: item.book.sku, title: item.book.title, author: item.book.author, unitPrice: unit, quantity: item.quantity, totalPrice: unit.mul(item.quantity) }; }) }, payments: { create: { provider: provider === 'MOCK' ? 'MOCK' : 'STRIPE', method: input.paymentMethod ?? 'CARD', status: provider === 'MOCK' ? 'PAID' : 'PENDING', amount: totalAmount, currency: cart.currency, ...(provider === 'MOCK' ? { paidAt: new Date(), processedAt: new Date(), providerPaymentId: `mock_${randomBytes(8).toString('hex')}`, providerData: { simulated: true, ...(card ? { cardBrand: card.brand, last4: card.last4 } : {}) } } : {}) } } }, include: { items: true, payments: true } });
     if (promo) await prisma.promoRedemption.create({ data: { promoId: promo.id, orderId: created.id, userId, discountAmount: discount } });
     await tx.cartItem.deleteMany({ where: { cartId: cart.id } });
     await tx.cart.update({ where: { id: cart.id }, data: { status: 'CONVERTED' } });

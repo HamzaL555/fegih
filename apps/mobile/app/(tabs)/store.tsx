@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useMemo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { AppScreen, ScreenSection } from '@/components/AppScreen';
@@ -30,12 +30,39 @@ export default function StoreScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const router = useRouter();
+  const searchParams = useLocalSearchParams();
   const queryClient = useQueryClient();
   const authStatus = useAuthStore((state) => state.status);
-  const [categoryId, setCategoryId] = useState<string>();
-  const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
   const [cartError, setCartError] = useState<unknown>();
+
+  // URL params persist pagination, category and search so refreshing or sharing
+  // the link keeps the same view.
+  const urlPage = Number((searchParams as any)?.get('page'));
+  const page = Number.isFinite(urlPage) && urlPage >= 1 ? urlPage : 1;
+  const categoryId = ((searchParams as any)?.get('categoryId') || undefined);
+  const search = (searchParams as any)?.get('search') || '';
+
+  const setPage = useCallback(
+    (next: number) => {
+      const clamped = Math.max(1, next);
+      router.replace(`/(tabs)/store?page=${clamped}&categoryId=${categoryId ?? ''}&search=${encodeURIComponent(search)}`);
+    },
+    [router, categoryId, search],
+  );
+
+  const setCategoryId = useCallback(
+    (id?: string) => {
+      router.replace(`/(tabs)/store?page=1&categoryId=${id ?? ''}&search=${encodeURIComponent(search)}`);
+    },
+    [router, search],
+  );
+
+  const setSearch = useCallback(
+    (value: string) => {
+      router.replace(`/(tabs)/store?page=1&categoryId=${categoryId ?? ''}&search=${encodeURIComponent(value)}`);
+    },
+    [router, categoryId],
+  );
 
   /** Loyalty tier: only meaningful for a signed-in shopper. */
   const discountQuery = useRemoteQuery({
@@ -79,7 +106,6 @@ export default function StoreScreen() {
 
   const changeCategory = (id?: string) => {
     setCategoryId(id);
-    setPage(1);
   };
 
   return (
@@ -113,7 +139,7 @@ export default function StoreScreen() {
         label={t('store.search')}
         placeholder={t('store.search')}
         value={search}
-        onChangeText={(value) => { setSearch(value); setPage(1); }}
+        onChangeText={(value) => { setSearch(value); }}
         autoCapitalize="none"
       />
       <ScreenSection>
@@ -157,8 +183,20 @@ export default function StoreScreen() {
         </View>
         {booksQuery.data ? <PageMetaText meta={booksQuery.data.meta} /> : null}
         <View style={styles.pagination}>
-          <Button label={t('common.previous')} onPress={() => setPage((current) => Math.max(1, current - 1))} disabled={page <= 1} variant="secondary" style={styles.pageButton} />
-          <Button label={t('common.next')} onPress={() => setPage((current) => current + 1)} disabled={!booksQuery.data || page >= booksQuery.data.meta.totalPages} variant="secondary" style={styles.pageButton} />
+          <Button
+            label={t('common.previous')}
+            onPress={() => setPage(page - 1)}
+            disabled={page <= 1}
+            variant="secondary"
+            style={styles.pageButton}
+          />
+          <Button
+            label={t('common.next')}
+            onPress={() => setPage(page + 1)}
+            disabled={!booksQuery.data || page >= booksQuery.data.meta.totalPages}
+            variant="secondary"
+            style={styles.pageButton}
+          />
         </View>
       </RemoteState>
       {cartError ? <ErrorBanner error={cartError} onDismiss={() => setCartError(undefined)} /> : null}
