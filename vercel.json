@@ -29,5 +29,5 @@
       ]
     }
   ],
-  "installCommand": "npm install --include=dev && npm install compression cors express helmet pino-http swagger-ui-express express-rate-limit jsonwebtoken bcryptjs multer stripe cloudinary @prisma/client prisma --include=dev && node node_modules/prisma/build/index.js generate"
+  "installCommand": "npm ci --include=dev && node node_modules/prisma/build/index.js generate"
 }
