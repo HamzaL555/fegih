@@ -20,20 +20,6 @@
  * see the deployment notes in the README.
  */
 
-// Ensure Prisma Client is available on cold start (Vercel serverless functions
-// recycle frequently; prisma/generated/ is gitignored and not present on fresh
-// deploys). Running generate here guarantees the client is initialised before
-// any request hits the database.
-import { execSync } from 'node:child_process';
-try {
-  execSync('node node_modules/prisma/build/index.js generate', {
-    stdio: 'pipe',
-    cwd: process.cwd(),
-  });
-} catch {
-  // Prisma may already be generated; ignore and let the app start.
-}
-
 import { app } from '../apps/api/src/app.js';
 
 export default app;
