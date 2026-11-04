@@ -33,7 +33,7 @@ export default function LoginScreen() {
     try {
       await login(values);
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      router.replace('/(tabs)');
+      router.replace('/auth/welcome' as never);
     } catch (error) {
       setServerError(error);
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);

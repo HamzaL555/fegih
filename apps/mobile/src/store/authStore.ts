@@ -8,6 +8,7 @@ import { isNetworkError, isUnauthorized } from '@/utils/errors';
 interface AuthState {
   user: UserProfile | null;
   status: 'idle' | 'loading' | 'authenticated' | 'unauthenticated';
+  shouldShowWelcome: boolean;
   hydrate: () => Promise<void>;
   login: (credentials: AuthCredentials) => Promise<void>;
   register: (payload: RegisterPayload) => Promise<void>;
@@ -16,6 +17,7 @@ interface AuthState {
   updateProfile: (payload: Partial<UserProfile>) => Promise<UserProfile>;
   deleteAccount: () => Promise<void>;
   clear: () => void;
+  dismissWelcome: () => void;
 }
 
 function setAuthenticated(user: UserProfile) {
@@ -30,6 +32,7 @@ function dropCachedData() {
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   status: 'idle',
+  shouldShowWelcome: false,
 
   hydrate: async () => {
     set({ status: 'loading' });
@@ -63,7 +66,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   login: async (credentials) => {
-    set({ status: 'loading' });
+    set({ status: 'loading', shouldShowWelcome: true });
     dropCachedData();
     try {
       const result = await authApi.login(credentials);
@@ -72,13 +75,13 @@ export const useAuthStore = create<AuthState>((set) => ({
       set(setAuthenticated(user));
     } catch (error) {
       await clearAuthTokens();
-      set({ status: 'unauthenticated', user: null });
+      set({ status: 'unauthenticated', user: null, shouldShowWelcome: false });
       throw error;
     }
   },
 
   register: async (payload) => {
-    set({ status: 'loading' });
+    set({ status: 'loading', shouldShowWelcome: true });
     dropCachedData();
     try {
       const result = await authApi.register(payload);
@@ -87,7 +90,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       set(setAuthenticated(user));
     } catch (error) {
       await clearAuthTokens();
-      set({ status: 'unauthenticated', user: null });
+      set({ status: 'unauthenticated', user: null, shouldShowWelcome: false });
       throw error;
     }
   },
@@ -101,7 +104,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     } finally {
       await clearAuthTokens();
       dropCachedData();
-      set({ status: 'unauthenticated', user: null });
+      set({ status: 'unauthenticated', user: null, shouldShowWelcome: false });
     }
   },
 
@@ -122,12 +125,14 @@ export const useAuthStore = create<AuthState>((set) => ({
     } finally {
       await clearAuthTokens();
       dropCachedData();
-      set({ status: 'unauthenticated', user: null });
+      set({ status: 'unauthenticated', user: null, shouldShowWelcome: false });
     }
   },
 
   clear: () => {
     dropCachedData();
-    set({ status: 'unauthenticated', user: null });
+    set({ status: 'unauthenticated', user: null, shouldShowWelcome: false });
   },
+
+  dismissWelcome: () => set({ shouldShowWelcome: false }),
 }));

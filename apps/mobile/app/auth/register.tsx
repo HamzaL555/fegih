@@ -48,7 +48,7 @@ export default function RegisterScreen() {
         confirmPassword: values.confirmPassword,
       });
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      router.replace('/(tabs)');
+      router.replace('/auth/welcome' as never);
     } catch (error) {
       setServerError(error);
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
