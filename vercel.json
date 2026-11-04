@@ -29,5 +29,5 @@
       ]
     }
   ],
-  "installCommand": "npm ci --include=dev && node node_modules/prisma/build/index.js generate"
+  "installCommand": "npm install --include=dev && node node_modules/prisma/build/index.js generate"
 }
