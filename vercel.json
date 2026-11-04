@@ -29,5 +29,5 @@
       ]
     }
   ],
-  "installCommand": "rm -rf node_modules apps/api/node_modules && npm install --include=dev --ignore-scripts && node node_modules/prisma/build/index.js generate"
+  "installCommand": "npm ci --include=dev && node node_modules/prisma/build/index.js generate"
 }
