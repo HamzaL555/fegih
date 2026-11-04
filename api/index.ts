@@ -20,9 +20,9 @@
  * see the deployment notes in the README.
  */
 
-// Ensure Prisma Client is generated on cold start (Vercel serverless functions
+// Ensure Prisma Client is available on cold start (Vercel serverless functions
 // recycle frequently; prisma/generated/ is gitignored and not present on fresh
-// deploys). Running generate here guarantees the client is available before
+// deploys). Running generate here guarantees the client is initialised before
 // any request hits the database.
 import { execSync } from 'node:child_process';
 try {

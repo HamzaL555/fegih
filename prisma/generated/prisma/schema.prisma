@@ -1,0 +1,1635 @@
+// Fegih.az data model: PostgreSQL is the source of truth.
+// Monetary values use fixed-scale decimals; JSON is limited to provider payloads,
+// provider-specific configuration, immutable audit snapshots, and import diagnostics.
+
+generator client {
+  provider = "prisma-client-js"
+
+  // Generated into the repository rather than node_modules.
+  //
+  // Vercel restores node_modules from its build cache and npm then reports
+  // "up to date", skipping install lifecycle scripts, so `prisma generate`
+  // never runs and the deployment ships the uninitialised client stub
+  // ("@prisma/client did not initialize yet"). Neither installCommand nor
+  // postinstall survived that, so the client is committed instead.
+  output = "./generated/prisma"
+
+  // The development machine is Windows and Vercel runs Linux, so both engines
+  // are baked in; without the Linux one the API crashes on the first request.
+  binaryTargets = ["native", "debian-openssl-3.0.x", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// -----------------------------------------------------------------------------
+// Shared enums
+// -----------------------------------------------------------------------------
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  DELETED
+}
+
+enum QuestionStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum ImportBatchStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  PARTIAL
+  FAILED
+  CANCELLED
+}
+
+enum ImportItemStatus {
+  PENDING
+  IMPORTED
+  SKIPPED
+  FAILED
+}
+
+enum QuizGameStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum QuizGameMode {
+  SOLO
+  MULTIPLAYER
+  CHALLENGE
+}
+
+enum QuizSessionStatus {
+  CREATED
+  IN_PROGRESS
+  PAUSED
+  COMPLETED
+  ABANDONED
+  EXPIRED
+}
+
+enum LifelineType {
+  FIFTY_FIFTY
+  SECOND_CHANCE
+  HINT
+  ASK_AUDIENCE
+  PHONE_A_FRIEND
+  SKIP
+  EXTRA_TIME
+  SHIELD
+}
+
+/// How often a lifeline may be used inside one session.
+enum LifelineScope {
+  /// Once for the whole game.
+  SESSION
+  /// Once per question, and only on the question it was granted for.
+  QUESTION
+}
+
+enum LifelineStatus {
+  AVAILABLE
+  USED
+  EXPIRED
+}
+
+enum PointEntryType {
+  WELCOME_BONUS
+  EARN_QUIZ
+  DAILY_REWARD
+  STREAK_BONUS
+  SPEND_LIFELINE
+  LIFELINE_PURCHASE
+  ACHIEVEMENT
+  MISSION
+  BOOK_POINTS_DISCOUNT
+  PURCHASE
+  ADMIN_ADJUSTMENT
+  REFUND
+  EXPIRY
+}
+
+enum RewardEvent {
+  REGISTRATION
+  QUIZ_COMPLETION
+  DAILY_LOGIN
+  PURCHASE
+  REVIEW
+  MISSION
+  STREAK
+}
+
+enum RewardType {
+  POINTS
+  COINS
+  DISCOUNT
+  BADGE
+}
+
+enum AchievementType {
+  QUIZ
+  LEARNING
+  SOCIAL
+  STORE
+  STREAK
+  COLLECTION
+}
+
+enum MissionType {
+  DAILY
+  WEEKLY
+  MONTHLY
+  LIFETIME
+}
+
+enum MissionProgressStatus {
+  ACTIVE
+  COMPLETED
+  CLAIMED
+  EXPIRED
+}
+
+enum CartStatus {
+  ACTIVE
+  CONVERTED
+  ABANDONED
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  PARTIALLY_REFUNDED
+  REFUNDED
+}
+
+enum OrderSource {
+  WEB
+  MOBILE
+  ADMIN
+}
+
+enum PaymentStatus {
+  PENDING
+  AUTHORIZED
+  PAID
+  FAILED
+  CANCELLED
+  PARTIALLY_REFUNDED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CARD
+  CASH_ON_DELIVERY
+  BANK_TRANSFER
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED_AMOUNT
+  FREE_SHIPPING
+}
+
+enum DevicePlatform {
+  IOS
+  ANDROID
+  WEB
+}
+
+enum NotificationChannel {
+  PUSH
+  EMAIL
+  SMS
+  IN_APP
+}
+
+enum NotificationType {
+  SYSTEM
+  QUIZ
+  REWARD
+  ORDER
+  PROMO
+  PRAYER
+  TASBEEH
+  MESSAGE
+}
+
+/// Who wrote a message: the shopper or the admin answering them.
+enum MessageAuthorRole {
+  USER
+  ADMIN
+}
+
+enum MessageThreadStatus {
+  OPEN
+  ANSWERED
+  CLOSED
+}
+
+model MessageThread {
+  id            String              @id @default(cuid())
+  userId        String
+  subject       String              @db.VarChar(200)
+  status        MessageThreadStatus @default(OPEN)
+  /// Admin replies the user has not seen yet.
+  unreadByUser  Int                 @default(0)
+  /// User messages the admin has not seen yet.
+  unreadByAdmin Int                 @default(0)
+  lastMessageAt DateTime            @default(now())
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages Message[]
+
+  @@index([userId, lastMessageAt])
+  @@index([status, lastMessageAt])
+}
+
+model Message {
+  id         String            @id @default(cuid())
+  threadId   String
+  authorRole MessageAuthorRole @default(USER)
+  /// Null for admin replies, which are not tied to an account.
+  authorId   String?
+  body       String            @db.Text
+  isRead     Boolean           @default(false)
+  readAt     DateTime?
+  createdAt  DateTime          @default(now())
+
+  thread MessageThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  @@index([threadId, createdAt])
+  @@index([isRead, createdAt])
+}
+
+enum ThemeMode {
+  SYSTEM
+  LIGHT
+  DARK
+}
+
+enum PrayerCalculationMethod {
+  MWL
+  ISNA
+  EGYPT
+  MAKKAH
+  KARACHI
+  TEHRAN
+  JAFAR
+  TURKEY
+  RUSSIA
+  MOONSIGHTING_COMMITTEE
+  OTHER
+}
+
+enum AsrMadhab {
+  HANAFI
+  MALIKI
+  SHAFII
+  HANBALI
+}
+
+enum HighLatitudeRule {
+  MIDDLE_OF_NIGHT
+  SEVENTH_OF_NIGHT
+  ANGLE_BASED
+}
+
+enum TasbeehSessionStatus {
+  ACTIVE
+  COMPLETED
+  ABANDONED
+}
+
+enum SettingValueType {
+  STRING
+  INTEGER
+  DECIMAL
+  BOOLEAN
+  JSON
+}
+
+// -----------------------------------------------------------------------------
+// Identity, access control, and localization
+// -----------------------------------------------------------------------------
+
+model User {
+  id              String     @id @default(cuid())
+  username        String     @unique @db.VarChar(32)
+  email           String?    @unique @db.VarChar(320)
+  phone           String?    @unique @db.VarChar(32)
+  passwordHash    String     @db.VarChar(255)
+  displayName     String     @db.VarChar(120)
+  avatarUrl       String?    @db.VarChar(2048)
+  status          UserStatus @default(ACTIVE)
+  preferredLocale String     @default("az") @db.VarChar(10)
+  timezone        String     @default("Asia/Baku") @db.VarChar(64)
+  points          Int        @default(0)
+  level           Int        @default(1)
+  xp              Int        @default(0)
+  streak          Int        @default(0)
+  longestStreak   Int        @default(0)
+  totalGames      Int        @default(0)
+  correctAnswers  Int        @default(0)
+  wrongAnswers    Int        @default(0)
+  emailVerifiedAt DateTime?
+  phoneVerifiedAt DateTime?
+  lastLoginAt     DateTime?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  deletedAt       DateTime?
+
+  roles                   UserRole[]
+  assignedRoles           UserRole[]               @relation("RoleAssignedBy")
+  translationsCreated     Translation[]
+  questionsCreated        Question[]               @relation("QuestionCreatedBy")
+  questionsUpdated        Question[]               @relation("QuestionUpdatedBy")
+  favoriteQuestions       FavoriteQuestion[]
+  booksCreated            Book[]                   @relation("BookCreatedBy")
+  importBatches           ImportBatch[]
+  quizSessions            QuizSession[]
+  lifelineInventory       UserLifelineInventory[]
+  pointEntries            PointLedgerEntry[]
+  dailyRewards            DailyReward[]
+  userAchievements        UserAchievement[]
+  missionProgress         MissionProgress[]
+  bookReviews             BookReview[]
+  wishlistItems           WishlistItem[]
+  carts                   Cart[]
+  orders                  Order[]
+  promoRedemptions        PromoRedemption[]
+  prayerSettings          PrayerSettings?
+  preference              UserPreference?
+  tasbeehSessions         TasbeehSession[]
+  notifications           Notification[]
+  notificationPreferences NotificationPreference[]
+  deviceTokens            DeviceToken[]
+  /// Support conversations opened from the app.
+  messageThreads          MessageThread[]
+  refreshTokens           RefreshToken[]
+  passwordResetTokens     PasswordResetToken[]
+  systemSettingsUpdated   SystemSetting[]          @relation("SystemSettingUpdatedBy")
+  auditLogs               AuditLog[]
+
+  @@index([status, createdAt])
+  @@index([deletedAt])
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  name        String   @unique @db.VarChar(80)
+  code        String   @unique @db.VarChar(80)
+  description String?  @db.VarChar(500)
+  isSystem    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users       UserRole[]
+  permissions RolePermission[]
+}
+
+model Permission {
+  id          String   @id @default(cuid())
+  name        String   @db.VarChar(120)
+  key         String   @unique @db.VarChar(160)
+  description String?  @db.VarChar(500)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  roles RolePermission[]
+
+  @@index([name])
+}
+
+model UserRole {
+  id           String   @id @default(cuid())
+  userId       String
+  roleId       String
+  assignedById String?
+  assignedAt   DateTime @default(now())
+
+  user       User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role       Role  @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  assignedBy User? @relation("RoleAssignedBy", fields: [assignedById], references: [id], onDelete: SetNull)
+
+  @@unique([userId, roleId])
+  @@index([roleId])
+  @@index([assignedById])
+}
+
+model RolePermission {
+  id           String   @id @default(cuid())
+  roleId       String
+  permissionId String
+  createdAt    DateTime @default(now())
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, permissionId])
+  @@index([permissionId])
+}
+
+model Translation {
+  id          String   @id @default(cuid())
+  namespace   String   @db.VarChar(80)
+  key         String   @db.VarChar(160)
+  locale      String   @db.VarChar(10)
+  value       String   @db.Text
+  description String?  @db.VarChar(500)
+  isPublished Boolean  @default(true)
+  createdById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  createdBy User? @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@unique([namespace, key, locale])
+  @@index([locale, namespace])
+  @@index([createdById])
+}
+
+// -----------------------------------------------------------------------------
+// Question bank and imports
+// -----------------------------------------------------------------------------
+
+model QuestionCategory {
+  id          String   @id @default(cuid())
+  name        String   @db.VarChar(120)
+  slug        String   @unique @db.VarChar(140)
+  description String?  @db.Text
+  iconUrl     String?  @db.VarChar(2048)
+  parentId    String?
+  position    Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  parent    QuestionCategory?  @relation("QuestionCategoryTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children  QuestionCategory[] @relation("QuestionCategoryTree")
+  questions Question[]
+  gameLinks QuizGameCategory[]
+
+  @@index([parentId, position])
+  @@index([isActive, position])
+}
+
+model QuestionLevel {
+  id               String   @id @default(cuid())
+  code             String   @unique @db.VarChar(40)
+  name             String   @db.VarChar(80)
+  difficulty       Int
+  defaultTimeLimit Int      @default(30)
+  defaultPoints    Int      @default(100)
+  color            String?  @db.VarChar(20)
+  position         Int      @default(0)
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  questions Question[]
+  gameLinks QuizGameLevel[]
+
+  @@unique([difficulty])
+  @@index([isActive, position])
+}
+
+model QuizGameCategory {
+  id         String   @id @default(cuid())
+  gameId     String
+  categoryId String
+  weight     Int      @default(1)
+  position   Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  game     QuizGame         @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  category QuestionCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([gameId, categoryId])
+  @@index([categoryId, gameId])
+}
+
+model QuizGameLevel {
+  id        String   @id @default(cuid())
+  gameId    String
+  levelId   String
+  weight    Int      @default(1)
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  game  QuizGame      @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  level QuestionLevel @relation(fields: [levelId], references: [id], onDelete: Cascade)
+
+  @@unique([gameId, levelId])
+  @@index([levelId, gameId])
+}
+
+model Question {
+  id                String         @id @default(cuid())
+  code              String?        @unique @db.VarChar(128)
+  text              String         @db.Text
+  explanation       String?        @db.Text
+  imageUrl          String?        @db.VarChar(2048)
+  categoryId        String
+  levelId           String
+  sourceReferenceId String?
+  status            QuestionStatus @default(DRAFT)
+  timeLimitSeconds  Int            @default(30)
+  points            Int            @default(100)
+  position          Int            @default(0)
+  isApproved        Boolean        @default(false)
+  metadata          Json?
+  createdById       String?
+  updatedById       String?
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+
+  category         QuestionCategory     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  level            QuestionLevel        @relation(fields: [levelId], references: [id], onDelete: Restrict)
+  sourceReference  SourceReference?     @relation(fields: [sourceReferenceId], references: [id], onDelete: SetNull)
+  createdBy        User?                @relation("QuestionCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedBy        User?                @relation("QuestionUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+  answers          QuestionAnswer[]
+  favorites        FavoriteQuestion[]
+  sessionQuestions SessionQuestion[]
+  importItems      QuestionImportItem[]
+
+  @@index([categoryId, levelId, status])
+  @@index([status, position])
+  @@index([sourceReferenceId])
+  @@index([createdById])
+  @@index([updatedById])
+}
+
+model QuestionAnswer {
+  id         String   @id @default(cuid())
+  questionId String
+  text       String   @db.Text
+  isCorrect  Boolean  @default(false)
+  position   Int
+  feedback   String?  @db.Text
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  question       Question            @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  sessionAnswers QuizSessionAnswer[]
+
+  @@unique([questionId, position])
+  @@index([questionId, isCorrect])
+}
+
+model FavoriteQuestion {
+  id         String   @id @default(cuid())
+  userId     String
+  questionId String
+  createdAt  DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questionId])
+  @@index([questionId])
+  @@index([userId, createdAt])
+}
+
+model SourceReference {
+  id         String    @id @default(cuid())
+  source     String    @db.VarChar(80)
+  externalId String?   @db.VarChar(191)
+  sourceUrl  String?   @db.VarChar(2048)
+  checksum   String?   @db.VarChar(128)
+  metadata   Json?
+  importedAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  questions   Question[]
+  batches     ImportBatch[]
+  importItems QuestionImportItem[]
+
+  @@unique([source, externalId])
+  @@index([source, importedAt])
+}
+
+model ImportBatch {
+  id                String            @id @default(cuid())
+  sourceReferenceId String?
+  createdById       String?
+  fileName          String            @db.VarChar(255)
+  fileUrl           String?           @db.VarChar(2048)
+  source            String            @db.VarChar(80)
+  status            ImportBatchStatus @default(PENDING)
+  totalItems        Int               @default(0)
+  processedItems    Int               @default(0)
+  importedItems     Int               @default(0)
+  skippedItems      Int               @default(0)
+  failedItems       Int               @default(0)
+  errorSummary      Json?
+  startedAt         DateTime?
+  finishedAt        DateTime?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  sourceReference SourceReference?     @relation(fields: [sourceReferenceId], references: [id], onDelete: SetNull)
+  createdBy       User?                @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  items           QuestionImportItem[]
+
+  @@index([status, createdAt])
+  @@index([sourceReferenceId])
+  @@index([createdById])
+}
+
+model QuestionImportItem {
+  id                String           @id @default(cuid())
+  batchId           String
+  questionId        String?
+  sourceReferenceId String?
+  rowNumber         Int
+  externalId        String?          @db.VarChar(191)
+  status            ImportItemStatus @default(PENDING)
+  rawData           Json
+  normalizedData    Json?
+  errors            Json?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  batch           ImportBatch      @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  question        Question?        @relation(fields: [questionId], references: [id], onDelete: SetNull)
+  sourceReference SourceReference? @relation(fields: [sourceReferenceId], references: [id], onDelete: SetNull)
+
+  @@unique([batchId, rowNumber])
+  @@index([status, createdAt])
+  @@index([questionId])
+  @@index([sourceReferenceId])
+}
+
+// -----------------------------------------------------------------------------
+// Quiz games, sessions, lifelines, and rewards
+// -----------------------------------------------------------------------------
+
+model QuizGame {
+  id              String         @id @default(cuid())
+  code            String         @unique @db.VarChar(80)
+  name            String         @db.VarChar(160)
+  description     String?        @db.Text
+  mode            QuizGameMode   @default(SOLO)
+  status          QuizGameStatus @default(DRAFT)
+  questionCount   Int
+  timePerQuestion Int            @default(30)
+  startingLives   Int            @default(3)
+  maxPlayers      Int?
+  passingScore    Int?
+  config          Json?
+  startsAt        DateTime?
+  endsAt          DateTime?
+  isActive        Boolean        @default(false)
+  position        Int            @default(0)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  sessions      QuizSession[]
+  gameLifelines GameLifeline[]
+  categoryLinks QuizGameCategory[]
+  levelLinks    QuizGameLevel[]
+
+  @@index([status, isActive, position])
+  @@index([startsAt, endsAt])
+}
+
+model QuizSession {
+  id                   String            @id @default(cuid())
+  gameId               String
+  userId               String?
+  attempt              Int               @default(1)
+  status               QuizSessionStatus @default(CREATED)
+  score                Int               @default(0)
+  currentCombo         Int               @default(0)
+  bestCombo            Int               @default(0)
+  livesRemaining       Int               @default(3)
+  questionCount        Int
+  /// Sual-Cavab: which of the 15 levels the run is on. Level N is answered with
+  /// 10 random questions worth N points each.
+  currentLevel         Int               @default(1)
+  currentQuestionOrder Int               @default(0)
+  version              Int               @default(1)
+  seed                 String?           @db.VarChar(128)
+  idempotencyKey       String?           @unique @db.VarChar(191)
+  startedAt            DateTime?
+  expiresAt            DateTime?
+  completedAt          DateTime?
+  abandonedAt          DateTime?
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+
+  game         QuizGame              @relation(fields: [gameId], references: [id], onDelete: Restrict)
+  user         User?                 @relation(fields: [userId], references: [id], onDelete: SetNull)
+  questions    SessionQuestion[]
+  lifelines    QuizSessionLifeline[]
+  pointEntries PointLedgerEntry[]
+
+  @@unique([gameId, userId, attempt])
+  @@index([userId, createdAt])
+  @@index([status, expiresAt])
+  @@index([gameId, status, createdAt])
+}
+
+model SessionQuestion {
+  id               String    @id @default(cuid())
+  sessionId        String
+  questionId       String
+  order            Int
+  pointValue       Int
+  timeLimitSeconds Int
+  displayedAt      DateTime?
+  answeredAt       DateTime?
+  skippedAt        DateTime?
+
+  session           QuizSession           @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  question          Question              @relation(fields: [questionId], references: [id], onDelete: Restrict)
+  answer            QuizSessionAnswer?
+  /// Lifelines granted for this specific question.
+  questionLifelines QuizSessionLifeline[] @relation("QuestionScopeLifeline")
+  /// The lifeline actually spent on this question (sessionQuestionId).
+  lifelines         QuizSessionLifeline[]
+
+  @@unique([sessionId, order])
+  @@unique([sessionId, questionId])
+  @@index([questionId])
+}
+
+model QuizSessionAnswer {
+  id                String   @id @default(cuid())
+  sessionQuestionId String   @unique
+  selectedAnswerId  String
+  isCorrect         Boolean
+  responseTimeMs    Int?
+  pointsAwarded     Int      @default(0)
+  idempotencyKey    String?  @unique @db.VarChar(191)
+  answeredAt        DateTime @default(now())
+
+  sessionQuestion SessionQuestion @relation(fields: [sessionQuestionId], references: [id], onDelete: Cascade)
+  selectedAnswer  QuestionAnswer  @relation(fields: [selectedAnswerId], references: [id], onDelete: Restrict)
+
+  @@index([selectedAnswerId])
+  @@index([answeredAt])
+}
+
+model GameLifeline {
+  id              String        @id @default(cuid())
+  gameId          String
+  type            LifelineType
+  name            String?       @db.VarChar(100)
+  cost            Int           @default(0)
+  initialQuantity Int           @default(0)
+  maxPerSession   Int           @default(1)
+  /// `QUESTION` lifelines are granted per question and may only be used on the
+  /// question they were armed for; `SESSION` lifelines are consumed once for
+  /// the whole game (50/50, hint, ...).
+  scope           LifelineScope @default(SESSION)
+  isEnabled       Boolean       @default(true)
+  config          Json?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  game QuizGame @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([gameId, type])
+  @@index([isEnabled])
+}
+
+model UserLifelineInventory {
+  id        String       @id @default(cuid())
+  userId    String
+  type      LifelineType
+  quantity  Int          @default(0)
+  version   Int          @default(0)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, type])
+}
+
+model QuizSessionLifeline {
+  id                String         @id @default(cuid())
+  sessionId         String
+  /// For `LifelineScope.QUESTION` lifelines this is the single question the
+  /// lifeline may be used on; it stays `null` for session-wide ones.
+  questionId        String?
+  sessionQuestionId String?
+  type              LifelineType
+  status            LifelineStatus @default(AVAILABLE)
+  cost              Int            @default(0)
+  usedAt            DateTime?
+  result            Json?
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+
+  session         QuizSession      @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  question        SessionQuestion? @relation("QuestionScopeLifeline", fields: [questionId], references: [id], onDelete: Cascade)
+  sessionQuestion SessionQuestion? @relation(fields: [sessionQuestionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, questionId, type])
+  @@index([sessionId, status])
+  @@index([questionId])
+}
+
+model PointLedgerEntry {
+  id                String         @id @default(cuid())
+  userId            String
+  type              PointEntryType
+  amount            Int
+  balanceAfter      Int
+  sourceType        String         @db.VarChar(80)
+  sourceId          String?        @db.VarChar(191)
+  idempotencyKey    String         @unique @db.VarChar(191)
+  description       String?        @db.VarChar(500)
+  sessionId         String?
+  dailyRewardId     String?        @unique
+  userAchievementId String?        @unique
+  missionProgressId String?        @unique
+  orderId           String?
+  expiresAt         DateTime?
+  createdAt         DateTime       @default(now())
+
+  user            User             @relation(fields: [userId], references: [id], onDelete: Restrict)
+  session         QuizSession?     @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  dailyReward     DailyReward?     @relation(fields: [dailyRewardId], references: [id], onDelete: SetNull)
+  userAchievement UserAchievement? @relation(fields: [userAchievementId], references: [id], onDelete: SetNull)
+  missionProgress MissionProgress? @relation(fields: [missionProgressId], references: [id], onDelete: SetNull)
+  order           Order?           @relation(fields: [orderId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([expiresAt])
+  @@index([sourceType, sourceId])
+  @@index([sessionId])
+  @@index([orderId])
+}
+
+model RewardRule {
+  id          String      @id @default(cuid())
+  code        String      @unique @db.VarChar(80)
+  name        String      @db.VarChar(160)
+  description String?     @db.VarChar(500)
+  event       RewardEvent
+  rewardType  RewardType
+  amount      Int
+  conditions  Json?
+  maxPerUser  Int?
+  priority    Int         @default(0)
+  validFrom   DateTime?
+  validUntil  DateTime?
+  isActive    Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  dailyRewards DailyReward[]
+
+  @@index([event, isActive, validFrom, validUntil])
+  @@index([isActive, priority])
+}
+
+model DailyReward {
+  id           String    @id @default(cuid())
+  userId       String
+  rewardRuleId String?
+  rewardDate   DateTime  @db.Date
+  streakDay    Int       @default(1)
+  basePoints   Int       @default(0)
+  bonusPoints  Int       @default(0)
+  isClaimed    Boolean   @default(false)
+  claimedAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rewardRule RewardRule?       @relation(fields: [rewardRuleId], references: [id], onDelete: SetNull)
+  pointEntry PointLedgerEntry?
+
+  @@unique([userId, rewardDate])
+  @@index([rewardDate, isClaimed])
+  @@index([rewardRuleId])
+}
+
+model Achievement {
+  id           String          @id @default(cuid())
+  code         String          @unique @db.VarChar(80)
+  name         String          @db.VarChar(160)
+  description  String?         @db.Text
+  type         AchievementType
+  iconUrl      String?         @db.VarChar(2048)
+  condition    Json
+  pointsReward Int             @default(0)
+  isHidden     Boolean         @default(false)
+  isActive     Boolean         @default(true)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  userAchievements UserAchievement[]
+}
+
+model UserAchievement {
+  id             String    @id @default(cuid())
+  userId         String
+  achievementId  String
+  progress       Int       @default(0)
+  progressTarget Int       @default(1)
+  unlockedAt     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement Achievement       @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  pointEntry  PointLedgerEntry?
+
+  @@unique([userId, achievementId])
+  @@index([achievementId, unlockedAt])
+}
+
+model Mission {
+  id           String      @id @default(cuid())
+  code         String      @unique @db.VarChar(80)
+  title        String      @db.VarChar(160)
+  description  String?     @db.Text
+  type         MissionType
+  metric       String      @db.VarChar(80)
+  targetCount  Int
+  pointsReward Int
+  condition    Json?
+  startsAt     DateTime?
+  endsAt       DateTime?
+  isActive     Boolean     @default(true)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  progress MissionProgress[]
+
+  @@index([isActive, startsAt, endsAt])
+  @@index([type, isActive])
+}
+
+model MissionProgress {
+  id             String                @id @default(cuid())
+  userId         String
+  missionId      String
+  status         MissionProgressStatus @default(ACTIVE)
+  currentCount   Int                   @default(0)
+  completedAt    DateTime?
+  claimedAt      DateTime?
+  lastActivityAt DateTime              @default(now())
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mission    Mission           @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  pointEntry PointLedgerEntry?
+
+  @@unique([userId, missionId])
+  @@index([status, lastActivityAt])
+  @@index([missionId, status])
+}
+
+// -----------------------------------------------------------------------------
+// Book store
+// -----------------------------------------------------------------------------
+
+model BookCategory {
+  id          String   @id @default(cuid())
+  name        String   @db.VarChar(120)
+  slug        String   @unique @db.VarChar(140)
+  description String?  @db.Text
+  iconUrl     String?  @db.VarChar(2048)
+  parentId    String?
+  position    Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  parent          BookCategory?      @relation("BookCategoryTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children        BookCategory[]     @relation("BookCategoryTree")
+  bookLinks       BookCategoryLink[]
+  promoCategories PromoCategory[]
+
+  @@index([parentId, position])
+  @@index([isActive, position])
+}
+
+model Book {
+  id                String    @id @default(cuid())
+  sku               String    @unique @db.VarChar(64)
+  slug              String    @unique @db.VarChar(160)
+  title             String    @db.VarChar(300)
+  subtitle          String?   @db.VarChar(300)
+  description       String    @db.Text
+  author            String    @db.VarChar(200)
+  translator        String?   @db.VarChar(200)
+  publisher         String?   @db.VarChar(200)
+  isbn              String?   @unique @db.VarChar(32)
+  language          String    @default("az") @db.VarChar(16)
+  publicationDate   DateTime? @db.Date
+  pageCount         Int?
+  coverImageUrl     String?   @db.VarChar(2048)
+  price             Decimal   @db.Decimal(12, 2)
+  compareAtPrice    Decimal?  @db.Decimal(12, 2)
+  rating            Decimal   @default(0) @db.Decimal(3, 2)
+  reviewCount       Int       @default(0)
+  currency          String    @default("AZN") @db.Char(3)
+  stock             Int       @default(0)
+  lowStockThreshold Int       @default(5)
+  trackInventory    Boolean   @default(true)
+  isActive          Boolean   @default(true)
+  isFeatured        Boolean   @default(false)
+  publishedAt       DateTime?
+  metadata          Json?
+  createdById       String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  deletedAt         DateTime?
+
+  createdBy     User?              @relation("BookCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  categoryLinks BookCategoryLink[]
+  reviews       BookReview[]
+  wishlistItems WishlistItem[]
+  cartItems     CartItem[]
+  orderItems    OrderItem[]
+  promoBooks    PromoBook[]
+
+  @@index([isActive, publishedAt])
+  @@index([isFeatured, isActive])
+  @@index([author])
+  @@index([createdById])
+}
+
+model BookCategoryLink {
+  id         String   @id @default(cuid())
+  bookId     String
+  categoryId String
+  createdAt  DateTime @default(now())
+
+  book     Book         @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  category BookCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([bookId, categoryId])
+  @@index([categoryId, bookId])
+}
+
+model BookReview {
+  id         String   @id @default(cuid())
+  bookId     String
+  userId     String
+  rating     Int
+  title      String?  @db.VarChar(200)
+  comment    String?  @db.Text
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([bookId, userId])
+  @@index([bookId, isApproved, createdAt])
+  @@index([userId])
+}
+
+model WishlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  bookId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bookId])
+  @@index([bookId])
+}
+
+model Cart {
+  id             String     @id @default(cuid())
+  userId         String?
+  guestTokenHash String?    @unique @db.VarChar(128)
+  status         CartStatus @default(ACTIVE)
+  currency       String     @default("AZN") @db.Char(3)
+  expiresAt      DateTime?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  user  User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  items CartItem[]
+  order Order?
+
+  /// Deliberately not unique: a user gets one cart per order so past baskets
+  /// stay intact. The newest ACTIVE row is the live one.
+  @@index([userId, status, updatedAt])
+  @@index([status, expiresAt])
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  cartId    String
+  bookId    String
+  quantity  Int
+  unitPrice Decimal  @db.Decimal(12, 2)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cart Cart @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  book Book @relation(fields: [bookId], references: [id], onDelete: Restrict)
+
+  @@unique([cartId, bookId])
+  @@index([bookId])
+}
+
+model Order {
+  id                   String      @id @default(cuid())
+  orderNumber          String      @unique @db.VarChar(32)
+  userId               String?
+  cartId               String?     @unique
+  status               OrderStatus @default(PENDING)
+  source               OrderSource @default(WEB)
+  customerEmail        String      @db.VarChar(320)
+  customerPhone        String      @db.VarChar(32)
+  currency             String      @default("AZN") @db.Char(3)
+  subtotal             Decimal     @db.Decimal(12, 2)
+  discountAmount       Decimal     @default(0) @db.Decimal(12, 2)
+  /// Loyalty tier snapshot: the balance changes over time, so an order has to
+  /// remember which tier (and which percentage) it was placed with.
+  discountTierPoints   Int         @default(0)
+  pointDiscountPercent Decimal     @default(0) @db.Decimal(5, 2)
+  pointsUsed           Int         @default(0)
+  shippingFee          Decimal     @default(0) @db.Decimal(12, 2)
+  totalAmount          Decimal     @db.Decimal(12, 2)
+  promoCodeSnapshot    String?     @db.VarChar(80)
+  version              Int         @default(1)
+  idempotencyKey       String?     @unique @db.VarChar(191)
+  shippingAddress      Json
+  billingAddress       Json?
+  notes                String?     @db.Text
+  placedAt             DateTime    @default(now())
+  confirmedAt          DateTime?
+  shippedAt            DateTime?
+  deliveredAt          DateTime?
+  cancelledAt          DateTime?
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
+
+  user            User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
+  cart            Cart?              @relation(fields: [cartId], references: [id], onDelete: SetNull)
+  items           OrderItem[]
+  payments        Payment[]
+  promoRedemption PromoRedemption?
+  pointEntries    PointLedgerEntry[]
+
+  @@index([userId, createdAt])
+  @@index([status, createdAt])
+  @@index([customerEmail])
+}
+
+model OrderItem {
+  id         String  @id @default(cuid())
+  orderId    String
+  bookId     String
+  sku        String  @db.VarChar(64)
+  title      String  @db.VarChar(300)
+  author     String? @db.VarChar(200)
+  unitPrice  Decimal @db.Decimal(12, 2)
+  quantity   Int
+  totalPrice Decimal @db.Decimal(12, 2)
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  book  Book  @relation(fields: [bookId], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+  @@index([bookId])
+}
+
+model Payment {
+  id                String        @id @default(cuid())
+  orderId           String
+  provider          String        @db.VarChar(40)
+  providerPaymentId String?       @db.VarChar(191)
+  status            PaymentStatus @default(PENDING)
+  method            PaymentMethod
+  amount            Decimal       @db.Decimal(12, 2)
+  currency          String        @default("AZN") @db.Char(3)
+  providerData      Json?
+  failureCode       String?       @db.VarChar(120)
+  failureMessage    String?       @db.Text
+  processedAt       DateTime?
+  paidAt            DateTime?
+  cancelledAt       DateTime?
+  refundedAt        DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerPaymentId])
+  @@index([orderId, status])
+  @@index([status, createdAt])
+}
+
+model Promo {
+  id                String       @id @default(cuid())
+  code              String       @unique @db.VarChar(80)
+  name              String       @db.VarChar(160)
+  description       String?      @db.Text
+  discountType      DiscountType
+  value             Decimal      @db.Decimal(12, 2)
+  currency          String?      @db.Char(3)
+  minOrderAmount    Decimal?     @db.Decimal(12, 2)
+  maxDiscountAmount Decimal?     @db.Decimal(12, 2)
+  usageLimit        Int?
+  perUserLimit      Int?
+  startsAt          DateTime
+  endsAt            DateTime?
+  appliesToAll      Boolean      @default(false)
+  conditions        Json?
+  isActive          Boolean      @default(true)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  books       PromoBook[]
+  categories  PromoCategory[]
+  redemptions PromoRedemption[]
+
+  @@index([isActive, startsAt, endsAt])
+}
+
+model PromoBook {
+  id        String   @id @default(cuid())
+  promoId   String
+  bookId    String
+  createdAt DateTime @default(now())
+
+  promo Promo @relation(fields: [promoId], references: [id], onDelete: Cascade)
+  book  Book  @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([promoId, bookId])
+  @@index([bookId])
+}
+
+model PromoCategory {
+  id         String   @id @default(cuid())
+  promoId    String
+  categoryId String
+  createdAt  DateTime @default(now())
+
+  promo    Promo        @relation(fields: [promoId], references: [id], onDelete: Cascade)
+  category BookCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([promoId, categoryId])
+  @@index([categoryId])
+}
+
+model PromoRedemption {
+  id             String   @id @default(cuid())
+  promoId        String
+  orderId        String   @unique
+  userId         String?
+  discountAmount Decimal  @db.Decimal(12, 2)
+  redeemedAt     DateTime @default(now())
+
+  promo Promo @relation(fields: [promoId], references: [id], onDelete: Restrict)
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  user  User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@unique([promoId, orderId])
+  @@index([userId, redeemedAt])
+  @@index([promoId, redeemedAt])
+}
+
+// -----------------------------------------------------------------------------
+// Daily Islamic content and prayer utilities
+// -----------------------------------------------------------------------------
+
+model QuranSurah {
+  number                 Int         @id
+  name                   String      @db.VarChar(150)
+  englishName            String      @db.VarChar(150)
+  englishNameTranslation String      @db.VarChar(250)
+  revelationType         String      @db.VarChar(20)
+  ayahCount              Int
+  ayahs                  QuranAyah[]
+  createdAt              DateTime    @default(now())
+  updatedAt              DateTime    @updatedAt
+
+  @@index([englishName])
+}
+
+model QuranAyah {
+  id              String     @id @default(cuid())
+  surahNumber     Int
+  ayahNumber      Int
+  arabicText      String     @db.Text
+  /// Fallback translation (English). Kept for backwards compatibility and for
+  /// search; per-locale text lives in `translations`.
+  translationText String     @db.Text
+  /// Translations keyed by locale code, e.g. `{ "az": "…", "tr": "…", "en": "…" }`.
+  /// The API returns the entry matching the app's selected language.
+  translations    Json       @default("{}")
+  juz             Int
+  page            Int
+  isSajda         Boolean    @default(false)
+  surah           QuranSurah @relation(fields: [surahNumber], references: [number], onDelete: Cascade)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  @@unique([surahNumber, ayahNumber])
+  @@index([surahNumber, ayahNumber])
+  @@index([juz, page])
+}
+
+model DailyAyah {
+  id              String   @id @default(cuid())
+  day             DateTime @unique @db.Date
+  surahNumber     Int
+  ayahNumber      Int
+  reference       String   @db.VarChar(40)
+  arabicText      String   @db.Text
+  translationText String   @db.Text
+  transliteration String?  @db.Text
+  audioUrl        String?  @db.VarChar(2048)
+  sourceUrl       String?  @db.VarChar(2048)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([surahNumber, ayahNumber])
+}
+
+model DailyInfo {
+  id          String    @id @default(cuid())
+  day         DateTime  @unique @db.Date
+  title       String    @db.VarChar(250)
+  summary     String?   @db.Text
+  content     String    @db.Text
+  imageUrl    String?   @db.VarChar(2048)
+  isPublished Boolean   @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([isPublished, day])
+}
+
+model IslamicEvent {
+  id              String    @id @default(cuid())
+  slug            String    @unique @db.VarChar(180)
+  title           String    @db.VarChar(250)
+  description     String?   @db.Text
+  startsAt        DateTime
+  endsAt          DateTime?
+  allDay          Boolean   @default(false)
+  hijriDate       String?   @db.VarChar(80)
+  location        String?   @db.VarChar(250)
+  venue           String?   @db.VarChar(250)
+  imageUrl        String?   @db.VarChar(2048)
+  registrationUrl String?   @db.VarChar(2048)
+  isPublished     Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([isPublished, startsAt])
+}
+
+model PrayerSettings {
+  id                   String                  @id @default(cuid())
+  userId               String                  @unique
+  isEnabled            Boolean                 @default(true)
+  calculationMethod    PrayerCalculationMethod @default(MWL)
+  customMethod         String?                 @db.VarChar(80)
+  latitude             Decimal?                @db.Decimal(9, 6)
+  longitude            Decimal?                @db.Decimal(9, 6)
+  timezone             String                  @default("Asia/Baku") @db.VarChar(64)
+  asrMadhab            AsrMadhab               @default(HANAFI)
+  highLatitudeRule     HighLatitudeRule        @default(MIDDLE_OF_NIGHT)
+  autoLocation         Boolean                 @default(true)
+  notificationsEnabled Boolean                 @default(true)
+  minuteOffsets        Json?
+  createdAt            DateTime                @default(now())
+  updatedAt            DateTime                @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model TasbeehPreset {
+  id            String   @id @default(cuid())
+  slug          String   @unique @db.VarChar(100)
+  name          String   @db.VarChar(120)
+  defaultTarget Int
+  isSystem      Boolean  @default(false)
+  isActive      Boolean  @default(true)
+  position      Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  sessions TasbeehSession[]
+
+  @@index([isActive, position])
+}
+
+model TasbeehSession {
+  id            String               @id @default(cuid())
+  userId        String
+  presetId      String?
+  name          String?              @db.VarChar(120)
+  status        TasbeehSessionStatus @default(ACTIVE)
+  targetCount   Int
+  currentCount  Int                  @default(0)
+  totalCount    Int                  @default(0)
+  startedAt     DateTime             @default(now())
+  lastCountedAt DateTime?
+  completedAt   DateTime?
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+
+  user    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  preset  TasbeehPreset? @relation(fields: [presetId], references: [id], onDelete: SetNull)
+  entries TasbeehEntry[]
+
+  @@index([userId, status, createdAt])
+  @@index([presetId])
+}
+
+model TasbeehEntry {
+  id        String   @id @default(cuid())
+  sessionId String
+  count     Int
+  countedAt DateTime @default(now())
+
+  session TasbeehSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, count])
+  @@index([countedAt])
+}
+
+// -----------------------------------------------------------------------------
+// Notifications, preferences, and device registrations
+// -----------------------------------------------------------------------------
+
+model UserPreference {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  language        String    @default("az") @db.VarChar(10)
+  theme           ThemeMode @default(SYSTEM)
+  timezone        String    @default("Asia/Baku") @db.VarChar(64)
+  reducedMotion   Boolean   @default(false)
+  marketingEmails Boolean   @default(false)
+  quietHoursStart String?   @db.VarChar(5)
+  quietHoursEnd   String?   @db.VarChar(5)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  title     String           @db.VarChar(250)
+  body      String           @db.Text
+  data      Json?
+  actionUrl String?          @db.VarChar(2048)
+  readAt    DateTime?
+  sentAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, readAt, createdAt])
+  @@index([userId, type, createdAt])
+}
+
+model NotificationPreference {
+  id         String              @id @default(cuid())
+  userId     String
+  channel    NotificationChannel
+  category   String              @db.VarChar(80)
+  isEnabled  Boolean             @default(true)
+  quietStart String?             @db.VarChar(5)
+  quietEnd   String?             @db.VarChar(5)
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, channel, category])
+  @@index([userId, channel, isEnabled])
+}
+
+model DeviceToken {
+  id         String         @id @default(cuid())
+  userId     String
+  platform   DevicePlatform
+  token      String         @unique @db.VarChar(512)
+  deviceName String?        @db.VarChar(120)
+  appVersion String?        @db.VarChar(40)
+  locale     String?        @db.VarChar(10)
+  timezone   String?        @db.VarChar(64)
+  isActive   Boolean        @default(true)
+  lastSeenAt DateTime?
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isActive])
+  @@index([platform, isActive])
+}
+
+// -----------------------------------------------------------------------------
+// System configuration, credentials, and auditing
+// -----------------------------------------------------------------------------
+
+model SystemSetting {
+  id          String           @id @default(cuid())
+  key         String           @unique @db.VarChar(160)
+  value       Json
+  valueType   SettingValueType
+  group       String           @default("general") @db.VarChar(80)
+  description String?          @db.VarChar(500)
+  isPublic    Boolean          @default(false)
+  updatedById String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  updatedBy User? @relation("SystemSettingUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+
+  @@index([group, isPublic])
+  @@index([updatedById])
+}
+
+model RefreshToken {
+  id           String    @id @default(cuid())
+  userId       String
+  familyId     String    @db.VarChar(128)
+  tokenHash    String    @unique @db.VarChar(128)
+  issuedAt     DateTime  @default(now())
+  expiresAt    DateTime
+  revokedAt    DateTime?
+  replacedById String?   @unique
+  ipAddress    String?   @db.VarChar(45)
+  userAgent    String?   @db.Text
+  createdAt    DateTime  @default(now())
+
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  replacedBy RefreshToken?  @relation("RefreshTokenReplacement", fields: [replacedById], references: [id], onDelete: SetNull)
+  replaces   RefreshToken[] @relation("RefreshTokenReplacement")
+
+  @@index([userId, expiresAt])
+  @@index([familyId, revokedAt])
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique @db.VarChar(128)
+  expiresAt DateTime
+  usedAt    DateTime?
+  ipAddress String?   @db.VarChar(45)
+  userAgent String?   @db.Text
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+  @@index([expiresAt])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String   @db.VarChar(120)
+  entityType String   @db.VarChar(80)
+  entityId   String?  @db.VarChar(191)
+  before     Json?
+  after      Json?
+  ipAddress  String?  @db.VarChar(45)
+  userAgent  String?  @db.Text
+  createdAt  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId, createdAt])
+  @@index([userId, createdAt])
+  @@index([action, createdAt])
+}

@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function WelcomeScreen() {
   const { t } = useTranslation();
-  const { colors } = useTheme();
+  const { colors, isDark } = useTheme();
   const { dismissWelcome } = useAuthStore();
   const user = useAuthStore((state) => state.user);
 
@@ -42,7 +42,7 @@ export default function WelcomeScreen() {
 
   const containerStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
-    transform: [{ scale: interpolate(scale.value, [0, 1], [0.9, 1]) }],
+    transform: [{ scale: interpolate(scale.value, [0, 1], [0.95, 1]) }],
   }));
 
   const goMain = () => {
@@ -52,20 +52,62 @@ export default function WelcomeScreen() {
   return (
     <AppScreen subtitle="" backdrop={false}>
       <Animated.View style={[styles.container, containerStyle]}>
-        {/* Background Islamic ornamental pattern. */}
+        {/* Premium Islamic ornamental background pattern. */}
         <View style={styles.bgPattern}>
-          <Svg width={220} height={220} style={styles.ornament}>
-            <Circle cx={110} cy={110} r={100} fill="none" stroke={colors.secondary} strokeWidth={1} strokeOpacity={0.15} />
-            <Circle cx={110} cy={110} r={60} fill="none" stroke={colors.accent} strokeWidth={1} strokeOpacity={0.12} />
-            <Polygon points="110,40 125,70 155,70 135,90 145,120 110,100 75,120 85,90 65,70 95,70" fill={colors.primary} opacity={0.1} />
+          {/* Gold accent shapes with subtle opacity. */}
+          <Svg width={300} height={300} style={styles.backgroundOrnament}>
+            {/* Central geometric pattern */}
+            <Polygon
+              points="150,20 180,140 280,140 250,20 210,70 240,100 220,80 150,100 80,70 110,100 70,70"
+              fill={colors.primary}
+              opacity={0.15}
+            />
+            <Polygon
+              points="150,220 120,300 30,300 60,270 150,220"
+              fill={colors.secondary}
+              opacity={0.1}
+            />
+            {/* Moon and star motif */}
+            <Circle cx={150} cy={150} r={80} fill="none" stroke={colors.accent} strokeWidth={2} strokeOpacity={0.4} />
+            <Circle cx={150} cy={150} r={35} fill={colors.accent} opacity={0.3} />
+            {/* Decorative stars */}
+            <Polygon
+              points={[
+                220, 150, 250, 170, 240, 190, 270, 170, 260, 140,
+              ] as any}
+              fill={colors.accent}
+              opacity={0.4}
+            />
+            <Polygon
+              points={[
+                80, 150, 50, 170, 60, 200, 40, 170, 50, 140,
+              ] as any}
+              fill={colors.accent}
+              opacity={0.4}
+            />
+          </Svg>
+
+          {/* Subtle pattern dots */}
+          <Svg
+            width={300}
+            height={300}
+            style={styles.patternOverlay}
+            opacity={0.07}
+          >
+            <Circle cx={150} cy={50} r={2} fill={colors.primary} opacity={0.5} />
+            <Circle cx={50} cy={150} r={2} fill={colors.secondary} opacity={0.5} />
+            <Circle cx={250} cy={250} r={2} fill={colors.accent} opacity={0.5} />
           </Svg>
         </View>
 
         <View style={styles.content}>
-          {/* Crescent + star ornament. */}
+          {/* Crescent and star ornament. */}
           <View style={styles.crescentWrapper}>
             <Svg width={64} height={64} viewBox="0 0 24 24">
-              <Path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-4 4h8l-4-4zm-1-7h8v-2h-8zm11-1h-2v-2a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2h-2a2 2 0 0 0-2-2h-2a2 2 0 0 0-2-2h-2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-2v-2a2 2 0 0 0-2-2z" fill={colors.secondary} />
+              <Path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-4 4h8l-4-4zm-1-7h8v-2h-8zm11-1h-2v-2a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2h-2a2 2 0 0 0-2 2h-2v8a2 2 0 0 0 2-2h-2v-2a2 2 0 0 0-2-2z"
+                fill={colors.secondary}
+              />
             </Svg>
           </View>
 
@@ -117,6 +159,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 24,
+    backgroundColor: 'transparent',
   },
   bgPattern: {
     position: 'absolute',
@@ -127,6 +170,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
+    padding: 40,
+  },
+  backgroundOrnament: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    borderRadius: 20,
+  },
+  patternOverlay: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    pointerEvents: 'none',
   },
   ornament: {
     opacity: 0.6,
@@ -135,13 +191,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 16,
+    gap: 24,
+    padding: 32,
   },
   crescentWrapper: {
-    marginBottom: 8,
+    marginBottom: 32,
+    padding: 20,
+    borderRadius: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.03)',
   },
   headerText: {
     alignItems: 'center',
+    marginBottom: 16,
   },
   arabicText: {
     fontSize: 42,
@@ -149,15 +210,17 @@ const styles = StyleSheet.create({
     lineHeight: 56,
     marginBottom: 6,
     fontWeight: '700',
+    letterSpacing: 0.3,
   },
   latinText: {
     fontSize: 26,
     textAlign: 'center',
     fontWeight: '700',
-    marginBottom: 12,
+    letterSpacing: 0.3,
+    marginBottom: 24,
   },
   subtitleWrapper: {
-    marginBottom: 16,
+    marginBottom: 32,
   },
   subtitleText: {
     fontSize: 16,
@@ -177,5 +240,8 @@ const styles = StyleSheet.create({
   },
   continueButton: {
     width: '100%',
+    minHeight: 56,
+    borderRadius: 28,
+    elevation: 4,
   },
 });

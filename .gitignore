@@ -22,7 +22,7 @@ android/
 ios/
 prisma/dev.db
 prisma/*.db
-prisma/generated/
+# prisma/generated/ is committed so Vercel has the Prisma client on deploy
 prisma/_tmp.sql
 
 # deploy sirleri
