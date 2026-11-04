@@ -370,11 +370,26 @@ export async function answerQuestion(userId: string, sessionId: string, question
     const stats = await tx.user.update({ where: { id: userId }, data: { correctAnswers: { increment: isCorrect ? 1 : 0 }, ...(isCorrect || protectedBySecondChance ? {} : { wrongAnswers: { increment: 1 } }) }, select: { correctAnswers: true, wrongAnswers: true, points: true } });
     const combo = isCorrect ? session.currentCombo + 1 : 0;
 
-    // A wrong answer ends the run and wipes the score back to 0, as the level
-    // can no longer be completed. The user's account points are untouched.
+    // A wrong answer ends the run and wipes the session score back to 0. The
+    // points earned during this session are deducted from the user's account
+    // balance — only points from completed runs (intentional finish or full
+    // ladder clear) are kept.
     const gameOver = !isCorrect && !protectedBySecondChance;
     const correctAnswersTotal = await tx.quizSessionAnswer.count({ where: { sessionQuestion: { sessionId }, isCorrect: true } });
     const sessionScore = gameOver ? 0 : session.score + points;
+
+    if (gameOver && session.score > 0) {
+      await applyPointChange(tx, {
+        userId,
+        amount: -session.score,
+        type: 'REFUND',
+        description: 'Yanlış cavab: oyun xalı hesabdan geri alındı',
+        sourceType: 'QUIZ_ANSWER',
+        sourceId: sq.id,
+        idempotencyKey: `quiz-wrong:${sq.id}`,
+        sessionId,
+      });
+    }
 
     // Level cleared? Count the correct answers inside the current level only.
     const levelCorrect = await tx.quizSessionAnswer.count({
