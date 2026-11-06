@@ -41,7 +41,7 @@ let html;
 try {
   html = await readFile(target, 'utf8');
 } catch {
-  console.error(`[web-html] ${target} tapilmadi. ��vvəlc "expo export --platform web" işlədin.`);
+  console.error(`[web-html] ${target} tapılmadı. Əvvəlcə "expo export --platform web" işlədin.`);
   process.exit(1);
 }
 

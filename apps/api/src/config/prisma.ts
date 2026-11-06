@@ -14,6 +14,19 @@
 import { PrismaClient } from '../../../../prisma/generated/prisma/index.js';
 import { env } from './env.js';
 
+/*
+ * Prisma resolves its query engine at runtime from a computed file name, which
+ * Vercel's file tracer cannot follow. Because the client lives in a custom
+ * output directory (not in `node_modules`), the Linux engine would be left out
+ * of the serverless bundle and every query would fail with
+ * `Prisma Client could not locate the Query Engine for runtime
+ * "rhel-openssl-3.0.x"`.
+ *
+ * `vercel.json` therefore ships the whole generated client with the function
+ * (`functions["api/index.ts"].includeFiles`). Resolving the files from here
+ * would not help the tracer — it never executes this module while tracing.
+ */
+
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
 export const prisma = globalForPrisma.prisma ?? new PrismaClient({
