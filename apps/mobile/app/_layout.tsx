@@ -2,6 +2,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useTranslation } from 'react-i18next';
 
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { AppProviders } from '@/providers/AppProviders';
 import { useTheme } from '@/providers/ThemeProvider';
 
@@ -15,15 +16,10 @@ function Navigation() {
         screenOptions={{
           headerShown: false,
           contentStyle: { backgroundColor: colors.background },
-          // Pushed screens slide in from the trailing edge, which reads as
-          // "going deeper". Modals still come from the bottom via their own
-          // `presentation`.
           animation: 'slide_from_right',
           animationDuration: 260,
         }}
       >
-        {/* Tabs sit at the root, so entering the app should feel like rising
-            into the tab bar rather than sliding a page over it. */}
         <Stack.Screen name="(tabs)" options={{ title: t('common.appName'), animation: 'fade_from_bottom', animationDuration: 220 }} />
         <Stack.Screen name="auth/welcome" options={{ headerShown: false, animation: 'fade_from_bottom', animationDuration: 220 }} />
         <Stack.Screen name="auth/index" options={{ presentation: 'modal', title: t('auth.loginTitle'), animation: 'slide_from_bottom' }} />
@@ -36,8 +32,10 @@ function Navigation() {
 
 export default function RootLayout() {
   return (
-    <AppProviders>
-      <Navigation />
-    </AppProviders>
+    <ErrorBoundary>
+      <AppProviders>
+        <Navigation />
+      </AppProviders>
+    </ErrorBoundary>
   );
 }

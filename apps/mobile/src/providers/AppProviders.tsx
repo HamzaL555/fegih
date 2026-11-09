@@ -14,21 +14,24 @@ import { ThemeProvider } from '@/providers/ThemeProvider';
 
 function AuthBootstrap({ children }: PropsWithChildren) {
   const hydrate = useAuthStore((state) => state.hydrate);
-  const clear = useAuthStore((state) => state.clear);
 
   useEffect(() => {
-    void hydrate();
+    void hydrate().catch(() => {
+      // Hydrate failures (network, invalid token) are handled inside hydrate()
+      // by setting status to 'unauthenticated'. Continue so the app can render
+      // the login screen instead of crashing.
+    });
   }, [hydrate]);
 
-  useEffect(
-    () =>
-      subscribeToAuthEvents((event) => {
-        if (event === 'expired') {
-          clear();
-        }
-      }),
-    [clear],
-  );
+  useEffect(() => {
+    const clear = useAuthStore.getState().clear;
+    const unsub = subscribeToAuthEvents((event) => {
+      if (event === 'expired') {
+        void clear();
+      }
+    });
+    return unsub;
+  }, []);
 
   return children;
 }
