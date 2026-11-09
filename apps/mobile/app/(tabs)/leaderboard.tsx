@@ -7,6 +7,7 @@ import { AppScreen } from '@/components/AppScreen';
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ListRow, RowDescription, RowTitle } from '@/components/ListRow';
 import { PageMetaText } from '@/components/PageMetaText';
 import { RemoteState } from '@/components/RemoteState';
@@ -49,48 +50,50 @@ export default function LeaderboardScreen() {
         isLoading={query.isPending}
         isError={query.isError}
         error={query.error}
-        isEmpty={query.data?.data.length === 0}
+        isEmpty={!query.data?.data?.length}
         onRetry={() => void query.refetch()}
         emptyTitle={t('leaderboard.noEntries')}
         emptyDescription={t('common.empty')}
       >
-        {query.data ? (
-          <View>
-            <Card style={styles.list}>
-              {query.data.data.map((entry, index) => (
-                <ListRow key={entry.userId ?? entry.id ?? `${entry.username}-${index}`}>
-                  <View style={styles.entry}>
-                    <AppText variant="label" color={colors.primary} style={styles.rank}>
-                      {entry.rank ?? (page - 1) * 20 + index + 1}
-                    </AppText>
-                    <View style={styles.name}>
-                      <RowTitle>{entry.displayName || entry.username}</RowTitle>
-                      <RowDescription>{entry.isCurrentUser ? t('leaderboard.you') : entry.username}</RowDescription>
+        <ErrorBoundary>
+          {query.data ? (
+            <View>
+              <Card style={styles.list}>
+                {(query.data.data ?? []).map((entry, index) => (
+                  <ListRow key={entry.userId ?? entry.id ?? `${entry.username}-${index}`}>
+                    <View style={styles.entry}>
+                      <AppText variant="label" color={colors.primary} style={styles.rank}>
+                        {entry.rank ?? (page - 1) * 20 + index + 1}
+                      </AppText>
+                      <View style={styles.name}>
+                        <RowTitle>{entry.displayName || entry.username}</RowTitle>
+                        <RowDescription>{entry.isCurrentUser ? t('leaderboard.you') : entry.username}</RowDescription>
+                      </View>
                     </View>
-                  </View>
-                  <AppText variant="subtitle" color={colors.primary}>{entry.points}</AppText>
-                </ListRow>
-              ))}
-            </Card>
-            <PageMetaText meta={query.data.meta} />
-            <View style={styles.pagination}>
-              <Button
-                label={t('common.previous')}
-                onPress={() => setPage(page - 1)}
-                disabled={page <= 1}
-                variant="secondary"
-                style={styles.pageButton}
-              />
-              <Button
-                label={t('common.next')}
-                onPress={() => setPage(page + 1)}
-                disabled={page >= query.data.meta.totalPages}
-                variant="secondary"
-                style={styles.pageButton}
-              />
+                    <AppText variant="subtitle" color={colors.primary}>{entry.points ?? 0}</AppText>
+                  </ListRow>
+                ))}
+              </Card>
+              <PageMetaText meta={query.data.meta ?? undefined} />
+              <View style={styles.pagination}>
+                <Button
+                  label={t('common.previous')}
+                  onPress={() => setPage(page - 1)}
+                  disabled={page <= 1}
+                  variant="secondary"
+                  style={styles.pageButton}
+                />
+                <Button
+                  label={t('common.next')}
+                  onPress={() => setPage(page + 1)}
+                  disabled={!query.data.meta || page >= query.data.meta.totalPages}
+                  variant="secondary"
+                  style={styles.pageButton}
+                />
+              </View>
             </View>
-          </View>
-        ) : null}
+          ) : null}
+        </ErrorBoundary>
       </RemoteState>
     </AppScreen>
   );

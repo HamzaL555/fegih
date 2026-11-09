@@ -11,6 +11,7 @@ import { Card } from '@/components/Card';
 import { ErrorBanner } from '@/components/ErrorBanner';
 import { BookCover } from '@/components/BookCover';
 import { CartIcon } from '@/components/icons/CartIcon';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { PageMetaText } from '@/components/PageMetaText';
 import { PriceText } from '@/components/PriceText';
 import { RemoteState } from '@/components/RemoteState';
@@ -167,37 +168,39 @@ export default function StoreScreen() {
         emptyTitle={t('store.noBooks')}
         emptyDescription={t('common.noResults')}
       >
-        <View style={styles.bookList}>
-          {books.map((book, index) => (
-            // Staggered entrance: the shelf fills in rather than appearing all
-            // at once, which makes a long catalogue feel shorter.
-            <Reveal key={book.id} delay={Math.min(index, 8) * 60} distance={16}>
-              <BookCard
-                book={book}
-                onDetails={() => router.push({ pathname: '/books/[id]', params: { id: book.id } })}
-                onAdd={() => addMutation.mutate(book.id)}
-                adding={addMutation.isPending && addMutation.variables === book.id}
-              />
-            </Reveal>
-          ))}
-        </View>
-        {booksQuery.data ? <PageMetaText meta={booksQuery.data.meta} /> : null}
-        <View style={styles.pagination}>
-          <Button
-            label={t('common.previous')}
-            onPress={() => setPage(page - 1)}
-            disabled={page <= 1}
-            variant="secondary"
-            style={styles.pageButton}
-          />
-          <Button
-            label={t('common.next')}
-            onPress={() => setPage(page + 1)}
-            disabled={!booksQuery.data || page >= booksQuery.data.meta.totalPages}
-            variant="secondary"
-            style={styles.pageButton}
-          />
-        </View>
+        <ErrorBoundary>
+          <View style={styles.bookList}>
+            {(books ?? []).map((book, index) => (
+              // Staggered entrance: the shelf fills in rather than appearing all
+              // at once, which makes a long catalogue feel shorter.
+              <Reveal key={book.id ?? `${index}`} delay={Math.min(index, 8) * 60} distance={16}>
+                <BookCard
+                  book={book}
+                  onDetails={() => router.push({ pathname: '/books/[id]', params: { id: book.id ?? '' } })}
+                  onAdd={() => addMutation.mutate(book.id ?? '')}
+                  adding={addMutation.isPending && addMutation.variables === book.id}
+                />
+              </Reveal>
+            ))}
+          </View>
+          {booksQuery.data ? <PageMetaText meta={booksQuery.data.meta ?? undefined} /> : null}
+          <View style={styles.pagination}>
+            <Button
+              label={t('common.previous')}
+              onPress={() => setPage(page - 1)}
+              disabled={page <= 1}
+              variant="secondary"
+              style={styles.pageButton}
+            />
+            <Button
+              label={t('common.next')}
+              onPress={() => setPage(page + 1)}
+              disabled={!booksQuery.data || page >= (booksQuery.data.meta?.totalPages ?? 0)}
+              variant="secondary"
+              style={styles.pageButton}
+            />
+          </View>
+        </ErrorBoundary>
       </RemoteState>
       {cartError ? <ErrorBanner error={cartError} onDismiss={() => setCartError(undefined)} /> : null}
     </AppScreen>
