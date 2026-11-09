@@ -12,6 +12,7 @@ import { TextField } from '@/components/TextField';
 import { quranApi } from '@/api';
 import { useAppLocale } from '@/hooks/useAppLocale';
 import { useRemoteQuery } from '@/hooks/useRemoteQuery';
+import { readParam } from '@/lib/searchParams';
 import { useTheme } from '@/providers/ThemeProvider';
 
 export default function QuranScreen() {
@@ -22,7 +23,7 @@ export default function QuranScreen() {
 
   const locale = useAppLocale();
   // The search term lives in the URL so refreshing keeps the same results.
-  const search = (searchParams as any)?.get('search') || '';
+  const search = readParam(searchParams as Record<string, string | string[] | undefined>, 'search') || '';
 
   const setSearch = useCallback(
     (value: string) => {

@@ -212,6 +212,7 @@ export const apiClient = axios.create({
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
+    'X-Client-Platform': Platform.OS === 'web' ? 'web' : 'mobile',
   },
 });
 
@@ -325,4 +326,18 @@ export async function unwrapPage<T>(response: Promise<{ data: unknown }>): Promi
   const rows = envelope.data ?? [];
   const meta = envelope.meta ?? { page: 1, limit: rows.length, total: rows.length, totalPages: rows.length ? 1 : 0 };
   return { data: rows, meta };
+}
+
+/**
+ * Absolute URL for an API endpoint, for use with `Linking.openURL` (certificate
+ * print view, audio, …). On web the client uses a relative `/api/v1` base, so
+ * the current origin has to be prepended.
+ */
+export function absoluteApiUrl(path: string): string {
+  const suffix = path.startsWith('/') ? path : `/${path}`;
+  if (/^https?:\/\//i.test(apiBaseUrl)) return `${apiBaseUrl}${suffix}`;
+  if (typeof window !== 'undefined' && window.location?.origin) {
+    return `${window.location.origin}${apiBaseUrl}${suffix}`;
+  }
+  return `${apiBaseUrl}${suffix}`;
 }

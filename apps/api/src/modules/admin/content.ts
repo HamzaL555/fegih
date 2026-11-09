@@ -11,6 +11,7 @@ import { ApiError } from '../../lib/api-error.js';
 import { notifyOfflineOrderPaid } from '../auth/mailer.js';
 import { serializeOrder } from '../../lib/serialize-order.js';
 import { notifyUser } from '../notifications/service.js';
+import { orderStatusHistory, transitionOrder } from '../orders/status.js';
 
 const auth = [requireAuth, requireAdmin('SUPER_ADMIN', 'ADMIN', 'EDITOR')] as const;
 
@@ -39,7 +40,84 @@ const orderQuery = z.object({ search: z.string().max(100).optional(), status: z.
  */
 function serialize(order: any) { return { ...serializeOrder(order), itemCount: order.items?.reduce((sum: number, item: any) => sum + item.quantity, 0) ?? 0, user: order.user ? { ...order.user, fullName: order.user.displayName } : null }; }
 adminOrdersRouter.get('/', async (request, response) => { const query = parse(orderQuery, request.query); const { page, limit, skip } = getPagination(request); const where = { ...(query.status ? { status: query.status } : {}), ...(query.search ? { OR: [{ orderNumber: { contains: query.search, mode: 'insensitive' as const } }, { customerEmail: { contains: query.search, mode: 'insensitive' as const } }] } : {}) }; const [data, total] = await prisma.$transaction([prisma.order.findMany({ where, orderBy: { placedAt: 'desc' }, skip, take: limit, include: { user: { select: { id: true, username: true, displayName: true, email: true } }, items: true, payments: { orderBy: { createdAt: 'desc' }, take: 1 } } }), prisma.order.count({ where })]); response.json({ data: data.map(serialize), meta: paginationMeta(page, limit, total) }); });
-adminOrdersRouter.patch('/:orderId/status', writeLimiter, async (request, response) => { const id = z.string().cuid().parse(request.params.orderId); const { status } = parse(z.object({ status: z.enum(['PENDING', 'CONFIRMED', 'PREPARING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED', 'PARTIALLY_REFUNDED', 'REFUNDED']) }), request.body); const order = await prisma.order.update({ where: { id }, data: { status, ...(status === 'CONFIRMED' ? { confirmedAt: new Date() } : {}), ...(status === 'SHIPPED' ? { shippedAt: new Date() } : {}), ...(status === 'DELIVERED' ? { deliveredAt: new Date() } : {}), ...(status === 'CANCELLED' ? { cancelledAt: new Date() } : {}) }, include: { items: true, payments: true, user: { select: { id: true, username: true, displayName: true, email: true } } } }); response.json({ data: serialize(order) }); });
+const orderStatusSchema = z.object({
+  status: z.enum(['PENDING', 'CONFIRMED', 'PREPARING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED', 'PARTIALLY_REFUNDED', 'REFUNDED']),
+  reason: z.string().trim().max(500).optional(),
+  /** SUPER_ADMIN-only escape hatch; still audited and still restocks on cancel. */
+  force: z.boolean().optional(),
+});
+adminOrdersRouter.patch('/:orderId/status', writeLimiter, async (request, response) => {
+  const id = z.string().cuid().parse(request.params.orderId);
+  const input = parse(orderStatusSchema, request.body);
+  const isSuperAdmin = request.user!.roles.includes('SUPER_ADMIN');
+  if (input.force && !isSuperAdmin) throw ApiError.forbidden('Only a super administrator can force a status change');
+  const result = await prisma.$transaction(
+    (tx) => transitionOrder(tx, {
+      orderId: id,
+      nextStatus: input.status,
+      actor: {
+        type: 'ADMIN',
+        userId: request.user!.id,
+        role: request.user!.roles[0] ?? null,
+        ipAddress: request.ip ?? null,
+        userAgent: request.header('user-agent') ?? null,
+      },
+      reason: input.reason,
+      force: input.force === true && isSuperAdmin,
+    }),
+    { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+  );
+  if (result.changed && result.order.userId) {
+    await notifyUser(
+      result.order.userId,
+      'ORDER_UPDATE',
+      'Sifarişin statusu dəyişdi',
+      `Sifariş ${result.order.orderNumber}: ${result.previousStatus} → ${input.status}.`,
+      { orderId: result.order.id, status: input.status },
+    ).catch(() => undefined);
+  }
+  const order = await prisma.order.findUniqueOrThrow({
+    where: { id },
+    include: { user: { select: { id: true, username: true, displayName: true, email: true } }, items: true, payments: { orderBy: { createdAt: 'desc' }, take: 1 } },
+  });
+  response.json({ data: serialize(order) });
+});
+adminOrdersRouter.post('/:orderId/cancel', writeLimiter, async (request, response) => {
+  const id = z.string().cuid().parse(request.params.orderId);
+  const reason = parse(z.object({ reason: z.string().trim().max(500).optional() }), request.body ?? {}).reason;
+  const result = await prisma.$transaction(
+    (tx) => transitionOrder(tx, {
+      orderId: id,
+      nextStatus: 'CANCELLED',
+      actor: {
+        type: 'ADMIN',
+        userId: request.user!.id,
+        role: request.user!.roles[0] ?? null,
+        ipAddress: request.ip ?? null,
+        userAgent: request.header('user-agent') ?? null,
+      },
+      reason: reason ?? 'Cancelled by an administrator',
+    }),
+    { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+  );
+  if (result.order.userId) {
+    await notifyUser(result.order.userId, 'ORDER_UPDATE', 'Sifariş ləğv edildi', `Sifariş ${result.order.orderNumber} ləğv edildi.`, { orderId: result.order.id }).catch(() => undefined);
+  }
+  const order = await prisma.order.findUniqueOrThrow({
+    where: { id },
+    include: { user: { select: { id: true, username: true, displayName: true, email: true } }, items: true, payments: { orderBy: { createdAt: 'desc' }, take: 1 } },
+  });
+  response.json({ data: serialize(order) });
+});
+adminOrdersRouter.get('/:orderId', async (request, response) => {
+  const id = z.string().cuid().parse(request.params.orderId);
+  const order = await prisma.order.findUnique({
+    where: { id },
+    include: { user: { select: { id: true, username: true, displayName: true, email: true } }, items: true, payments: { orderBy: { createdAt: 'desc' } } },
+  });
+  if (!order) throw ApiError.notFound('Order not found');
+  response.json({ data: { ...serialize(order), history: await orderStatusHistory(id) } });
+});
 /**
  * Marks an offline order as paid. Cash and bank-transfer orders settle outside
  * Stripe, so they have no webhook to do this — an admin confirms the money

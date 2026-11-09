@@ -13,6 +13,7 @@ import { PageMetaText } from '@/components/PageMetaText';
 import { RemoteState } from '@/components/RemoteState';
 import { leaderboardApi } from '@/api';
 import { useRemoteQuery } from '@/hooks/useRemoteQuery';
+import { readPageParam } from '@/lib/searchParams';
 import { useTheme } from '@/providers/ThemeProvider';
 
 export default function LeaderboardScreen() {
@@ -22,9 +23,8 @@ export default function LeaderboardScreen() {
   const searchParams = useLocalSearchParams();
 
   // Page lives in the URL so refreshing or sharing the link keeps the same
-  // position. Defaults to page 1 when the param is missing or invalid.
-  const urlPage = Number((searchParams as any)?.get('page'));
-  const page = Number.isFinite(urlPage) && urlPage >= 1 ? urlPage : 1;
+  // position. `useLocalSearchParams` returns an object, not URLSearchParams.
+  const page = readPageParam(searchParams as Record<string, string | string[] | undefined>);
 
   const setPage = useCallback(
     (next: number) => {

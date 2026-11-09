@@ -4,17 +4,9 @@ import { z } from 'zod';
 import { prisma } from '../../config/prisma.js';
 import { getPagination, paginationMeta } from '../../lib/pagination.js';
 import { parse } from '../../lib/zod.js';
+import { periodStart } from './period.js';
 
 const querySchema = z.object({ period: z.enum(['daily', 'weekly', 'monthly', 'allTime']).default('allTime') });
-
-function periodStart(period: 'daily' | 'weekly' | 'monthly') {
-  const now = new Date();
-  const start = new Date(now);
-  if (period === 'monthly') start.setUTCMonth(now.getUTCMonth());
-  if (period === 'weekly') start.setUTCDate(now.getUTCDate() - ((now.getUTCDay() + 6) % 7));
-  start.setUTCHours(0, 0, 0, 0);
-  return start;
-}
 
 export const leaderboardRouter = Router();
 leaderboardRouter.get('/', async (request, response) => {

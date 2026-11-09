@@ -20,6 +20,7 @@ import { TextField } from '@/components/TextField';
 import { booksApi, cartApi, categoriesApi, storeApi } from '@/api';
 import { PointDiscountCard } from '@/components/PointDiscountCard';
 import { useRemoteQuery } from '@/hooks/useRemoteQuery';
+import { readPageParam, readParam } from '@/lib/searchParams';
 import { useTheme } from '@/providers/ThemeProvider';
 import { useAuthStore } from '@/store/authStore';
 import type { Book, Category } from '@/types/domain';
@@ -37,11 +38,11 @@ export default function StoreScreen() {
   const [cartError, setCartError] = useState<unknown>();
 
   // URL params persist pagination, category and search so refreshing or sharing
-  // the link keeps the same view.
-  const urlPage = Number((searchParams as any)?.get('page'));
-  const page = Number.isFinite(urlPage) && urlPage >= 1 ? urlPage : 1;
-  const categoryId = ((searchParams as any)?.get('categoryId') || undefined);
-  const search = (searchParams as any)?.get('search') || '';
+  // the link keeps the same view. `useLocalSearchParams` returns an object.
+  const typedParams = searchParams as Record<string, string | string[] | undefined>;
+  const page = readPageParam(typedParams);
+  const categoryId = readParam(typedParams, 'categoryId') || undefined;
+  const search = readParam(typedParams, 'search') || '';
 
   const setPage = useCallback(
     (next: number) => {

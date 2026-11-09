@@ -2,6 +2,7 @@ export * from '@/api/services';
 export {
   apiClient,
   apiBaseUrl,
+  absoluteApiUrl,
   clearAuthTokens,
   getAccessToken,
   getApiBaseUrl,

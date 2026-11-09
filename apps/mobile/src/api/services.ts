@@ -1,4 +1,4 @@
-import { apiClient, unwrap, unwrapPage } from '@/api/client';
+import { apiClient, absoluteApiUrl, unwrap, unwrapPage } from '@/api/client';
 import type { ApiSuccess, Paginated, QueryFilters } from '@/types/api';
 import type {
   Achievement,
@@ -12,6 +12,9 @@ import type {
   Cart,
   CartItem,
   Category,
+  Certificate,
+  CertificateEligibility,
+  CertificateListResult,
   CreateQuizPayload,
   CreateTasbeehPayload,
   DailyAyah,
@@ -91,6 +94,36 @@ export const quizApi = {
     unwrap(apiClient.post<ApiSuccess<QuizGame>>(`/quiz/${sessionId}/finish`)),
   useLifeline: (sessionId: EntityId, payload: UseQuizPayload) =>
     unwrap(apiClient.post<ApiSuccess<LifelineUseResult>>(`/quiz/${sessionId}/lifelines/${payload.type}/use`, payload)),
+};
+
+export const certificatesApi = {
+  /** `{ data: certificates, meta: { eligible, progress, qualifyingRunId } }` */
+  list: async (): Promise<CertificateListResult> => {
+    const response = await apiClient.get<ApiSuccess<Certificate[]>>('/certificates');
+    const body = response.data as unknown as {
+      data?: Certificate[];
+      meta?: {
+        eligible?: boolean;
+        progress?: CertificateEligibility;
+        qualifyingRunId?: string | null;
+      };
+    };
+    return {
+      certificates: body.data ?? [],
+      eligible: body.meta?.eligible ?? false,
+      progress: body.meta?.progress ?? {
+        bestLevel: 0,
+        bestScore: 0,
+        requiredLevel: 15,
+        requiredScore: 1200,
+        completedAt: null,
+      },
+      qualifyingRunId: body.meta?.qualifyingRunId ?? null,
+    };
+  },
+  issue: () => unwrap(apiClient.post<ApiSuccess<Certificate>>('/certificates/issue')),
+  /** Printable certificate; the browser can save it as a PDF. */
+  fileUrl: (id: EntityId) => absoluteApiUrl(`/certificates/${encodeURIComponent(String(id))}/file`),
 };
 
 export const leaderboardApi = {

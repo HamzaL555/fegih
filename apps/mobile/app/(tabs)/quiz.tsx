@@ -3,6 +3,7 @@ import * as Haptics from 'expo-haptics';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
+import { Linking, Pressable } from 'react-native';
 
 import { AppScreen, ScreenSection } from '@/components/AppScreen';
 import { AppText } from '@/components/AppText';
@@ -403,8 +404,14 @@ export default function QuizScreen() {
                         {t('quiz.levelCleared', { level: answerResult.nextLevel, points: answerResult.levelPointsPerAnswer })}
                       </AppText>
                     ) : null}
-                    {answerResult.correct && answerResult.pointsAwarded ? (
-                      <AppText color={colors.primary}>+{answerResult.pointsAwarded} {t('quiz.points')}</AppText>
+                    {answerResult.pointsCommitted ? (
+                      <AppText color={colors.success}>
+                        {t('quiz.levelReward', { points: answerResult.pointsCommitted })}
+                      </AppText>
+                    ) : answerResult.correct && answerResult.pointsAwarded ? (
+                      <AppText color={colors.textMuted}>
+                        {t('quiz.temporaryPoints', { points: answerResult.pointsAwarded })}
+                      </AppText>
                     ) : null}
                     {answerResult.gameOver && !answerResult.completedRun ? (
                       <AppText color={colors.danger}>
@@ -412,6 +419,19 @@ export default function QuizScreen() {
                       </AppText>
                     ) : null}
                     {answerResult.explanation ? <AppText color={colors.textMuted}>{answerResult.explanation}</AppText> : null}
+                    {answerResult.reference?.source ? (
+                      <Pressable
+                        accessibilityRole={answerResult.reference.sourceUrl ? 'link' : undefined}
+                        disabled={!answerResult.reference.sourceUrl}
+                        onPress={() => {
+                          if (answerResult.reference?.sourceUrl) void Linking.openURL(answerResult.reference.sourceUrl);
+                        }}
+                      >
+                        <AppText color={colors.primary}>
+                          {t('quiz.reference', { source: answerResult.reference.source })}
+                        </AppText>
+                      </Pressable>
+                    ) : null}
                   </View>
                 ) : null}
                 {actionError ? <ErrorBanner error={actionError} onDismiss={() => setActionError(undefined)} /> : null}

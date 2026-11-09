@@ -185,8 +185,8 @@ export async function createOrder(userId: string, input: CheckoutInput) {
   const tierInfo = describeTiers(await setting<unknown>(POINT_DISCOUNT_SETTING, []), user.points);
   const pointsDiscount = discountFor(subtotal, tierInfo.discountPercent);
   const afterDiscount = Prisma.Decimal.max(0, subtotal.sub(discount).sub(pointsDiscount));
-  const shippingFee = freeShipping ? new Prisma.Decimal(0) : money(await setting<number>('storeShippingFee', 0));
-  const totalAmount = money(afterDiscount.add(shippingFee));
+  let shippingFee = freeShipping ? new Prisma.Decimal(0) : money(await setting<number>('storeShippingFee', 0));
+  let totalAmount = money(afterDiscount.add(shippingFee));
   const address = input.shippingAddress ?? {};
   const shippingAddress = { fullName: address.fullName ?? address.recipientName ?? user.displayName, phone: address.phone ?? customerPhone, city: address.city ?? '', address: address.address ?? address.line1 ?? '', postalCode: address.postalCode, note: address.note };
   if (!shippingAddress.city || !shippingAddress.address) throw ApiError.badRequest('Shipping address is required');
@@ -196,12 +196,47 @@ export async function createOrder(userId: string, input: CheckoutInput) {
   const provider = simulated && cardPayment(input.paymentMethod) ? 'MOCK' : 'STRIPE';
   const orderSource = input.source ?? 'MOBILE';
   const order = await prisma.$transaction(async (tx) => {
+    /**
+     * Promo usage limits are a race by nature: two checkouts can both read
+     * "one slot left" and both create a redemption. The row lock serialises the
+     * check+insert, and everything happens on `tx` so a later stock failure
+     * rolls the redemption back too. (The old code called
+     * `prisma.promoRedemption.create` inside the callback, which runs outside
+     * the transaction.)
+     */
+    if (input.promoCode && promo) {
+      const locked = await tx.promo.findFirst({
+        where: {
+          id: promo.id,
+          isActive: true,
+          startsAt: { lte: new Date() },
+          OR: [{ endsAt: null }, { endsAt: { gte: new Date() } }],
+        },
+      });
+      if (!locked) throw ApiError.badRequest('Promo code is invalid or expired');
+      await tx.$queryRaw`SELECT id FROM "Promo" WHERE id = ${locked.id} FOR UPDATE`;
+      if (locked.minOrderAmount && subtotal.lessThan(locked.minOrderAmount)) {
+        throw ApiError.badRequest('Promo code minimum order amount not met');
+      }
+      if (locked.perUserLimit && (await tx.promoRedemption.count({ where: { promoId: locked.id, userId } })) >= locked.perUserLimit) {
+        throw ApiError.conflict('Promo code usage limit reached');
+      }
+      if (locked.usageLimit && (await tx.promoRedemption.count({ where: { promoId: locked.id } })) >= locked.usageLimit) {
+        throw ApiError.conflict('Promo code usage limit reached');
+      }
+      // Recompute from the locked row so an admin edit during checkout cannot
+      // leave the order using stale discount values.
+      discount = promoDiscount(locked.discountType, locked.value, subtotal, locked.maxDiscountAmount);
+      freeShipping = locked.discountType === 'FREE_SHIPPING';
+      shippingFee = freeShipping ? new Prisma.Decimal(0) : money(await setting<number>('storeShippingFee', 0));
+      totalAmount = money(Prisma.Decimal.max(0, subtotal.sub(discount).sub(pointsDiscount)).add(shippingFee));
+    }
     for (const item of cart.items) {
       const reserved = await tx.book.updateMany({ where: { id: item.bookId, isActive: true, deletedAt: null, stock: { gte: item.quantity } }, data: { stock: { decrement: item.quantity } } });
       if (!reserved.count) throw new ApiError(409, 'INSUFFICIENT_STOCK', `${item.book.title} is out of stock`);
     }
     const created = await tx.order.create({ data: { orderNumber: orderNumber(), userId, cartId: cart.id, status: provider === 'MOCK' ? 'CONFIRMED' : 'PENDING', source: orderSource, customerEmail, customerPhone, currency: cart.currency, subtotal, discountAmount: money(discount.add(pointsDiscount)), discountTierPoints: tierInfo.tierPoints, pointDiscountPercent: new Prisma.Decimal(tierInfo.discountPercent), shippingFee, totalAmount, ...(provider === 'MOCK' ? { confirmedAt: new Date() } : {}), promoCodeSnapshot: promo?.code, shippingAddress, items: { create: cart.items.map((item) => { const unit = sellingPrice(item.book.price, item.book.compareAtPrice); return { bookId: item.bookId, sku: item.book.sku, title: item.book.title, author: item.book.author, unitPrice: unit, quantity: item.quantity, totalPrice: unit.mul(item.quantity) }; }) }, payments: { create: { provider: provider === 'MOCK' ? 'MOCK' : 'STRIPE', method: input.paymentMethod ?? 'CARD', status: provider === 'MOCK' ? 'PAID' : 'PENDING', amount: totalAmount, currency: cart.currency, ...(provider === 'MOCK' ? { paidAt: new Date(), processedAt: new Date(), providerPaymentId: `mock_${randomBytes(8).toString('hex')}`, providerData: { simulated: true, ...(card ? { cardBrand: card.brand, last4: card.last4 } : {}) } } : {}) } } }, include: { items: true, payments: true } });
-    if (promo) await prisma.promoRedemption.create({ data: { promoId: promo.id, orderId: created.id, userId, discountAmount: discount } });
+    if (promo) await tx.promoRedemption.create({ data: { promoId: promo.id, orderId: created.id, userId, discountAmount: discount } });
     await tx.cartItem.deleteMany({ where: { cartId: cart.id } });
     await tx.cart.update({ where: { id: cart.id }, data: { status: 'CONVERTED' } });
     return created;

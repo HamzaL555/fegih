@@ -22,8 +22,26 @@ function stableOptions<T extends { id: string }>(items: T[], seed: string) {
 }
 
 const sessionQuestionInclude = {
-  question: { include: { answers: { orderBy: { position: 'asc' as const } }, level: { select: { name: true, position: true } } } },
+  question: {
+    include: {
+      answers: { orderBy: { position: 'asc' as const } },
+      level: { select: { name: true, position: true } },
+      sourceReference: { select: { source: true, sourceUrl: true, externalId: true } },
+    },
+  },
 } as const;
+
+/**
+ * Marks every still-running session for this user as abandoned before a new
+ * one starts. Without this a player could run several sessions in parallel and
+ * collect the same level reward once per session.
+ */
+async function abandonActiveSessions(tx: Prisma.TransactionClient, userId: string) {
+  await tx.quizSession.updateMany({
+    where: { userId, status: 'IN_PROGRESS' },
+    data: { status: 'ABANDONED', abandonedAt: new Date(), score: 0 },
+  });
+}
 
 function publicQuestion(sq: { id: string; order: number; pointValue: number; timeLimitSeconds: number; question: { id: string; text: string; imageUrl: string | null; level?: { name: string } | null; answers: Array<{ id: string; text: string; position: number }> } }) {
   return {
@@ -174,6 +192,7 @@ export async function startGame(userId: string, input: { categoryId?: string; le
   }
 
   const session = await prisma.$transaction(async (tx) => {
+    await abandonActiveSessions(tx, userId);
     const existingAttempts = await tx.quizSession.count({ where: { gameId: game.id, userId } });
     const created = await tx.quizSession.create({ data: { gameId: game.id, userId, attempt: existingAttempts + 1, status: 'IN_PROGRESS', questionCount: selected.length, livesRemaining: game.startingLives, startedAt: new Date(), expiresAt: new Date(Date.now() + 60 * 60_000), questions: { create: selected.map((question, index) => ({ questionId: question.id, order: index, pointValue: question.points || level?.defaultPoints || 100, timeLimitSeconds: level?.defaultTimeLimit ?? game.timePerQuestion })) } } });
     await updateMissions(tx, userId, 'QUIZ_PLAYED', 1);
@@ -208,6 +227,7 @@ async function startSualCavab(userId: string, game: Awaited<ReturnType<typeof ge
   const picked = await drawLevelQuestions(prisma, 1, QUESTIONS_PER_LEVEL, excludeIds);
 
   const session = await prisma.$transaction(async (tx) => {
+    await abandonActiveSessions(tx, userId);
     const existingAttempts = await tx.quizSession.count({ where: { gameId: game.id, userId } });
     const created = await tx.quizSession.create({
       data: {
@@ -281,6 +301,10 @@ export async function getGameState(userId: string, sessionId: string) {
   const levelCorrect = levelQuestions.filter((item) => item.answer?.isCorrect).length;
   const levelAnswered = levelQuestions.filter((item) => item.answeredAt || item.skippedAt).length;
 
+  // Points that have actually become permanent for this session (one ledger row
+  // per cleared level). The session score is the temporary, in-run value.
+  const committed = await prisma.pointLedgerEntry.aggregate({ where: { sessionId }, _sum: { amount: true } });
+
   return {
     id: session.id,
     gameId: session.gameId,
@@ -302,6 +326,8 @@ export async function getGameState(userId: string, sessionId: string) {
     /** Score for the run. Reset to 0 by a wrong answer. */
     score: session.score,
     maxScore: TOTAL_MAX_POINTS,
+    /** Points already safe in the permanent balance (one award per cleared level). */
+    committedPoints: committed._sum.amount ?? 0,
     /** Per-level point ladder for the UI. */
     levelLadder: LEVEL_LADDER,
     currentQuestion: current,
@@ -309,8 +335,8 @@ export async function getGameState(userId: string, sessionId: string) {
     questionNumber: answered._count._all + 1,
     answeredCount: answered._count._all,
     correctAnswers,
-    earnedPoints: answered._sum.pointsAwarded ?? session.score,
-    points: answered._sum.pointsAwarded ?? session.score,
+    earnedPoints: session.score,
+    points: session.score,
     expiresAt: session.expiresAt,
     availableLifelines: [...new Set(availableLifelines)],
     spentLifelines: [...new Set(spentLifelines)],
@@ -319,7 +345,7 @@ export async function getGameState(userId: string, sessionId: string) {
 
 export async function answerQuestion(userId: string, sessionId: string, questionId: string | undefined, answerId: string | null, skipped = false) {
   return prisma.$transaction(async (tx) => {
-    const session = await tx.quizSession.findFirst({ where: { id: sessionId, userId }, include: { questions: { include: { question: { include: { answers: true, level: { select: { name: true, position: true } } } }, answer: true, lifelines: true } }, game: { include: { gameLifelines: { where: { isEnabled: true } } } } } });
+    const session = await tx.quizSession.findFirst({ where: { id: sessionId, userId }, include: { questions: { include: { question: { include: { answers: true, level: { select: { name: true, position: true } }, sourceReference: { select: { source: true, sourceUrl: true, externalId: true } } } }, answer: true, lifelines: true } }, game: { include: { gameLifelines: { where: { isEnabled: true } } } } } });
     if (!session) throw ApiError.notFound('Quiz game not found');
     if (session.status !== 'IN_PROGRESS') throw ApiError.conflict('Quiz game is not active');
     if (session.expiresAt && session.expiresAt < new Date()) throw ApiError.conflict('Quiz session has expired');
@@ -345,8 +371,10 @@ export async function answerQuestion(userId: string, sessionId: string, question
         reason: 'SKIPPED' as const,
         correctAnswerId: sq.question.answers.find((answer) => answer.isCorrect)?.id ?? null,
         explanation: sq.question.explanation,
+        reference: sq.question.sourceReference ?? null,
         pointsEarned: 0,
         pointsAwarded: 0,
+        pointsCommitted: 0,
         totalPoints: 0,
         scoreBeforeReset: session.score,
         resetScore: session.score,
@@ -370,35 +398,44 @@ export async function answerQuestion(userId: string, sessionId: string, question
     const stats = await tx.user.update({ where: { id: userId }, data: { correctAnswers: { increment: isCorrect ? 1 : 0 }, ...(isCorrect || protectedBySecondChance ? {} : { wrongAnswers: { increment: 1 } }) }, select: { correctAnswers: true, wrongAnswers: true, points: true } });
     const combo = isCorrect ? session.currentCombo + 1 : 0;
 
-    // A wrong answer ends the run and wipes the session score back to 0. The
-    // points earned during this session are deducted from the user's account
-    // balance — only points from completed runs (intentional finish or full
-    // ladder clear) are kept.
+    // A wrong answer ends the run and wipes the *session* score back to 0.
+    // Points are no longer written to the permanent balance per answer (that
+    // let a player answer one question and then abandon the run to keep the
+    // reward). They are committed only when a level is genuinely cleared.
     const gameOver = !isCorrect && !protectedBySecondChance;
-    const correctAnswersTotal = await tx.quizSessionAnswer.count({ where: { sessionQuestion: { sessionId }, isCorrect: true } });
+    const isSualCavab = session.questionCount === TOTAL_QUESTIONS;
     const sessionScore = gameOver ? 0 : session.score + points;
-
-    if (gameOver && session.score > 0) {
-      await applyPointChange(tx, {
-        userId,
-        amount: -session.score,
-        type: 'REFUND',
-        description: 'Yanlış cavab: oyun xalı hesabdan geri alındı',
-        sourceType: 'QUIZ_ANSWER',
-        sourceId: sq.id,
-        idempotencyKey: `quiz-wrong:${sq.id}`,
-        sessionId,
-      });
-    }
 
     // Level cleared? Count the correct answers inside the current level only.
     const levelCorrect = await tx.quizSessionAnswer.count({
       where: { isCorrect: true, sessionQuestion: { sessionId, pointValue: pointsForLevel(session.currentLevel) } },
     });
-    const clearedLevel = !gameOver && levelCorrect >= QUESTIONS_PER_LEVEL;
+    const clearedLevel = isSualCavab && !gameOver && levelCorrect >= QUESTIONS_PER_LEVEL;
     const isFinalLevel = session.currentLevel >= MAX_LEVELS;
     const nextLevel = clearedLevel && !isFinalLevel ? session.currentLevel + 1 : session.currentLevel;
     const status = gameOver || (clearedLevel && isFinalLevel) ? 'COMPLETED' : 'IN_PROGRESS';
+
+    /**
+     * A cleared level is a verified, server-side success state, so this is the
+     * only place Sual-Cavab points become permanent. A partial level (or an
+     * abandoned run) never reaches this block and therefore never pays out.
+     * The idempotency key makes a retried request safe, and `abandonActiveSessions`
+     * prevents running several sessions in parallel to farm the same level.
+     */
+    let pointsCommitted = 0;
+    if (isSualCavab && clearedLevel) {
+      pointsCommitted = pointsForLevel(session.currentLevel) * QUESTIONS_PER_LEVEL;
+      await applyPointChange(tx, {
+        userId,
+        amount: pointsCommitted,
+        type: 'EARN_QUIZ',
+        description: `Sual-Cavab: level ${session.currentLevel} cleared`,
+        sourceType: 'QUIZ_LEVEL',
+        sourceId: sessionId,
+        idempotencyKey: `quiz-level:${sessionId}:${session.currentLevel}`,
+        sessionId,
+      });
+    }
 
     // The next level's questions only exist once 10/10 were correct, and they
     // are drawn fresh so the same set never repeats inside a run.
@@ -443,12 +480,13 @@ export async function answerQuestion(userId: string, sessionId: string, question
         ...(status === 'COMPLETED' ? { completedAt: new Date(), abandonedAt: null } : {}),
       },
     });
-    if (points) await applyPointChange(tx, { userId, amount: points, type: 'EARN_QUIZ', description: 'Correct quiz answer', sourceType: 'QUIZ_ANSWER', sourceId: sq.id, idempotencyKey: `quiz-answer:${sq.id}`, sessionId });
     await updateMissions(tx, userId, 'QUESTION_ANSWERED', 1);
     if (isCorrect) await updateMissions(tx, userId, 'CORRECT_ANSWER', 1);
     const achievements = await evaluateAchievements(tx, userId);
     if (status === 'COMPLETED') await tx.user.update({ where: { id: userId }, data: { totalGames: { increment: 1 } } });
 
+    // Achievements may also adjust the balance, so read the final value once.
+    const finalUser = await tx.user.findUniqueOrThrow({ where: { id: userId }, select: { points: true } });
     const won = status === 'COMPLETED' && !gameOver;
     return {
       correct: isCorrect,
@@ -460,10 +498,14 @@ export async function answerQuestion(userId: string, sessionId: string, question
       completedRun: won,
       correctAnswerId: sq.question.answers.find((answer) => answer.isCorrect)!.id,
       explanation: sq.question.explanation,
+      /** Verified source for the explanation, shown as a citation in the app. */
+      reference: sq.question.sourceReference ?? null,
       pointsEarned: points,
       pointsAwarded: points,
+      /** Points that became permanent because this answer cleared a level. */
+      pointsCommitted,
       totalPoints: sessionScore,
-      userPoints: stats.points,
+      userPoints: finalUser.points,
       stats: { correctAnswers: stats.correctAnswers, wrongAnswers: stats.wrongAnswers },
       achievements,
       level: session.currentLevel,
@@ -507,7 +549,34 @@ export async function finishGame(userId: string, sessionId: string) {
     if (!session) throw ApiError.notFound('Quiz game not found');
     if (session.status !== 'IN_PROGRESS') return session;
     const unanswered = await tx.sessionQuestion.count({ where: { sessionId, answeredAt: null, skippedAt: null } });
-    const updated = await tx.quizSession.update({ where: { id: sessionId }, data: { status: unanswered ? 'ABANDONED' : 'COMPLETED', completedAt: unanswered ? null : new Date(), abandonedAt: unanswered ? new Date() : null } });
+    const isSualCavab = session.questionCount === TOTAL_QUESTIONS;
+    /**
+     * Custom quizzes (level/category/question-count selections) have no level
+     * ladder. Their points become permanent only when every question was
+     * answered; an abandoned custom run pays nothing.
+     */
+    if (!unanswered && !isSualCavab && session.score > 0) {
+      await applyPointChange(tx, {
+        userId,
+        amount: session.score,
+        type: 'EARN_QUIZ',
+        description: 'Custom quiz completed',
+        sourceType: 'QUIZ_SESSION',
+        sourceId: sessionId,
+        idempotencyKey: `quiz-session:${sessionId}:complete`,
+        sessionId,
+      });
+    }
+    const updated = await tx.quizSession.update({
+      where: { id: sessionId },
+      data: {
+        status: unanswered ? 'ABANDONED' : 'COMPLETED',
+        // An abandoned run must not keep temporary points visible.
+        ...(unanswered ? { score: 0 } : {}),
+        completedAt: unanswered ? null : new Date(),
+        abandonedAt: unanswered ? new Date() : null,
+      },
+    });
     if (!unanswered) {
       await tx.user.update({ where: { id: userId }, data: { totalGames: { increment: 1 } } });
       await evaluateAchievements(tx, userId);

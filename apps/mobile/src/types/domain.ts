@@ -152,6 +152,8 @@ export interface QuizGame {
   wrongAnswers?: number;
   earnedPoints?: number;
   points?: number;
+  /** Permanently banked points for this session (one award per cleared level). */
+  committedPoints?: number;
   expiresAt?: string;
   /** Lifelines usable on the question in front of the player. */
   availableLifelines?: string[];
@@ -188,13 +190,42 @@ export interface AnswerResult {
   protectedBySecondChance?: boolean;
   correctAnswerId?: EntityId | null;
   explanation?: string | null;
+  /** Verified source for the explanation (source name + optional URL). */
+  reference?: { source?: string | null; sourceUrl?: string | null; externalId?: string | null } | null;
   pointsEarned?: number;
   pointsAwarded?: number;
+  /** Points made permanent by clearing a level on this answer. */
+  pointsCommitted?: number;
   totalPoints?: number;
   userPoints?: number;
   nextQuestion?: Question | null;
   stats?: { correctAnswers: number; wrongAnswers: number };
   game?: QuizGame;
+}
+
+export interface Certificate {
+  id: string;
+  title: string;
+  achievement: string;
+  recipientName: string;
+  issuedAt: string;
+  sessionId: string;
+  score: number;
+}
+
+export interface CertificateEligibility {
+  bestLevel: number;
+  bestScore: number;
+  requiredLevel: number;
+  requiredScore: number;
+  completedAt: string | null;
+}
+
+export interface CertificateListResult {
+  certificates: Certificate[];
+  eligible: boolean;
+  progress: CertificateEligibility;
+  qualifyingRunId: string | null;
 }
 
 export interface LeaderboardEntry {
