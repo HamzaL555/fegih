@@ -31,7 +31,7 @@ export default function html({ children }: { children: React.ReactNode }) {
         <link rel="apple-touch-icon" href="/assets/icon.png" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-title" content="Fegih" />
+        <meta name="apple-mobile-web-app-title" content="Fəqih" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
         <ScrollViewStyleReset />

@@ -39,7 +39,7 @@ export async function schedulePrayerNotifications(times: PrayerTimes, enabled: b
     const reminderAt = time ? nextReminderDate(time, now) : undefined;
     if (!reminderAt) continue;
     await Notifications.scheduleNotificationAsync({
-      content: { title: 'Fegih · Namaz vaxtı', body: `${labels[key]} ${time} — namazdan 15 dəqiq əvvəl`, data: { source: 'prayer-reminder', prayer: key } },
+      content: { title: 'Fəqih · Namaz vaxtı', body: `${labels[key]} ${time} — namazdan 15 dəqiq əvvəl`, data: { source: 'prayer-reminder', prayer: key } },
       trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: reminderAt, channelId: CHANNEL_ID },
     });
   }

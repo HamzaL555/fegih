@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Fegih",
+    "name": "Fəqih",
     "slug": "fegih",
     "version": "1.0.0",
     "scheme": "fegih",
@@ -29,8 +29,8 @@
     "web": {
       "bundler": "metro",
       "favicon": "./assets/favicon.png",
-      "name": "Fegih",
-      "shortName": "Fegih",
+      "name": "Fəqih",
+      "shortName": "Fəqih",
       "lang": "az",
       "dir": "ltr",
       "description": "İslami viktorina, məlumat və kitab mağazası",

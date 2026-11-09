@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "Fegih",
+    "appName": "Fəqih",
     "loading": "Loading…",
     "retry": "Try again",
     "error": "Something went wrong.",
@@ -245,10 +245,10 @@
     "or": "or",
     "signInRequired": "Sign in to play the quiz.",
     "welcomeScreen": {
-      "assalamuAleykum": "Assalamu Aleykum",
       "arabic": "السلام عليكم",
-      "subtitle": "Welcome to the world of Islam!",
-      "greeting": "Welcome, {{name}}!",
+      "assalamuAleykum": "Assalamu Alaikum, {{name}}!",
+      "greetingGuest": "Assalamu Alaikum!",
+      "subtitle": "Welcome to Fəqih.",
       "continue": "Continue"
     }
   },

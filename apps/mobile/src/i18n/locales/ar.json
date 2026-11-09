@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "فيغيه",
+    "appName": "Fəqih",
     "loading": "جارٍ التحميل…",
     "retry": "إعادة المحاولة",
     "error": "حدث خطأ ما.",
@@ -245,10 +245,10 @@
     "or": "أو",
     "signInRequired": "سجّل الدخول للعب الاختبار.",
     "welcomeScreen": {
-      "assalamuAleykum": "السلام عليكم",
       "arabic": "السلام عليكم",
-      "subtitle": "أهلاً بك في عالم الإسلام!",
-      "greeting": "أهلاً بك, {{name}}!",
+      "assalamuAleykum": "السلام عليكم، {{name}}!",
+      "greetingGuest": "السلام عليكم!",
+      "subtitle": "أهلاً بك في فَقيه.",
       "continue": "استمر"
     }
   },

@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "Fegih",
+    "appName": "Fəqih",
     "loading": "Yükleniyor…",
     "retry": "Tekrar dene",
     "error": "Bir şeyler ters gitti.",
@@ -245,10 +245,10 @@
     "or": "veya",
     "signInRequired": "Quizi oynamak için giriş yapın.",
     "welcomeScreen": {
-      "assalamuAleykum": "Selamün Aleyküm",
       "arabic": "السلام عليكم",
-      "subtitle": "İslam dünyasına hoş geldiniz!",
-      "greeting": "Hoş geldin, {{name}}!",
+      "assalamuAleykum": "Selamün Aleyküm, {{name}}!",
+      "greetingGuest": "Selamün Aleyküm!",
+      "subtitle": "Fəqih uygulamasına hoş geldin.",
       "continue": "Devam et"
     }
   },

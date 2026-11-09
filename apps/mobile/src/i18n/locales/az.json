@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "Fegih",
+    "appName": "Fəqih",
     "loading": "Yüklənir…",
     "retry": "Yenidən cəhd et",
     "error": "Xəta baş verdi.",
@@ -247,10 +247,10 @@
     "or": "və ya",
     "signInRequired": "Viktorinanı oynamaq üçün hesaba daxil olun.",
     "welcomeScreen": {
-      "assalamuAleykum": "Assalamu Aleykum",
       "arabic": "السلام عليكم",
-      "subtitle": "İslam dünyasına xoş gəldiniz!",
-      "greeting": "Xoş gəldin, {{name}}!",
+      "assalamuAleykum": "Salam Aleykum, {{name}}!",
+      "greetingGuest": "Salam Aleykum!",
+      "subtitle": "Fəqih tətbiqinə xoş gəldiniz.",
       "continue": "Davam et"
     }
   },
