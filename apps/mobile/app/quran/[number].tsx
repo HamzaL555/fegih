@@ -12,14 +12,15 @@ import { LoadingState } from '@/components/RemoteState';
 import { quranApi } from '@/api';
 import { useAppLocale } from '@/hooks/useAppLocale';
 import { useRemoteQuery } from '@/hooks/useRemoteQuery';
+import { readParam } from '@/lib/searchParams';
 import { useTheme } from '@/providers/ThemeProvider';
 
 export default function QuranSurahScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const router = useRouter();
-  const params = useLocalSearchParams<{ number?: string }>();
-  const number = Number(params.number);
+  const params = useLocalSearchParams<{ number?: string | string[] }>();
+  const number = Number(readParam(params, 'number'));
   const [page, setPage] = useState(1);
   // Ayahs come back in the language chosen in Settings.
   const locale = useAppLocale();

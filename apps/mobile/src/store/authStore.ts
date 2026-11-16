@@ -99,8 +99,10 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       // The API only revokes a refresh token that is actually sent.
       await authApi.logout(await getRefreshToken());
-    } catch {
-      // Signing out locally must succeed even when the server is unreachable.
+    } catch (error) {
+      // Signing out locally must succeed even when the server is unreachable,
+      // but the server-side revoke failure should still be visible in logs.
+      console.warn('[Fegih] Server logout failed; clearing the local session anyway:', error);
     } finally {
       await clearAuthTokens();
       dropCachedData();

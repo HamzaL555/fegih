@@ -250,7 +250,9 @@ export async function createOrder(userId: string, input: CheckoutInput) {
    * charge was simulated rather than silently pretending it was real.
    */
   if (provider === 'MOCK') {
-    await notifyUser(userId, 'ORDER_UPDATE', 'Sifarişiniz qeydə alındı', `Sifariş ${persistedOrder.orderNumber} — test ödəniş simulyasiya edildi.`).catch(() => undefined);
+    await notifyUser(userId, 'ORDER_UPDATE', 'Sifarişiniz qeydə alındı', `Sifariş ${persistedOrder.orderNumber} — test ödəniş simulyasiya edildi.`).catch((error) => {
+      console.error(`[orders] Mock-order notification failed for order ${persistedOrder.id}:`, error);
+    });
     return { order: persistedOrder, checkout: { id: `mock_${persistedOrder.id}`, sessionId: null, url: null }, requiresManualPayment: false, mocked: true };
   }
 
@@ -286,7 +288,10 @@ export async function createOrder(userId: string, input: CheckoutInput) {
         'ORDER_UPDATE',
         'Sifarişiniz qeydə alındı',
         `Sifariş ${persistedOrder.orderNumber} ${method === 'CASH_ON_DELIVERY' ? 'nağd ödənişlə' : 'bank köçürməsi ilə'} gözləyir.`,
-      ).catch(() => undefined),
+      ).catch((error) => {
+        console.error(`[orders] Offline-order notification failed for order ${persistedOrder.id}:`, error);
+        return undefined;
+      }),
     ]);
     offlineEmail = emailResult?.delivered ?? false;
     return { order: persistedOrder, checkout: null, requiresManualPayment: true, notifiedEmail: orderNotificationAddress(), emailDelivered: offlineEmail };

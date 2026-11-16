@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { Linking, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { AppScreen, ScreenSection } from '@/components/AppScreen';
 import { AppText } from '@/components/AppText';
@@ -12,6 +12,7 @@ import { ProgressBar } from '@/components/ProgressBar';
 import { RemoteState } from '@/components/RemoteState';
 import { certificatesApi } from '@/api';
 import { useRemoteQuery } from '@/hooks/useRemoteQuery';
+import { openExternalUrl } from '@/lib/openExternalUrl';
 import { useTheme } from '@/providers/ThemeProvider';
 import { useAuthStore } from '@/store/authStore';
 
@@ -71,7 +72,7 @@ export default function CertificateScreen() {
             <AppText variant="title" color={colors.primary} style={styles.heading}>
               {t('certificates.earned')}
             </AppText>
-            <View style={[styles.rule, { backgroundColor: colors.gold ?? colors.primary }]} />
+            <View style={[styles.rule, { backgroundColor: colors.secondary }]} />
             <AppText color={colors.textMuted} style={styles.centered}>
               {t('certificates.awardedTo')}
             </AppText>
@@ -96,7 +97,7 @@ export default function CertificateScreen() {
             </AppText>
             <Button
               label={t('certificates.print')}
-              onPress={() => void Linking.openURL(certificatesApi.fileUrl(certificate.id))}
+              onPress={() => void openExternalUrl(certificatesApi.fileUrl(certificate.id), 'the certificate PDF')}
               style={styles.button}
             />
           </Card>

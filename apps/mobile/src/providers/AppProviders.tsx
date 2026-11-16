@@ -16,10 +16,11 @@ function AuthBootstrap({ children }: PropsWithChildren) {
   const hydrate = useAuthStore((state) => state.hydrate);
 
   useEffect(() => {
-    void hydrate().catch(() => {
+    void hydrate().catch((error) => {
       // Hydrate failures (network, invalid token) are handled inside hydrate()
       // by setting status to 'unauthenticated'. Continue so the app can render
-      // the login screen instead of crashing.
+      // the login screen instead of crashing, but keep the cause in the logs.
+      console.error('[Fegih] Auth session hydration failed:', error);
     });
   }, [hydrate]);
 

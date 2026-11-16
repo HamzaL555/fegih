@@ -9,6 +9,7 @@ import { openApiDocument } from './docs/openapi.js';
 import { apiLimiter } from './middleware/rate-limit.js';
 import { errorHandler, notFoundHandler } from './middleware/error-handler.js';
 import { ApiError } from './lib/api-error.js';
+import { corsOrigin } from './lib/cors.js';
 import { requestContext } from './middleware/request-context.js';
 import { getSystemSetting } from './lib/settings-cache.js';
 import { stripeWebhookHandler } from './modules/orders/routes.js';
@@ -33,11 +34,12 @@ app.use(pinoHttp({
 app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: false }));
 app.use(cors({
   origin(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-    callback(new Error('Origin is not allowed by CORS'));
+    corsOrigin(origin, allowedOrigins, callback);
   },
   methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Request-Id'],
+  // `X-Client-Platform` is sent by the mobile/web client and must survive the
+  // preflight; omitting it made cross-origin order/quiz requests fail.
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Request-Id', 'X-Client-Platform'],
   exposedHeaders: ['X-Request-Id'],
   maxAge: 86400,
 }));

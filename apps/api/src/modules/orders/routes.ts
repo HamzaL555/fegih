@@ -78,7 +78,9 @@ ordersRouter.post('/:orderId/cancel', writeLimiter, async (request, response) =>
     { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
   );
   if (result.order.userId) {
-    await notifyUser(result.order.userId, 'ORDER_UPDATE', 'Sifariş ləğv edildi', `Sifariş ${result.order.orderNumber} ləğv edildi.`, { orderId: result.order.id }).catch(() => undefined);
+    await notifyUser(result.order.userId, 'ORDER_UPDATE', 'Sifariş ləğv edildi', `Sifariş ${result.order.orderNumber} ləğv edildi.`, { orderId: result.order.id }).catch((error) => {
+      console.error(`[orders] Cancel notification failed for order ${id}:`, error);
+    });
   }
   response.json({ data: { id, status: 'CANCELLED', changed: result.changed } });
 });
@@ -133,7 +135,9 @@ export async function stripeWebhookHandler(request: Request, response: Response)
         });
       }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
       if (result?.order.userId) {
-        await notifyUser(result.order.userId, 'ORDER_UPDATE', 'Sifariş ləğv edildi', `Sifariş ${result.order.orderNumber} ödəniş vaxtı bitdiyi üçün ləğv edildi.`, { orderId }).catch(() => undefined);
+        await notifyUser(result.order.userId, 'ORDER_UPDATE', 'Sifariş ləğv edildi', `Sifariş ${result.order.orderNumber} ödəniş vaxtı bitdiyi üçün ləğv edildi.`, { orderId }).catch((error) => {
+          console.error(`[orders] Expiry notification failed for order ${orderId}:`, error);
+        });
       }
     }
   }

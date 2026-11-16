@@ -1,12 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
-import { Linking, Pressable } from 'react-native';
+import { Pressable } from 'react-native';
 
 import { AppScreen, ScreenSection } from '@/components/AppScreen';
 import { AppText } from '@/components/AppText';
+import { AuthRequired } from '@/components/AuthRequired';
 import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
 import { ErrorBanner } from '@/components/ErrorBanner';
@@ -14,6 +15,7 @@ import { ListRow } from '@/components/ListRow';
 import { RemoteState } from '@/components/RemoteState';
 import { questionsApi, quizApi } from '@/api';
 import { useRemoteQuery } from '@/hooks/useRemoteQuery';
+import { openExternalUrl } from '@/lib/openExternalUrl';
 import { useTheme } from '@/providers/ThemeProvider';
 import { useAuthStore } from '@/store/authStore';
 import type { AnswerResult, EntityId, Question, QuizGame } from '@/types/domain';
@@ -72,6 +74,15 @@ export default function QuizScreen() {
   const [levelAtEnd, setLevelAtEnd] = useState(1);
   const [won, setWon] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState<number>();
+  /**
+   * The server returns the next question together with the answer result. It is
+   * held here and applied only when the player presses "Next", so the answer
+   * feedback (and the highlighted correct option) stays under the question that
+   * was actually answered.
+   */
+  const [pendingNextQuestion, setPendingNextQuestion] = useState<Question | null>(null);
+  /** Guards the timeout effect against firing the skip request more than once. */
+  const timeoutHandledFor = useRef<string | undefined>(undefined);
 
   const questionsQuery = useRemoteQuery({
     queryKey: ['questions', 'quiz-bank'],
@@ -108,6 +119,10 @@ export default function QuizScreen() {
     onSuccess: (nextGame) => {
       setGame(nextGame);
       setLastSessionId(nextGame.id);
+      // Reset the countdown in the same update as the new question. The
+      // previous run may have ended at 0, and the timeout effect would
+      // otherwise see the new question with the old 0 and skip it instantly.
+      setSecondsLeft(currentQuestion(nextGame)?.timeLimitSeconds);
       setSelectedAnswerId(undefined);
       setAnswerResult(undefined);
       setLifelineEffect(undefined);
@@ -117,10 +132,46 @@ export default function QuizScreen() {
       setWon(false);
       setScoreAtEnd(0);
       setLevelAtEnd(1);
+      setPendingNextQuestion(null);
+      timeoutHandledFor.current = undefined;
       void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     },
     onError: setFormError,
   });
+
+  /**
+   * Shared by a normal answer and a timeout skip. Merging the full server
+   * snapshot used to replace `currentQuestion` immediately, which made the
+   * "Correct" banner appear under the *next* question. Only score/level/progress
+   * are merged here; the next question is deferred to `nextQuestion()`.
+   */
+  const applyAnswerResult = useCallback((result: AnswerResult) => {
+    setAnswerResult(result);
+    setLifelineEffect(undefined);
+    setActionError(undefined);
+    /**
+     * A wrong answer sets `gameOver`, while a cleared final level only sets
+     * `completedRun`/`game.status = COMPLETED`. Both end the run, so both must
+     * leave the question view and show the result card.
+     */
+    const completedRun = !result.gameOver && (!!result.completedRun || result.game?.status === 'COMPLETED');
+    if (result.gameOver || completedRun) {
+      setGameOver(true);
+      setWon(completedRun);
+      setScoreAtEnd(result.totalPoints ?? 0);
+      setLevelAtEnd(result.level ?? 1);
+    }
+    setPendingNextQuestion(result.nextQuestion ?? result.game?.currentQuestion ?? null);
+    if (result.game) {
+      const { currentQuestion: _currentQuestion, question: _question, questionNumber: _questionNumber, ...rest } = result.game;
+      setGame((current) => (
+        current
+          ? { ...current, ...rest, currentQuestion: current.currentQuestion, question: current.question }
+          : (result.game as QuizGame)
+      ));
+    }
+    void queryClient.invalidateQueries({ queryKey: ['users', 'me'] });
+  }, [queryClient]);
 
   const answerMutation = useMutation({
     mutationFn: (answerId: EntityId) => {
@@ -131,19 +182,27 @@ export default function QuizScreen() {
       return quizApi.answer(id, { answerId });
     },
     onSuccess: (result) => {
-      setAnswerResult(result);
-      setLifelineEffect(undefined);
-      if (result.gameOver) {
-        setGameOver(true);
-        setWon(!!result.completedRun);
-        setScoreAtEnd(result.totalPoints ?? 0);
-        setLevelAtEnd(result.level ?? game?.level ?? 1);
-      }
-      // `result.game` is a partial snapshot. Replacing the whole state with it
-      // wiped `availableLifelines` and `expiresAt` after the first question.
-      if (result.game) setGame((current) => (current ? { ...current, ...result.game } : result.game as QuizGame));
-      void queryClient.invalidateQueries({ queryKey: ['users', 'me'] });
+      applyAnswerResult(result);
       void Haptics.notificationAsync(result.correct ? Haptics.NotificationFeedbackType.Success : Haptics.NotificationFeedbackType.Error);
+    },
+    onError: setActionError,
+  });
+
+  /**
+   * Timeout path. It must go through the same result handling as a normal
+   * answer; the old code discarded the response, so the client stayed on a
+   * question the server had already closed and every later tap failed with
+   * "game is not active".
+   */
+  const skipMutation = useMutation({
+    mutationFn: () => {
+      const id = sessionId(game);
+      if (!id) throw new Error(t('quiz.noActiveGame'));
+      return quizApi.answer(id, { answerId: null, skipped: true });
+    },
+    onSuccess: (result) => {
+      applyAnswerResult(result);
+      void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
     },
     onError: setActionError,
   });
@@ -193,7 +252,7 @@ export default function QuizScreen() {
   const hasStarted = !!game;
   // Once the game is over the next question is never shown, even if the server
   // still has unanswered rows.
-  const canShowNext = !gameOver && (!!answerResult?.nextQuestion || !!answerResult?.game?.currentQuestion);
+  const canShowNext = !!answerResult && !gameOver && !!pendingNextQuestion;
 
   const start = useCallback(() => {
     setFormError(undefined);
@@ -205,36 +264,59 @@ export default function QuizScreen() {
 
   const submitAnswer = useCallback(() => {
     setActionError(undefined);
+    if (answerMutation.isPending || skipMutation.isPending || answerResult) return;
     if (!selectedAnswerId) {
       setActionError(new Error(t('quiz.selectAnswer')));
       return;
     }
     answerMutation.mutate(selectedAnswerId);
-  }, [answerMutation, selectedAnswerId, t]);
+  }, [answerMutation, skipMutation.isPending, answerResult, selectedAnswerId, t]);
 
-  // Time ran out: skip the question instead of freezing the screen.
+  // Time ran out: close the question on the server and surface its result.
+  // The ref prevents the effect from firing the same skip on every re-render,
+  // and pending requests are excluded so an answer is never sent twice.
   useEffect(() => {
-    if (secondsLeft !== 0 || answerResult || !question) return;
-    const current = sessionId(game);
-    if (!current) return;
+    if (secondsLeft !== 0 || answerResult || !question || answerMutation.isPending || skipMutation.isPending) return;
+    const key = String(question.id ?? question.prompt ?? '');
+    if (timeoutHandledFor.current === key) return;
+    timeoutHandledFor.current = key;
     setActionError(new Error(t('quiz.timeUp')));
-    void quizApi.answer(current, { answerId: null, skipped: true }).catch(() => undefined);
-  }, [secondsLeft, answerResult, game, question, t]);
+    skipMutation.mutate();
+  }, [secondsLeft, answerResult, question, answerMutation.isPending, skipMutation, t]);
 
   const nextQuestion = () => {
+    const next = pendingNextQuestion;
+    if (next) {
+      setGame((current) => (
+        current
+          ? {
+              ...current,
+              currentQuestion: next,
+              question: next,
+              // A cleared level starts a fresh 10-question progress bar.
+              levelCorrect: answerResult?.levelAdvanced ? 0 : current.levelCorrect,
+              // `game.questionNumber` describes the question that was just
+              // answered, so the deferred next question is one position later.
+              questionNumber: (answerResult?.game?.questionNumber ?? current.questionNumber ?? 0) + 1,
+            }
+          : current
+      ));
+      // Reset the countdown together with the question; leaving the previous
+      // answer's 0 in place let the timeout effect skip the new question.
+      setSecondsLeft(next.timeLimitSeconds);
+      // Re-arm the timeout guard for the new question id.
+      timeoutHandledFor.current = undefined;
+    }
     setAnswerResult(undefined);
     setSelectedAnswerId(undefined);
     setLifelineEffect(undefined);
+    setPendingNextQuestion(null);
   };
 
   if (!isSignedIn) {
     return (
       <AppScreen title={t('quiz.title')} subtitle={t('quiz.subtitle')}>
-        <Card>
-          <AppText variant="subtitle">{t('auth.signInRequired')}</AppText>
-          <Button label={t('common.signIn')} onPress={() => setFormError(new Error(t('auth.signInRequired')))} />
-        </Card>
-        {formError ? <ErrorBanner error={formError} onDismiss={() => setFormError(undefined)} /> : null}
+        <AuthRequired />
       </AppScreen>
     );
   }
@@ -280,7 +362,7 @@ export default function QuizScreen() {
                   {won ? t('quiz.completedRun') : gameOver ? t('quiz.runOver') : t('quiz.gameFinished')}
                 </AppText>
                 <AppText color={colors.textMuted} style={styles.resultText}>
-                  {won ? t('quiz.completedRunHint') : gameOver ? t('quiz.runOverHint') : t('quiz.finishedHint')}
+                  {won ? t('quiz.completedRunHint') : gameOver ? (answerResult?.skipped ? t('quiz.timeUp') : t('quiz.runOverHint')) : t('quiz.finishedHint')}
                 </AppText>
                 <AppText variant="title" color={colors.primary} style={styles.score}>
                   {t('quiz.score')}: {points(scoreAtEnd)} / {points(game?.maxScore ?? 1200)}
@@ -424,7 +506,7 @@ export default function QuizScreen() {
                         accessibilityRole={answerResult.reference.sourceUrl ? 'link' : undefined}
                         disabled={!answerResult.reference.sourceUrl}
                         onPress={() => {
-                          if (answerResult.reference?.sourceUrl) void Linking.openURL(answerResult.reference.sourceUrl);
+                          if (answerResult.reference?.sourceUrl) void openExternalUrl(answerResult.reference.sourceUrl, 'the answer reference');
                         }}
                       >
                         <AppText color={colors.primary}>
@@ -441,6 +523,14 @@ export default function QuizScreen() {
                   ) : answerResult.gameOver ? null : (
                     <Button label={t('quiz.finish')} onPress={() => finishMutation.mutate()} loading={finishMutation.isPending} style={styles.action} />
                   )
+                ) : secondsLeft === 0 ? (
+                  <Button
+                    label={t('quiz.timeUpContinue')}
+                    onPress={() => { if (!answerMutation.isPending && !skipMutation.isPending) skipMutation.mutate(); }}
+                    loading={skipMutation.isPending}
+                    disabled={answerMutation.isPending}
+                    style={styles.action}
+                  />
                 ) : (
                   <Button label={t('quiz.submitAnswer')} onPress={submitAnswer} loading={answerMutation.isPending} style={styles.action} />
                 )}

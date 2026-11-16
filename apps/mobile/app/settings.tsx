@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import Constants from 'expo-constants';
-import * as Linking from 'expo-linking';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Switch, View } from 'react-native';
@@ -12,6 +11,7 @@ import { ErrorBanner } from '@/components/ErrorBanner';
 import { ListRow } from '@/components/ListRow';
 import { getAdminBaseUrl } from '@/api/client';
 import { changeLocale, supportedLocales } from '@/i18n';
+import { openExternalUrl } from '@/lib/openExternalUrl';
 import { notificationsApi, preferencesApi } from '@/api';
 import { useNotificationPermission } from '@/providers/NotificationProvider';
 import { useTheme } from '@/providers/ThemeProvider';
@@ -96,6 +96,8 @@ export default function SettingsScreen() {
   const version = (Constants.expoConfig?.version as string | undefined) ?? '1.0.0';
   const adminUrl = getAdminBaseUrl();
 
+  const openAdmin = () => openExternalUrl(adminUrl, 'the admin panel');
+
   return (
     <AppScreen title={t('settings.title')}>
       <ScreenSection>
@@ -142,7 +144,7 @@ export default function SettingsScreen() {
         <Card>
           <AppText color={colors.textMuted} style={styles.description}>{t('settings.adminDescription')}</AppText>
           <ListRow
-            onPress={() => void Linking.openURL(adminUrl).catch(() => undefined)}
+            onPress={() => void openAdmin()}
             right={<AppText variant="label" color={colors.primary}>↗</AppText>}
           >
             <AppText variant="subtitle">{t('settings.openAdmin')}</AppText>

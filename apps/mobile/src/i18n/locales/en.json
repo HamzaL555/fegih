@@ -140,7 +140,11 @@
     "completedRun": "Congratulations! You cleared every level",
     "completedRunHint": "All 15 levels were cleared 10/10. You collected the maximum score.",
     "points": "points",
-    "skipped": "Question skipped"
+    "skipped": "Question skipped",
+    "levelReward": "+{{points}} points added to your balance",
+    "temporaryPoints": "+{{points}} temporary points for this answer",
+    "reference": "Source: {{source}}",
+    "timeUpContinue": "Time's up — continue"
   },
   "leaderboard": {
     "title": "Leaderboard",
@@ -539,5 +543,21 @@
     "website": "Website",
     "appTitle": "Fegih app",
     "appBody": "Islamic quiz, Quran, tasbih and the book store in one app."
+  },
+  "certificates": {
+    "title": "Certificate",
+    "subtitle": "Complete all 15 levels without a mistake to earn a certificate.",
+    "earned": "Certificate earned",
+    "awardedTo": "This certificate is presented to",
+    "issuedAtLabel": "Issued",
+    "scoreLabel": "Result",
+    "idLabel": "Certificate ID",
+    "print": "Print / Save as PDF",
+    "locked": "Certificate not earned yet",
+    "lockedDescription": "Complete all 15 Sual-Cavab levels without a single mistake.",
+    "levelValue": "Best level: {{level}} / {{required}}",
+    "scoreValue": "Best result: {{score}} / {{required}} points",
+    "issue": "Claim certificate",
+    "hint": "Use Print, or choose \"Save as PDF\" in the browser, to keep a copy."
   }
 }

@@ -15,6 +15,7 @@ import { RemoteState } from '@/components/RemoteState';
 import { booksApi, cartApi } from '@/api';
 import { useAuthStore } from '@/store/authStore';
 import { useRemoteQuery } from '@/hooks/useRemoteQuery';
+import { readParam } from '@/lib/searchParams';
 import { useTheme } from '@/providers/ThemeProvider';
 
 export default function BookDetailScreen() {
@@ -23,7 +24,8 @@ export default function BookDetailScreen() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const authStatus = useAuthStore((state) => state.status);
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const params = useLocalSearchParams<{ id?: string | string[] }>();
+  const id = readParam(params, 'id') ?? '';
   const query = useRemoteQuery({ queryKey: ['book', id], queryFn: () => booksApi.byId(id), enabled: !!id });
   const addMutation = useMutation({
     mutationFn: () => cartApi.addItem({ bookId: id, quantity: 1 }),

@@ -26,6 +26,10 @@ export function NotificationProvider({ children }: PropsWithChildren) {
       if (mounted) {
         setPermissionGranted(permission.granted);
       }
+    }).catch((error) => {
+      // A missing permission bridge must not crash the app; leave the banner
+      // in its "permission required" state and keep the cause in the logs.
+      console.warn('[Fegih] Could not read notification permission:', error);
     });
     return () => {
       mounted = false;
@@ -33,14 +37,21 @@ export function NotificationProvider({ children }: PropsWithChildren) {
   }, []);
 
   const requestPermission = useCallback(async () => {
-    const current = await Notifications.getPermissionsAsync();
-    const permission =
-      current.status === 'granted'
-        ? current
-        : await Notifications.requestPermissionsAsync();
-    const granted = permission.granted;
-    setPermissionGranted(granted);
-    return granted;
+    try {
+      const current = await Notifications.getPermissionsAsync();
+      const permission =
+        current.status === 'granted'
+          ? current
+          : await Notifications.requestPermissionsAsync();
+      const granted = permission.granted;
+      setPermissionGranted(granted);
+      return granted;
+    } catch (error) {
+      // Callers treat `false` as "the user did not grant it" and keep the
+      // toggle off; log the real cause so a native failure is diagnosable.
+      console.warn('[Fegih] Could not request notification permission:', error);
+      return false;
+    }
   }, []);
 
   return (

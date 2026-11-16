@@ -20,11 +20,11 @@ export default function LeaderboardScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const router = useRouter();
-  const searchParams = useLocalSearchParams();
+  const searchParams = useLocalSearchParams<{ page?: string | string[] }>();
 
   // Page lives in the URL so refreshing or sharing the link keeps the same
   // position. `useLocalSearchParams` returns an object, not URLSearchParams.
-  const page = readPageParam(searchParams as Record<string, string | string[] | undefined>);
+  const page = readPageParam(searchParams);
 
   const setPage = useCallback(
     (next: number) => {

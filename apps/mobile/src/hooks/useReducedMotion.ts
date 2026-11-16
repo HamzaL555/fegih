@@ -17,7 +17,11 @@ export function useReducedMotion(): boolean {
     let active = true;
     AccessibilityInfo.isReduceMotionEnabled()
       .then((value) => { if (active) setReduced(value); })
-      .catch(() => undefined);
+      .catch((error) => {
+        // The read can fail on a platform without the accessibility bridge.
+        // Keep motion enabled (the safe visual default) but leave a trace.
+        console.warn('[Fegih] Could not read the reduce-motion preference:', error);
+      });
 
     const subscription = AccessibilityInfo.addEventListener('reduceMotionChanged', (value) => setReduced(value));
     return () => {

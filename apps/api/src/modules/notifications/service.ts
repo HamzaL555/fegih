@@ -11,7 +11,20 @@ export async function notifyUser(userId: string, category: AppNotificationType, 
   const notification = await prisma.notification.create({ data: { userId, type: types[category], title, body, data: data as Prisma.InputJsonValue, sentAt: new Date() } });
   if (tokens.length) {
     const messages = tokens.map(({ token }) => ({ to: token, title, body, data, sound: 'default' }));
-    void fetch('https://exp.host/--/api/v2/push/send', { method: 'POST', headers: { 'Content-Type': 'application/json', ...(env.EXPO_ACCESS_TOKEN ? { Authorization: `Bearer ${env.EXPO_ACCESS_TOKEN}` } : {}) }, body: JSON.stringify(messages) }).catch(() => undefined);
+    // Push delivery is best-effort: the in-app notification row above is already
+    // persisted, so a failed Expo request must not fail the caller. It must
+    // still be logged rather than silently discarded.
+    void fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...(env.EXPO_ACCESS_TOKEN ? { Authorization: `Bearer ${env.EXPO_ACCESS_TOKEN}` } : {}) },
+      body: JSON.stringify(messages),
+    }).then(async (response) => {
+      if (!response.ok) {
+        console.error(`[notifications] Expo push request failed with ${response.status}: ${await response.text()}`);
+      }
+    }).catch((error) => {
+      console.error('[notifications] Expo push request threw:', error);
+    });
   }
   return notification;
 }

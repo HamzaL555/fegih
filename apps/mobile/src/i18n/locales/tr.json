@@ -140,7 +140,11 @@
     "completedRun": "Tebrikler! Bütün seviyeleri geçtiniz",
     "completedRunHint": "15 seviyenin hepsi 10/10 geçildi. Maksimum puanı topladınız.",
     "points": "puan",
-    "skipped": "Soru atlandı"
+    "skipped": "Soru atlandı",
+    "levelReward": "+{{points}} puan bakiyenize eklendi",
+    "temporaryPoints": "Bu cevap için +{{points}} geçici puan",
+    "reference": "Kaynak: {{source}}",
+    "timeUpContinue": "Süre doldu — devam et"
   },
   "leaderboard": {
     "title": "Sıralama",
@@ -539,5 +543,21 @@
     "website": "Web sitesi",
     "appTitle": "Fegih uygulaması",
     "appBody": "İslami viktorina, Kuran, tesbih ve kitap mağazası tek uygulamada."
+  },
+  "certificates": {
+    "title": "Sertifika",
+    "subtitle": "15 seviyenin tamamını hatasız bitirin ve sertifika kazanın.",
+    "earned": "Sertifika kazanıldı",
+    "awardedTo": "Bu sertifika takdim edilir",
+    "issuedAtLabel": "Veriliş tarihi",
+    "scoreLabel": "Sonuç",
+    "idLabel": "Sertifika ID",
+    "print": "Yazdır / PDF olarak kaydet",
+    "locked": "Sertifika henüz kazanılmadı",
+    "lockedDescription": "Sual-Cavab oyununda 15 seviyenin tamamını tek hata yapmadan bitirin.",
+    "levelValue": "En iyi seviye: {{level}} / {{required}}",
+    "scoreValue": "En iyi sonuç: {{score}} / {{required}} puan",
+    "issue": "Sertifikayı al",
+    "hint": "Sertifikayı yazdırın veya tarayıcıda \"PDF olarak kaydet\" seçin."
   }
 }

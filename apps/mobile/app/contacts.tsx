@@ -1,10 +1,10 @@
-import * as Linking from 'expo-linking';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { AppScreen } from '@/components/AppScreen';
 import { AppText } from '@/components/AppText';
 import { Card } from '@/components/Card';
+import { openExternalUrl } from '@/lib/openExternalUrl';
 import { useTheme } from '@/providers/ThemeProvider';
 import { APP_SOCIALS } from '@/config/contacts';
 
@@ -26,9 +26,12 @@ export default function ContactsScreen() {
               accessibilityRole="link"
               accessibilityLabel={t(item.labelKey)}
               onPress={() => {
-                if (item.kind === 'phone') void Linking.openURL(`tel:${item.value}`);
-                else if (item.kind === 'email') void Linking.openURL(`mailto:${item.value}`);
-                else void Linking.openURL(item.url);
+                const url = item.kind === 'phone'
+                  ? `tel:${item.value}`
+                  : item.kind === 'email'
+                    ? `mailto:${item.value}`
+                    : item.url;
+                void openExternalUrl(url, item.display);
               }}
               style={({ pressed }) => [
                 styles.item,

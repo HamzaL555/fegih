@@ -32,17 +32,20 @@ export default function StoreScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const router = useRouter();
-  const searchParams = useLocalSearchParams();
+  const searchParams = useLocalSearchParams<{
+    page?: string | string[];
+    categoryId?: string | string[];
+    search?: string | string[];
+  }>();
   const queryClient = useQueryClient();
   const authStatus = useAuthStore((state) => state.status);
   const [cartError, setCartError] = useState<unknown>();
 
   // URL params persist pagination, category and search so refreshing or sharing
   // the link keeps the same view. `useLocalSearchParams` returns an object.
-  const typedParams = searchParams as Record<string, string | string[] | undefined>;
-  const page = readPageParam(typedParams);
-  const categoryId = readParam(typedParams, 'categoryId') || undefined;
-  const search = readParam(typedParams, 'search') || '';
+  const page = readPageParam(searchParams);
+  const categoryId = readParam(searchParams, 'categoryId') || undefined;
+  const search = readParam(searchParams, 'search') || '';
 
   const setPage = useCallback(
     (next: number) => {

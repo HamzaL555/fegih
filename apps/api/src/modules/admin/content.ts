@@ -74,7 +74,9 @@ adminOrdersRouter.patch('/:orderId/status', writeLimiter, async (request, respon
       'Sifarişin statusu dəyişdi',
       `Sifariş ${result.order.orderNumber}: ${result.previousStatus} → ${input.status}.`,
       { orderId: result.order.id, status: input.status },
-    ).catch(() => undefined);
+    ).catch((error) => {
+      console.error(`[admin/orders] Status notification failed for order ${id}:`, error);
+    });
   }
   const order = await prisma.order.findUniqueOrThrow({
     where: { id },
@@ -101,7 +103,9 @@ adminOrdersRouter.post('/:orderId/cancel', writeLimiter, async (request, respons
     { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
   );
   if (result.order.userId) {
-    await notifyUser(result.order.userId, 'ORDER_UPDATE', 'Sifariş ləğv edildi', `Sifariş ${result.order.orderNumber} ləğv edildi.`, { orderId: result.order.id }).catch(() => undefined);
+    await notifyUser(result.order.userId, 'ORDER_UPDATE', 'Sifariş ləğv edildi', `Sifariş ${result.order.orderNumber} ləğv edildi.`, { orderId: result.order.id }).catch((error) => {
+      console.error(`[admin/orders] Cancel notification failed for order ${id}:`, error);
+    });
   }
   const order = await prisma.order.findUniqueOrThrow({
     where: { id },
@@ -136,8 +140,12 @@ adminOrdersRouter.post('/:orderId/mark-paid', writeLimiter, async (request, resp
   const email = order.user?.email;
   if (email) {
     await notifyOfflineOrderPaid({ to: email, orderNumber: order.orderNumber, total: Number(order.totalAmount), customerName: order.user?.displayName ?? order.user?.username })
-      .catch(() => undefined);
-    await notifyUser(order.user!.id, 'ORDER_UPDATE', 'Sifarişiniz təsdiqləndi', `Sifariş ${order.orderNumber} ödəniş alındı.`).catch(() => undefined);
+      .catch((error) => {
+        console.error(`[admin/orders] Paid email failed for order ${id}:`, error);
+      });
+    await notifyUser(order.user!.id, 'ORDER_UPDATE', 'Sifarişiniz təsdiqləndi', `Sifariş ${order.orderNumber} ödəniş alındı.`).catch((error) => {
+      console.error(`[admin/orders] Paid notification failed for order ${id}:`, error);
+    });
   }
   response.json({ data: serializeOrder(order) });
 });

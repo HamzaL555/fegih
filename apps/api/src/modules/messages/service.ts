@@ -83,7 +83,11 @@ export async function appendMessage(threadId: string, author: 'USER' | 'ADMIN', 
   // An admin reply has to reach the user's device.
   if (author === 'ADMIN') {
     await notifyUser(thread.userId, 'MESSAGE_REPLY', 'Yeni cavabınız var', body.slice(0, 160), { threadId, messageId: created.id })
-      .catch(() => undefined);
+      .catch((error) => {
+        // The reply was already stored; losing its push notification must not
+        // make the admin think the reply itself failed.
+        console.error(`[messages] Reply notification failed for thread ${threadId}:`, error);
+      });
   }
   return created;
 }

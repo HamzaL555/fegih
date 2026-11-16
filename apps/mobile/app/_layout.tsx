@@ -20,7 +20,7 @@ function Navigation() {
           animationDuration: 260,
         }}
       >
-        <Stack.Screen name="(tabs)" options={{ title: t('common.appName'), animation: 'fade_from_bottom', animationDuration: 220 }} />
+        <Stack.Screen name="(tabs)/index" options={{ title: t('common.appName'), animation: 'fade_from_bottom', animationDuration: 220 }} />
         <Stack.Screen name="auth/welcome" options={{ headerShown: false, animation: 'fade_from_bottom', animationDuration: 220 }} />
         <Stack.Screen name="auth/index" options={{ presentation: 'modal', title: t('auth.loginTitle'), animation: 'slide_from_bottom' }} />
         <Stack.Screen name="auth/login" options={{ title: t('auth.loginTitle') }} />

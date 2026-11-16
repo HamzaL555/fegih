@@ -344,6 +344,13 @@ export async function getGameState(userId: string, sessionId: string) {
 }
 
 export async function answerQuestion(userId: string, sessionId: string, questionId: string | undefined, answerId: string | null, skipped = false) {
+  /**
+   * The answer path performs the session read, answer write, stats update,
+   * mission counters and achievement evaluation in one atomic transaction.
+   * On a remote (Neon) database that occasionally takes longer than Prisma's
+   * five-second default, which produced a 500 after the write had already been
+   * validated. Keep the operation atomic but give it enough headroom.
+   */
   return prisma.$transaction(async (tx) => {
     const session = await tx.quizSession.findFirst({ where: { id: sessionId, userId }, include: { questions: { include: { question: { include: { answers: true, level: { select: { name: true, position: true } }, sourceReference: { select: { source: true, sourceUrl: true, externalId: true } } } }, answer: true, lifelines: true } }, game: { include: { gameLifelines: { where: { isEnabled: true } } } } } });
     if (!session) throw ApiError.notFound('Quiz game not found');
@@ -540,7 +547,11 @@ export async function answerQuestion(userId: string, sessionId: string, question
         levelLadder: LEVEL_LADDER,
       },
     };
-  }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
+  }, {
+    isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+    maxWait: 10_000,
+    timeout: 20_000,
+  });
 }
 
 export async function finishGame(userId: string, sessionId: string) {

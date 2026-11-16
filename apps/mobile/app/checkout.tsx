@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Linking, Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +17,7 @@ import { RemoteState } from '@/components/RemoteState';
 import { TextField } from '@/components/TextField';
 import { cartApi, ordersApi, usersApi } from '@/api';
 import { getApiError } from '@/utils/errors';
+import { openExternalUrl } from '@/lib/openExternalUrl';
 import { useAuthStore } from '@/store/authStore';
 import { useTheme } from '@/providers/ThemeProvider';
 
@@ -87,7 +88,9 @@ export default function CheckoutScreen() {
       }
       if (result.payment?.url) {
         // Real card: hand off to the provider and let the webhook settle it.
-        await Linking.openURL(result.payment.url);
+        // The order already exists, so send the shopper to its list even if the
+        // provider page could not be opened (they can retry payment there).
+        await openExternalUrl(result.payment.url, 'the payment page');
         router.replace('/orders');
         return;
       }

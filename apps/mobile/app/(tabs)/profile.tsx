@@ -200,6 +200,7 @@ export default function ProfileScreen() {
               <Card style={styles.menu}>
                 <ListRow onPress={() => router.push('/orders')}><RowTitle>{t('profile.orders')}</RowTitle></ListRow>
                 <ListRow onPress={() => router.push('/favorites')}><RowTitle>{t('profile.favorites')}</RowTitle></ListRow>
+                <ListRow onPress={() => router.push('/certificate')}><RowTitle>{t('certificates.title')}</RowTitle><RowDescription>{t('certificates.subtitle')}</RowDescription></ListRow>
                 <ListRow onPress={() => router.push('/notifications')}><RowTitle>{t('profile.notifications')}</RowTitle></ListRow>
                 {/* Support inbox; the badge comes from the unread counter. */}
                 <ListRow onPress={() => router.push('/messages')}><RowTitle>{t('messages.title')}</RowTitle><RowDescription>{unreadMessages > 0 ? t('messages.unread', { count: unreadMessages }) : t('messages.subtitle')}</RowDescription></ListRow>
@@ -209,7 +210,19 @@ export default function ProfileScreen() {
               </Card>
             </ScreenSection>
 
-            <Button label={t('profile.logout')} onPress={() => void logout().then(() => router.replace('/auth/login'))} variant="secondary" style={styles.dangerButton} />
+            <Button
+              label={t('profile.logout')}
+              onPress={() => {
+                void logout()
+                  .then(() => router.replace('/auth/login'))
+                  .catch((error) => {
+                    console.error('[Fegih] Local sign-out failed:', error);
+                    Alert.alert(t('remote.errorTitle'), t('errors.generic'));
+                  });
+              }}
+              variant="secondary"
+              style={styles.dangerButton}
+            />
             <Button label={t('profile.deleteAccount')} onPress={confirmDelete} variant="danger" />
           </View>
         ) : null}

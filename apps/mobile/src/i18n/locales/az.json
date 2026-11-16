@@ -142,7 +142,11 @@
     "completedRun": "Təbrik! Bütün səviyyələri keçdiniz",
     "completedRunHint": "15 səviyyənin hamısı 10/10 keçildi. Maksimum xalı toplayınız.",
     "points": "xal",
-    "skipped": "Sual keçildi"
+    "skipped": "Sual keçildi",
+    "levelReward": "+{{points}} xal hesaba köçürüldü",
+    "temporaryPoints": "Bu cavab üçün +{{points}} müvəqqəti xal",
+    "reference": "Mənbə: {{source}}",
+    "timeUpContinue": "Vaxt bitdi — davam et"
   },
   "leaderboard": {
     "title": "Reyting",
@@ -541,5 +545,21 @@
     "website": "Sayt",
     "appTitle": "Fegih tətbiqi",
     "appBody": "İslami viktorina, Quran, təsbih və kitab mağazası bir tətbiqdə."
+  },
+  "certificates": {
+    "title": "Şəhadətnamə",
+    "subtitle": "15 səviyyəni səhvsiz tamamlayın və şəhadətnamə qazanın.",
+    "earned": "Şəhadətnamə qazanıldı",
+    "awardedTo": "Bu şəhadətnamə təqdim olunur",
+    "issuedAtLabel": "Verilmə tarixi",
+    "scoreLabel": "Nəticə",
+    "idLabel": "Şəhadətnamə ID",
+    "print": "Çap et / PDF kimi yüklə",
+    "locked": "Şəhadətnamə hələ qazanılmayıb",
+    "lockedDescription": "Sual-Cavab oyununda 15 səviyyənin hamısını bir səhv etmədən tamamlayın.",
+    "levelValue": "Ən yaxşı səviyyə: {{level}} / {{required}}",
+    "scoreValue": "Ən yaxşı nəticə: {{score}} / {{required}} xal",
+    "issue": "Şəhadətnaməni al",
+    "hint": "Şəhadətnaməni çap edin və ya brauzerdə \"PDF kimi yüklə\" seçin."
   }
 }

@@ -19,11 +19,11 @@ export default function QuranScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const router = useRouter();
-  const searchParams = useLocalSearchParams();
+  const searchParams = useLocalSearchParams<{ search?: string | string[] }>();
 
   const locale = useAppLocale();
   // The search term lives in the URL so refreshing keeps the same results.
-  const search = readParam(searchParams as Record<string, string | string[] | undefined>, 'search') || '';
+  const search = readParam(searchParams, 'search') || '';
 
   const setSearch = useCallback(
     (value: string) => {

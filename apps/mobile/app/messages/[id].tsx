@@ -13,6 +13,7 @@ import { LoadingState } from '@/components/RemoteState';
 import { TextField } from '@/components/TextField';
 import { messagesApi } from '@/api';
 import { useRemoteQuery } from '@/hooks/useRemoteQuery';
+import { readParam } from '@/lib/searchParams';
 import { useTheme } from '@/providers/ThemeProvider';
 import type { MessageItem } from '@/types/domain';
 
@@ -29,8 +30,8 @@ export default function MessageThreadScreen() {
   const { colors } = useTheme();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const params = useLocalSearchParams<{ id?: string }>();
-  const threadId = params.id ?? '';
+  const params = useLocalSearchParams<{ id?: string | string[] }>();
+  const threadId = readParam(params, 'id') ?? '';
   const [body, setBody] = useState('');
   const [error, setError] = useState<unknown>();
 
