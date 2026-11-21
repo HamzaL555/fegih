@@ -26,7 +26,7 @@ function serializeBook<T extends { price: unknown; compareAtPrice: unknown; stoc
   const price = Number(book.price);
   const compareAtPrice = book.compareAtPrice == null ? null : Number(book.compareAtPrice);
   const finalPrice = compareAtPrice && compareAtPrice < price ? compareAtPrice : price;
-  const discountPercent = price > 0 && finalPrice > price ? Math.round((1 - finalPrice / price) * 10000) / 100 : 0;
+  const discountPercent = price > 0 && compareAtPrice != null && compareAtPrice > price ? Math.round((1 - price / compareAtPrice) * 10000) / 100 : 0;
   const rating = book.reviews.length ? Math.round((book.reviews.reduce((sum, item) => sum + item.rating, 0) / book.reviews.length) * 100) / 100 : 0;
   const category = book.categoryLinks[0]?.category ?? null;
   return {

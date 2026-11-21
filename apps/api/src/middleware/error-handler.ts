@@ -18,6 +18,8 @@ export function errorHandler(error: unknown, request: Request, response: Respons
     if (error.code === 'P2002') normalized = ApiError.conflict('A record with the same unique value already exists', error.meta);
     if (error.code === 'P2025') normalized = ApiError.notFound();
     if (error.code === 'P2003') normalized = ApiError.badRequest('A related record does not exist');
+    if (error.code === 'P2028') normalized = ApiError.conflict('Database transaction error, please retry', error.meta);
+    if (error.code === 'P2034') normalized = ApiError.badRequest('Invalid database operation', error.meta);
   } else if (error instanceof Prisma.PrismaClientValidationError) {
     request.log?.error({ err: error, requestId: request.requestId }, 'Prisma validation error');
     normalized = ApiError.badRequest('Database validation failed');
@@ -27,7 +29,7 @@ export function errorHandler(error: unknown, request: Request, response: Respons
     ? normalized
     : new ApiError(500, 'INTERNAL_ERROR', 'An unexpected server error occurred');
 
-  if (!(normalized instanceof ApiError)) {
+  if (!(error instanceof ApiError)) {
     request.log?.error({ err: error, requestId: request.requestId }, 'Unhandled request error');
   }
 

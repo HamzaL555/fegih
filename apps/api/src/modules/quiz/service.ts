@@ -360,6 +360,8 @@ export async function answerQuestion(userId: string, sessionId: string, question
 
     const selected = sq.question.answers.find((answer) => answer.id === answerId);
     if (!selected) throw ApiError.badRequest('Answer does not belong to this question');
+    const correctAnswer = sq.question.answers.find((answer) => answer.isCorrect);
+    if (!correctAnswer) throw ApiError.conflict('Bu sual üçün düzgün cavab variantı təyin edilməyib');
     const protectedBySecondChance = sq.lifelines.some((item) => item.type === 'SECOND_CHANCE' && item.status === 'USED');
     const isCorrect = selected.isCorrect;
     // `pointValue` was set to the level number when the question was drawn, so a
@@ -458,7 +460,7 @@ export async function answerQuestion(userId: string, sessionId: string, question
       reason: gameOver ? ('WRONG' as const) : won ? ('COMPLETED' as const) : null,
       /** The whole ladder was cleared with no wrong answer. */
       completedRun: won,
-      correctAnswerId: sq.question.answers.find((answer) => answer.isCorrect)!.id,
+      correctAnswerId: correctAnswer.id,
       explanation: sq.question.explanation,
       pointsEarned: points,
       pointsAwarded: points,
@@ -498,7 +500,7 @@ export async function answerQuestion(userId: string, sessionId: string, question
         levelLadder: LEVEL_LADDER,
       },
     };
-  }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
+  }, { timeout: 10_000 });
 }
 
 export async function finishGame(userId: string, sessionId: string) {
@@ -513,5 +515,5 @@ export async function finishGame(userId: string, sessionId: string) {
       await evaluateAchievements(tx, userId);
     }
     return updated;
-  }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
+  }, { timeout: 10_000 });
 }

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { prisma } from '../../config/prisma.js';
+import { ApiError } from '../../lib/api-error.js';
 import { getPagination, paginationMeta } from '../../lib/pagination.js';
 import { parse } from '../../lib/zod.js';
 import { requireAuth } from '../../middleware/auth.js';
@@ -98,7 +99,7 @@ adminMessagesRouter.get('/:threadId', async (request, response) => {
     where: { id: threadId },
     include: { user: { select: { id: true, email: true, username: true, displayName: true } }, messages: { orderBy: { createdAt: 'asc' } } },
   });
-  if (!thread) throw new Error('Message thread not found');
+  if (!thread) throw ApiError.notFound('Message thread not found');
   if (thread.unreadByAdmin > 0) {
     await prisma.$transaction([
       prisma.messageThread.update({ where: { id: threadId }, data: { unreadByAdmin: 0 } }),
