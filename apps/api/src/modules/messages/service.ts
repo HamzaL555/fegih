@@ -63,6 +63,9 @@ export async function createThread(userId: string, subject: string, body: string
 export async function appendMessage(threadId: string, author: 'USER' | 'ADMIN', body: string, authorId?: string) {
   const thread = await prisma.messageThread.findUnique({ where: { id: threadId } });
   if (!thread) throw ApiError.notFound('Message thread not found');
+  // A user may only reply to their own thread. Treat someone else's thread as
+  // missing so its existence is not leaked.
+  if (author === 'USER' && authorId && thread.userId !== authorId) throw ApiError.notFound('Message thread not found');
   if (thread.status === 'CLOSED') throw ApiError.conflict('Bu söhbə bağlanıb');
 
   const created = await prisma.$transaction(async (tx) => {

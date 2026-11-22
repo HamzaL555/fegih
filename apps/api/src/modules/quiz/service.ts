@@ -318,7 +318,8 @@ export async function getGameState(userId: string, sessionId: string) {
 }
 
 export async function answerQuestion(userId: string, sessionId: string, questionId: string | undefined, answerId: string | null, skipped = false) {
-  return prisma.$transaction(async (tx) => {
+  try {
+  return await prisma.$transaction(async (tx) => {
     const session = await tx.quizSession.findFirst({ where: { id: sessionId, userId }, include: { questions: { include: { question: { include: { answers: true, level: { select: { name: true, position: true } } } }, answer: true, lifelines: true } }, game: { include: { gameLifelines: { where: { isEnabled: true } } } } } });
     if (!session) throw ApiError.notFound('Quiz game not found');
     if (session.status !== 'IN_PROGRESS') throw ApiError.conflict('Quiz game is not active');
@@ -501,6 +502,17 @@ export async function answerQuestion(userId: string, sessionId: string, question
       },
     };
   }, { timeout: 10_000 });
+  } catch (error) {
+    // Two requests for the same question can pass the in-memory "already
+    // answered" check together. The database unique key on
+    // `QuizSessionAnswer.sessionQuestionId` lets only one win; the loser gets a
+    // clear 409 instead of a generic 500.
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      const target = Array.isArray(error.meta?.target) ? error.meta.target.join(',') : String(error.meta?.target ?? '');
+      if (target.includes('sessionQuestionId')) throw ApiError.conflict('Bu sual artıq cavablandırılıb');
+    }
+    throw error;
+  }
 }
 
 export async function finishGame(userId: string, sessionId: string) {

@@ -130,6 +130,9 @@ adminMessagesRouter.post('/:threadId/reply', writeLimiter, async (request, respo
 adminMessagesRouter.patch('/:threadId', writeLimiter, async (request, response) => {
   const threadId = z.string().cuid().parse(request.params.threadId);
   const input = parse(z.object({ status: z.enum(['OPEN', 'ANSWERED', 'CLOSED']) }), request.body);
-  const thread = await prisma.messageThread.update({ where: { id: threadId }, data: { status: input.status } });
-  response.json({ data: { id: thread.id, status: thread.status } });
+  // `update` would throw Prisma P2025 for a missing thread; use a conditional
+  // update so the route returns the same explicit 404 as the other handlers.
+  const updated = await prisma.messageThread.updateMany({ where: { id: threadId }, data: { status: input.status } });
+  if (!updated.count) throw ApiError.notFound('Message thread not found');
+  response.json({ data: { id: threadId, status: input.status } });
 });

@@ -22,11 +22,16 @@ const bookSelect = {
   reviews: { where: { isApproved: true }, select: { rating: true } },
 } as const;
 
-function serializeBook<T extends { price: unknown; compareAtPrice: unknown; stock: number; coverImageUrl: string | null; reviews: Array<{ rating: number }>; categoryLinks: Array<{ category: unknown }> }>(book: T) {
+export function serializeBook<T extends { price: unknown; compareAtPrice: unknown; stock: number; coverImageUrl: string | null; reviews: Array<{ rating: number }>; categoryLinks: Array<{ category: unknown }> }>(book: T) {
   const price = Number(book.price);
   const compareAtPrice = book.compareAtPrice == null ? null : Number(book.compareAtPrice);
-  const finalPrice = compareAtPrice && compareAtPrice < price ? compareAtPrice : price;
-  const discountPercent = price > 0 && compareAtPrice != null && compareAtPrice > price ? Math.round((1 - price / compareAtPrice) * 10000) / 100 : 0;
+  // The customer pays the lower of the two prices; the higher one is the
+  // crossed-out reference price. Deriving both fields from min/max keeps
+  // `finalPrice` and `discountPercent` consistent no matter which column holds
+  // the larger value (the old code reported 0% whenever they were swapped).
+  const finalPrice = compareAtPrice != null ? Math.min(price, compareAtPrice) : price;
+  const originalPrice = compareAtPrice != null ? Math.max(price, compareAtPrice) : price;
+  const discountPercent = originalPrice > 0 && finalPrice < originalPrice ? Math.round((1 - finalPrice / originalPrice) * 10000) / 100 : 0;
   const rating = book.reviews.length ? Math.round((book.reviews.reduce((sum, item) => sum + item.rating, 0) / book.reviews.length) * 100) / 100 : 0;
   const category = book.categoryLinks[0]?.category ?? null;
   return {

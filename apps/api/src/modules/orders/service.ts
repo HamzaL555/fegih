@@ -201,7 +201,28 @@ export async function createOrder(userId: string, input: CheckoutInput) {
       if (!reserved.count) throw new ApiError(409, 'INSUFFICIENT_STOCK', `${item.book.title} is out of stock`);
     }
     const created = await tx.order.create({ data: { orderNumber: orderNumber(), userId, cartId: cart.id, status: provider === 'MOCK' ? 'CONFIRMED' : 'PENDING', source: orderSource, customerEmail, customerPhone, currency: cart.currency, subtotal, discountAmount: money(discount.add(pointsDiscount)), discountTierPoints: tierInfo.tierPoints, pointDiscountPercent: new Prisma.Decimal(tierInfo.discountPercent), shippingFee, totalAmount, ...(provider === 'MOCK' ? { confirmedAt: new Date() } : {}), promoCodeSnapshot: promo?.code, shippingAddress, items: { create: cart.items.map((item) => { const unit = sellingPrice(item.book.price, item.book.compareAtPrice); return { bookId: item.bookId, sku: item.book.sku, title: item.book.title, author: item.book.author, unitPrice: unit, quantity: item.quantity, totalPrice: unit.mul(item.quantity) }; }) }, payments: { create: { provider: provider === 'MOCK' ? 'MOCK' : 'STRIPE', method: input.paymentMethod ?? 'CARD', status: provider === 'MOCK' ? 'PAID' : 'PENDING', amount: totalAmount, currency: cart.currency, ...(provider === 'MOCK' ? { paidAt: new Date(), processedAt: new Date(), providerPaymentId: `mock_${randomBytes(8).toString('hex')}`, providerData: { simulated: true, ...(card ? { cardBrand: card.brand, last4: card.last4 } : {}) } } : {}) } } }, include: { items: true, payments: true } });
-    if (promo) await tx.promoRedemption.create({ data: { promoId: promo.id, orderId: created.id, userId, discountAmount: discount } });
+    if (promo) {
+      /**
+       * The limits are also checked before the transaction, but two checkouts
+       * can pass that check together. Lock the promo row and re-check inside
+       * the same transaction, so the usage/per-user limits are enforced
+       * atomically without Serializable isolation (which is unreliable on the
+       * pooled connection). The redemption row is written in this transaction
+       * too, so a later failure rolls the promo use back with the order.
+       */
+      if (promo.perUserLimit || promo.usageLimit) {
+        await tx.$queryRaw`SELECT "id" FROM "Promo" WHERE "id" = ${promo.id} FOR UPDATE`;
+        if (promo.perUserLimit) {
+          const usedByUser = await tx.promoRedemption.count({ where: { promoId: promo.id, userId } });
+          if (usedByUser >= promo.perUserLimit) throw ApiError.conflict('Promo code usage limit reached');
+        }
+        if (promo.usageLimit) {
+          const used = await tx.promoRedemption.count({ where: { promoId: promo.id } });
+          if (used >= promo.usageLimit) throw ApiError.conflict('Promo code usage limit reached');
+        }
+      }
+      await tx.promoRedemption.create({ data: { promoId: promo.id, orderId: created.id, userId, discountAmount: discount } });
+    }
     await tx.cartItem.deleteMany({ where: { cartId: cart.id } });
     await tx.cart.update({ where: { id: cart.id }, data: { status: 'CONVERTED' } });
     return created;
