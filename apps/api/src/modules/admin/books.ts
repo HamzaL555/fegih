@@ -20,7 +20,13 @@ adminBooksRouter.get('/', async (request, response) => { const query = parse(z.o
 adminBooksRouter.post('/', writeLimiter, async (request, response) => {
   const input = parse(bookSchema, request.body);
   const sku = input.sku ?? `BOOK-${Date.now()}`;
-  const slug = input.slug ?? slugify(input.title);
+  const baseSlug = slugify(input.slug ?? input.title);
+  let slug = baseSlug;
+  let suffix = 2;
+
+  while (await prisma.book.findUnique({ where: { slug }, select: { id: true } })) {
+    slug = `${baseSlug}-${suffix++}`;
+  }
   const metadata = input.bookUrl !== undefined || input.fileUrl !== undefined
     ? { bookUrl: input.bookUrl ?? null, fileUrl: input.fileUrl ?? null }
     : undefined;
@@ -71,7 +77,7 @@ adminBooksRouter.delete('/:bookId', writeLimiter, async (request, response) => {
 const categorySchema = z.object({ name: z.string().trim().min(1).max(120), slug: z.string().trim().min(1).max(140).regex(/^[a-z0-9-]+$/), description: z.string().max(2000).nullable().optional(), iconUrl: z.string().url().nullable().optional(), isActive: z.boolean().optional() });
 export const adminBookCategoriesRouter = Router();
 adminBookCategoriesRouter.use(requireAuth, requireAdmin('SUPER_ADMIN', 'ADMIN', 'EDITOR'));
-adminBookCategoriesRouter.get('/', async (_request, response) => response.json({ data: await prisma.bookCategory.findMany({ orderBy: [{ position: 'asc' }, { name: 'asc' }], include: { _count: { select: { bookLinks: true } } } }) }));
+adminBookCategoriesRouter.get('/', async (_request, response) => response.json({ data: await prisma.bookCategory.findMany({ where: { isActive: true }, orderBy: [{ position: 'asc' }, { name: 'asc' }], include: { _count: { select: { bookLinks: true } } } }) }));
 adminBookCategoriesRouter.post('/', writeLimiter, async (request, response) => response.status(201).json({ data: await prisma.bookCategory.create({ data: parse(categorySchema, request.body) }) }));
 adminBookCategoriesRouter.patch('/:categoryId', writeLimiter, async (request, response) => response.json({ data: await prisma.bookCategory.update({ where: { id: z.string().cuid().parse(request.params.categoryId) }, data: parse(categorySchema.partial(), request.body) }) }));
 adminBookCategoriesRouter.delete('/:categoryId', writeLimiter, async (request, response) => { await prisma.bookCategory.update({ where: { id: z.string().cuid().parse(request.params.categoryId) }, data: { isActive: false } }); response.status(204).send(); });
